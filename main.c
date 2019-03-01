@@ -1,5 +1,6 @@
 #include "tsp.h"
 
+#define LINE_LENGTH 180
 /*   PROTOTYPES   */
 void parse_command_line(int argc, char** argv, instance *inst);
 void read_input(instance *inst);
@@ -38,8 +39,8 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		if(!strcmp(argv[i], "-file")) { strcpy(inst->input_file,argv[++i]); }				// input file
 		else if(!strcmp(argv[i],"-f")) { strcpy(inst->input_file,argv[++i]); }				// input file
 		else if(!strcmp(argv[i],"-time_limit")) { inst->time_limit = atof(argv[++i]); }		// total time limit
-		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")){ help = 1; }		// help
-		else help = 1;
+		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")){ help = 1; break; }		// help mutually exclusive
+		else { help = 1; break; }
 	}
 
 	if(help || (VERBOSE >= 10))
@@ -53,4 +54,22 @@ void parse_command_line(int argc, char** argv, instance *inst)
 	}
 
 	if(help) exit(1);
+}
+
+void read_input(instance *inst)
+{
+	FILE *fin = fopen(inst->input_file, "r");
+    if ( fin == NULL ) print_error(" input file not found!");
+    
+    inst->nnodes = -1;
+
+    char line[LINE_LENGTH];
+    char *par_name;   
+    char *token1;
+    char *token2;
+    
+    int active_section = 0; // =1 NODE_COORD_SECTION, =2 DEMAND_SECTION, =3 DEPOT_SECTION 
+    
+    int do_print = ( VERBOSE >= 1000 );
+	
 }
