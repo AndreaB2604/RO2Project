@@ -1,20 +1,27 @@
 # ------------------------
 #	Compiler
 # ------------------------
-CC=gcc
+CC = gcc
 
 # -------------------------------------------------------------
 #	Flags and stuff needed for compiling
 # 	
 #	-I <path> is needed to include cplex.h for example
 # -------------------------------------------------------------
-CFLAGS=-I /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex/
+CPLEX_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex/
+CFLAGS = -I $(CPLEX_LOC)
 
 
 all: main
 
-main: main.c
-	$(CC) $(CFLAGS) main.c -o main
+main: main.o utilities.o
+	$(CC) $(CFLAGS) main.o utilities.o -o main
+
+main.o: main.c
+	$(CC) -c main.c
+
+utilities.o: utilities.c
+	$(CC) -c utilities.c 
 
 # ---------------------------------------
 #	Set the cleanup 

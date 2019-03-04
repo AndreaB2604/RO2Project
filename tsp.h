@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define VERBOSE 10000 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define FILE_SIZE 1000 // maximum file size we accept
 
 typedef struct

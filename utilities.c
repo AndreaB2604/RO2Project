@@ -1,5 +1,6 @@
 #include "tsp.h"
 
+#define VERBOSE 10000 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define LINE_LENGTH 180
 
 /*   PROTOTYPES   */
@@ -72,7 +73,7 @@ void read_input(instance *inst)
 		if(VERBOSE >= 2000) { printf("%s",line); fflush(NULL); }
 		if(strlen(line) <= 1) continue; // skip empty lines
 		par_name = strtok(line, " :");
-		if(VERBOSE >= 3000) { printf("parameter \"%s\" ", par_name); fflush(NULL); }
+		if(VERBOSE >= 3000) { printf("parameter \"%s\"", par_name); fflush(NULL); }
 
 		if(!strncmp(par_name, "NAME", 4)) 
 		{
@@ -154,5 +155,5 @@ void read_input(instance *inst)
 		printf(" final active section %d\n", active_section);
 		print_error(" ... wrong format for the current simplified parser!!!!!!!!!");
 	}
-
+	//printf("Passo 1\n");
 }
