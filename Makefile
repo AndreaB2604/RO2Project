@@ -8,24 +8,37 @@ CC = gcc
 # 	
 #	-I <path> is needed to include cplex.h for example
 # -------------------------------------------------------------
+TARGET = main
+FILES=$(wildcard *.c) #this function lists all .c files
+OBJECTS=$(patsubst %.c, %.o, $(FILES)) #substitute file.c -> file.o
 CPLEX_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex/
 CFLAGS = -I $(CPLEX_LOC)
+RM1=rm -f
 
 
-all: main
+all: $(TARGET) 
 
-main: main.o utilities.o
-	$(CC) $(CFLAGS) main.o utilities.o -o main
+$(TARGET):$(OBJECTS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) 
 
-main.o: main.c
-	$(CC) -c main.c
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< 
+#$< expands to the first prerequisite of the current target in this case <file>.c 
+#	$(CC) $(CFLAGS) -c $< -o $@ 
 
-utilities.o: utilities.c
-	$(CC) -c utilities.c 
+#$(TARGET): main.o utilities.o
+#	$(CC) $(CFLAGS) main.o utilities.o -o main
+
+#main.o: main.c
+#	$(CC) -c main.c
+
+#utilities.o: utilities.c
+#	$(CC) -c utilities.c 
 
 # ---------------------------------------
 #	Set the cleanup 
 # ---------------------------------------
 
 clean:
-	rm -f main *.o 
+	$(RM1) *.o 
+	$(RM1) $(TARGET)
