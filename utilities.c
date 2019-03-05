@@ -23,6 +23,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		printf(" running %s with %d parameters\n", argv[0], argc-1); 
 		
 	// default values
+	inst->input_file = (char *) calloc(strlen("NULL"), sizeof(char));
 	strcpy(inst->input_file, "NULL");
 	inst->time_limit = 2147483647;	// random number for now
 
@@ -30,8 +31,11 @@ void parse_command_line(int argc, char** argv, instance *inst)
 	if(argc < 1) { help = 1; }
 	for(i=1; i<argc; i++)
 	{
-		if(!strcmp(argv[i], "-file")) { strcpy(inst->input_file,argv[++i]); }				// input file
-		else if(!strcmp(argv[i],"-f")) { strcpy(inst->input_file,argv[++i]); }				// input file
+		if(!strcmp(argv[i], "-file") || !strcmp(argv[i],"-f"))
+		{
+			inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])); 
+			strcpy(inst->input_file, argv[i]);
+		}				// input file
 		else if(!strcmp(argv[i],"-time_limit")) { inst->time_limit = atof(argv[++i]); }		// total time limit
 		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")){ help = 1; break; }		// help mutually exclusive
 		else { help = 1; break; }
