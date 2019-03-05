@@ -5,7 +5,7 @@
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void read_input(instance *inst);
-
+void free_instance(instance *inst);
 
 /*   MAIN   */
 int main(int argc, char **argv)
@@ -20,5 +20,7 @@ int main(int argc, char **argv)
 	parse_command_line(argc, argv, &inst);
 
 	read_input(&inst);
+
+	free_instance(&inst);
 	return 0;
 }

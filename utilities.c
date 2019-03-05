@@ -1,12 +1,20 @@
 #include "tsp.h"
 
-#define VERBOSE 10000 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define LINE_LENGTH 180
 
 /*   PROTOTYPES   */
+void free_instance(instance *inst);
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void read_input(instance *inst);
+
+
+void free_instance(instance *inst)
+{
+	free(inst->xcoord);
+	free(inst->ycoord);
+}
+
 
 void parse_command_line(int argc, char** argv, instance *inst) 
 { 
