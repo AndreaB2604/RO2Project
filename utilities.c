@@ -2,13 +2,6 @@
 
 #define LINE_LENGTH 180
 
-/*   PROTOTYPES   */
-void free_instance(instance *inst);
-void parse_command_line(int argc, char** argv, instance *inst);
-void print_error(const char *err);
-void read_input(instance *inst);
-
-
 void free_instance(instance *inst)
 {
 	free(inst->xcoord);
@@ -31,13 +24,15 @@ void parse_command_line(int argc, char** argv, instance *inst)
 	if(argc < 1) { help = 1; }
 	for(i=1; i<argc; i++)
 	{
+		// input file
 		if(!strcmp(argv[i], "-file") || !strcmp(argv[i],"-f"))
 		{
 			inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])); 
 			strcpy(inst->input_file, argv[i]);
-		}				// input file
-		else if(!strcmp(argv[i],"-time_limit")) { inst->time_limit = atof(argv[++i]); }		// total time limit
-		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")){ help = 1; break; }		// help mutually exclusive
+		}
+		else if(!strcmp(argv[i],"-time_limit"))
+			inst->time_limit = atof(argv[++i]);		// total time limit
+		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) { help = 1; break; }		// help mutually exclusive
 		else { help = 1; break; }
 	}
 
@@ -63,7 +58,20 @@ void print_error(const char *err)
 }
 
 
-void read_input(instance *inst)
+void print_plot(instance *inst, char *plot_file_name)
+{
+	int i;
+	FILE *file = fopen(plot_file_name, "w");
+	fprintf(file, "%d\n", inst->nnodes);
+	for(i=0; i<inst->nnodes; i++)
+	{
+		fprintf(file, "%lf %lf\n", inst->xcoord[i], inst->ycoord[i]);
+	}
+	fclose(file);
+}
+
+
+void read_input(instance *inst, char *file_name)
 {
 	FILE *fin = fopen(inst->input_file, "r");
     if(fin == NULL) print_error(" input file not found!");
@@ -160,7 +168,7 @@ void read_input(instance *inst)
 			inst->xcoord[i] = atof(token1);
 			inst->ycoord[i] = atof(token2);
 			if(do_print)
-				printf(" ... node %4d at coordinates ( %15.7lf , %15.7lf )\n", i+1, inst->xcoord[i], inst->ycoord[i]); 
+				printf(" ... node %4d at coordinates ( %lf , %lf )\n", i+1, inst->xcoord[i], inst->ycoord[i]); 
 			continue;
 		}
 
