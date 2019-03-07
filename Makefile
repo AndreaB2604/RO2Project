@@ -25,7 +25,7 @@ $(TARGET):$(OBJECTS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< 
+	$(CC) $(CFLAGS) -c $<
 #$< expands to the first prerequisite of the current target in this case <file>.c 
 #	$(CC) $(CFLAGS) -c $< -o $@ 
 

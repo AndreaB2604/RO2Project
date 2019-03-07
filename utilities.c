@@ -8,7 +8,6 @@ void free_instance(instance *inst)
 	free(inst->ycoord);
 }
 
-
 void parse_command_line(int argc, char** argv, instance *inst) 
 { 
 	int i;
