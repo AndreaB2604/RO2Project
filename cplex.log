@@ -1,0 +1,236 @@
+
+Log started (V12.8.0.0) Fri Mar  8 01:02:22 2019
+
+
+Problem 'tsp.lp' read.
+Read time = 0.09 sec. (0.05 ticks)
+Infeasibility row 'outdeg(51)':  0  = 2.
+Presolve time = 0.01 sec. (0.10 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.05 sec. (0.19 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.05 sec. (0.19 ticks)
+
+
+MIP - Integer infeasible.
+Current MIP best bound =  0.0000000000e+00 (gap is infinite)
+Solution time =    0.06 sec.  Iterations = 0  Nodes = 0
+Deterministic time = 0.19 ticks  (3.04 ticks/sec)
+
+
+Log started (V12.8.0.0) Fri Mar  8 01:12:12 2019
+
+
+Problem 'tsp.lp' read.
+Read time = 0.01 sec. (0.05 ticks)
+Infeasibility row 'outdeg(51)':  0  = 2.
+Presolve time = 0.00 sec. (0.10 ticks)
+
+Root node processing (before b&c):
+  Real time             =    0.00 sec. (0.19 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.00 sec. (0.19 ticks)
+
+
+MIP - Integer infeasible.
+Current MIP best bound =  0.0000000000e+00 (gap is infinite)
+Solution time =    0.00 sec.  Iterations = 0  Nodes = 0
+Deterministic time = 0.19 ticks  (42.89 ticks/sec)
+
+
+Log started (V12.8.0.0) Fri Mar  8 01:17:40 2019
+
+
+Problem 'tsp.lp' read.
+Read time = 0.01 sec. (0.07 ticks)
+Found incumbent of value 486.000000 after 0.00 sec. (0.11 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 51 rows, 1275 columns, and 2550 nonzeros.
+Reduced MIP has 1275 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (1.07 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 51 rows, 1275 columns, and 2550 nonzeros.
+Reduced MIP has 1275 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (1.33 ticks)
+Probing time = 0.00 sec. (0.20 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.03 sec. (1.02 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                          486.0000        0.0000           100.00%
+      0     0      416.5000     6      486.0000      416.5000       81   14.30%
+      0     0      417.0000     6      486.0000       Cuts: 5       85   14.20%
+*     0     0      integral     0      419.0000       Cuts: 4       89    0.00%
+      0     0        cutoff            419.0000      419.0000       89    0.00%
+Elapsed time = 0.13 sec. (18.81 ticks, tree = 0.01 MB, solutions = 2)
+
+Cover cuts applied:  2
+Zero-half cuts applied:  4
+Gomory fractional cuts applied:  3
+
+Root node processing (before b&c):
+  Real time             =    0.13 sec. (18.87 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.13 sec. (18.87 ticks)
+
+Solution pool: 2 solutions saved.
+
+MIP - Integer optimal solution:  Objective =  4.1900000000e+02
+Solution time =    0.13 sec.  Iterations = 89  Nodes = 0
+Deterministic time = 18.87 ticks  (140.83 ticks/sec)
+
+
+Incumbent solution
+Variable Name           Solution Value
+x_1_22                        1.000000
+x_1_32                        1.000000
+x_2_16                        1.000000
+x_2_29                        1.000000
+x_3_20                        1.000000
+x_3_36                        1.000000
+x_4_18                        1.000000
+x_4_47                        1.000000
+x_5_38                        1.000000
+x_5_49                        1.000000
+x_6_27                        1.000000
+x_6_48                        1.000000
+x_7_23                        1.000000
+x_7_43                        1.000000
+x_8_26                        1.000000
+x_8_48                        1.000000
+x_9_49                        1.000000
+x_9_50                        1.000000
+x_10_30                       1.000000
+x_10_39                       1.000000
+x_11_32                       1.000000
+x_11_38                       1.000000
+x_12_46                       1.000000
+x_12_47                       1.000000
+x_13_25                       1.000000
+x_13_41                       1.000000
+x_14_18                       1.000000
+x_14_25                       1.000000
+x_15_37                       1.000000
+x_15_45                       1.000000
+x_16_50                       1.000000
+x_17_37                       1.000000
+x_17_44                       1.000000
+x_19_40                       1.000000
+x_19_42                       1.000000
+x_20_35                       1.000000
+x_21_29                       1.000000
+x_21_34                       1.000000
+x_22_28                       1.000000
+x_23_24                       1.000000
+x_24_43                       1.000000
+x_26_31                       1.000000
+x_27_51                       1.000000
+x_28_31                       1.000000
+x_30_34                       1.000000
+x_33_39                       1.000000
+x_33_45                       1.000000
+x_35_36                       1.000000
+x_40_41                       1.000000
+x_42_44                       1.000000
+x_46_51                       1.000000
+All other variables matching '*' are 0.
+
+Log started (V12.8.0.0) Fri Mar  8 01:22:53 2019
+
+
+Problem 'tsp.lp' read.
+Read time = 0.02 sec. (0.58 ticks)
+Found incumbent of value 7199.000000 after 0.01 sec. (0.93 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 150 rows, 11175 columns, and 22350 nonzeros.
+Reduced MIP has 11175 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.02 sec. (8.36 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 150 rows, 11175 columns, and 22350 nonzeros.
+Reduced MIP has 11175 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.03 sec. (10.54 ticks)
+Probing time = 0.01 sec. (0.66 ticks)
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.02 sec. (8.61 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                         7199.0000        0.0000           100.00%
+      0     0     6281.0000    22     7199.0000     6281.0000      213   12.75%
+*     0+    0                         6644.0000     6281.0000             5.46%
+      0     0     6308.5000    12     6644.0000      Cuts: 12      230    5.05%
+      0     0     6313.0000    42     6644.0000       Cuts: 4      238    4.98%
+*     0+    0                         6391.0000     6313.0000             1.22%
+*     0+    0                         6346.0000     6313.0000             0.52%
+
+Repeating presolve.
+Tried aggregator 2 times.
+MIP Presolve eliminated 1 rows and 10695 columns.
+Aggregator did 2 substitutions.
+Reduced MIP has 147 rows, 478 columns, and 956 nonzeros.
+Reduced MIP has 478 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.01 sec. (4.83 ticks)
+Probing time = 0.00 sec. (0.12 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 147 rows, 478 columns, and 956 nonzeros.
+Reduced MIP has 478 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.00 sec. (0.57 ticks)
+Represolve time = 0.02 sec. (10.38 ticks)
+Probing time = 0.00 sec. (0.12 ticks)
+Clique table members: 62.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 8 threads.
+Root relaxation solution time = 0.00 sec. (1.45 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+*     0+    0                         6346.0000     6313.0000             0.52%
+      0     0     6313.0000    42     6346.0000     6313.0000      443    0.52%
+*     0+    0                         6337.0000     6313.0000             0.38%
+      0     0     6329.0000    63     6337.0000       Cuts: 9      473    0.13%
+      0     0     6331.2000    54     6337.0000      Cuts: 10      486    0.09%
+      0     0        cutoff           6337.0000     6337.0000      486    0.00%
+Elapsed time = 0.83 sec. (241.82 ticks, tree = 0.01 MB, solutions = 5)
+
+Cover cuts applied:  4
+Zero-half cuts applied:  12
+Lift and project cuts applied:  1
+Gomory fractional cuts applied:  7
+
+Root node processing (before b&c):
+  Real time             =    0.84 sec. (242.51 ticks)
+Parallel b&c, 8 threads:
+  Real time             =    0.00 sec. (0.00 ticks)
+  Sync time (average)   =    0.00 sec.
+  Wait time (average)   =    0.00 sec.
+                          ------------
+Total (root+branch&cut) =    0.84 sec. (242.51 ticks)
+
+Solution pool: 5 solutions saved.
+
+MIP - Integer optimal solution:  Objective =  6.3370000000e+03
+Solution time =    0.84 sec.  Iterations = 486  Nodes = 0
+Deterministic time = 242.54 ticks  (288.12 ticks/sec)
+

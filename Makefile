@@ -11,10 +11,11 @@ CC = gcc
 TARGET = main
 FILES=$(wildcard *.c) #this function lists all .c files
 OBJECTS=$(patsubst %.c, %.o, $(FILES)) #substitute file.c -> file.o
-CPLEX_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex/
-LIB_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic/
-LIBS = -L${LIB_LOC} -lcplex -lm -pthread
-CFLAGS = -I $(CPLEX_LOC)
+CPLEX_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex
+LIB_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic
+LIBS = -L${LIB_LOC} -lcplex -lm -lpthread -ldl 
+LIBS1 = -L${LIB_LOC} -lcplex -lm 
+CFLAGS = -I$(CPLEX_LOC) 
 
 RM1=rm -f
 
@@ -22,10 +23,10 @@ RM1=rm -f
 all: $(TARGET) 
 
 $(TARGET):$(OBJECTS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) 
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS) $(LIBS) 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c $< -o $@  $(LIBS) 
 #$< expands to the first prerequisite of the current target in this case <file>.c 
 #	$(CC) $(CFLAGS) -c $< -o $@ 
 

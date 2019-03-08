@@ -7,7 +7,8 @@ void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);
 void read_input(instance *inst);
-void build_model(instance *inst);//, CPXENVptr env, CPXLPptr lp);
+//void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
+int TSPopt(instance *inst);    
 
 
 /*   MAIN   */
@@ -16,17 +17,18 @@ int main(int argc, char **argv)
 	instance inst;
 	if(argc < 2)
 	{
-		printf("Usage: %s -help for help\n", argv[0]);
+		printf("Usage : %s -help for help\n", argv[0]);
 		exit(1);
 	}
 
 	parse_command_line(argc, argv, &inst);
 
 	read_input(&inst);
+	//build_model(&inst, CPXENVptr env, CPXLPptr lp);
+	if ( TSPopt(&inst) ) print_error(" error within VRPopt()");
 
 	print_plot(&inst, "plot_file");
 
-	void build_model(instance *inst);//, CPXENVptr env, CPXLPptr lp);
 
 	free_instance(&inst);
 	return 0;
