@@ -19,11 +19,17 @@ double dist(int i, int j, instance *inst)
 int xpos(int i, int j, instance *inst)
 {
 	if(i==j)
+	{
 		print_error("Error: i==j");
+	}
 	if((i >= inst->nnodes) || (j >= inst->nnodes) || (i<0) || (j<0))
+	{
 		print_error("Domain contraint not respected");
+	}
 	if(i > j)
+	{
 		return xpos(j, i, inst);
+	}
 	return (i * inst->nnodes + j - (i+1)*(i+2)/2);
 }
 
@@ -41,10 +47,12 @@ int TSPopt(instance *inst)
 	build_model(inst, env, lp);
 
 	//save model
-	if ( VERBOSE >= 100 ) CPXwriteprob(env, lp, "tsp.lp", NULL); 
+	if(VERBOSE >= 100)
+	{
+		CPXwriteprob(env, lp, "tsp.lp", NULL); 
+	}
 
 	return 0;
-
 }
 
 void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
@@ -63,31 +71,40 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 			// objective function
 			sprintf(cname[0], "x_%d_%d", i+1,j+1);
 			double obj = dist(i,j,inst);   
-			printf("Variabile %s numero %d contribuisce con %lf\n", cname[0], xpos(i,j,inst), obj);
+			if(VERBOSE > 1000)
+			{
+				printf("Variabile %s numero %d contribuisce con %lf\n", cname[0], xpos(i,j,inst), obj);
+			}
 			double ub = 1.0; // recall we deal with {0,1} variables
 			if(CPXnewcols(env, lp, 1, &obj, &zero, &ub, &binary, cname)) 
+			{
 				print_error(" wrong CPXnewcols on x var.s");
+			}
     		if(CPXgetnumcols(env,lp)-1 != xpos(i,j, inst))
+    		{
     			print_error(" wrong position for x var.s");
+    		}
 		}
 	}
 	
-	for ( int h = 0; h < inst->nnodes; h++ )  
+	for(int h = 0; h < inst->nnodes; h++)  
 	{
 		// Adding the constraint that each node has to have 2 adjacent edges selected
-		int lastrow = CPXgetnumrows(env,lp);
+		int lastrow = CPXgetnumrows(env, lp);
 		double rhs = 2.0; 
 		char sense = 'E'; 
-		sprintf(cname[0], "outdeg(%d)", h+1);   
-		if ( CPXnewrows(env, lp, 1, &rhs, &sense, NULL, cname) ) print_error(" wrong CPXnewrows [x1]");
-		for ( int i = 0; i < inst->nnodes; i++ )
+		sprintf(cname[0], "deg(%d)", h+1);   
+		if(CPXnewrows(env, lp, 1, &rhs, &sense, NULL, cname)) 
 		{
-			// PROBLEM xpos(i,h,inst) may lead to some error!
-			//if ( CPXchgcoef(env, lp, lastrow, xpos(i,h, inst), 1.0) ) print_error(" wrong CPXchgcoef [x1]");
-			//testttt
-			//if(((h+1) == (inst->nnodes))) {continue;}
+			print_error(" wrong CPXnewrows [x1]");
+		}
+		for(int i = 0; i < inst->nnodes; i++)
+		{
 			if(i==h) {continue;}
-			if ( CPXchgcoef(env, lp, lastrow, xpos(h,i, inst), 1.0) ) print_error(" wrong CPXchgcoef [x1]");
+			if(CPXchgcoef(env, lp, lastrow, xpos(h, i, inst), 1.0)) 
+			{
+				print_error(" wrong CPXchgcoef [x1]");
+			}
 		}
 	}
 	free(cname[0]);
