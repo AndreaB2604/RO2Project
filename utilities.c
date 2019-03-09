@@ -59,21 +59,30 @@ void print_error(const char *err)
 
 void print_plot(instance *inst, char *plot_file_name)
 {
-	int i;
+	int i, j, k;
+	int cur_numcols = xpos(inst->nnodes-2, inst->nnodes-1, inst)+1;
 	FILE *file = fopen(plot_file_name, "w");
 	fprintf(file, "%d\n", inst->nnodes);
 	for(i=0; i<inst->nnodes; i++)
 	{
 		fprintf(file, "%lf %lf\n", inst->xcoord[i], inst->ycoord[i]);
 	}
+	
+	fprintf(file, "\nNON ZERO VARIABLES\n");
+	for(k=0; k<cur_numcols; k++)
+			for(i=0; i<inst->nnodes; i++)
+				for(j=i+1; j<inst->nnodes; j++)
+					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
+						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+	
 	fclose(file);
 }
 
 
-void read_input(instance *inst, char *file_name)
+void read_input(instance *inst)
 {
 	FILE *fin = fopen(inst->input_file, "r");
-    if(fin == NULL) print_error(" input file not found!");
+    if(fin == NULL) print_error("input file not found!");
     
     inst->nnodes = -1;
 
@@ -174,5 +183,4 @@ void read_input(instance *inst, char *file_name)
 		printf(" final active section %d\n", active_section);
 		print_error(" ... wrong format for the current simplified parser!!!!!!!!!");
 	}
-	//printf("Passo 1\n");
 }

@@ -1,0 +1,1450 @@
+ running ./main with 2 parameters
+
+
+available parameters ---------------------------------------------------
+-file test_file/eli51.tsp
+-time_limit 2147483647.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+NAME : eil51
+parameter "NAME"COMMENT : 51-city problem (Christofides/Eilon)
+parameter "COMMENT"TYPE : TSP
+parameter "TYPE"DIMENSION : 51
+parameter "DIMENSION" ... nnodes 51
+EDGE_WEIGHT_TYPE : EUC_2D
+parameter "EDGE_WEIGHT_TYPE"NODE_COORD_SECTION
+parameter "NODE_COORD_SECTION
+"1 37 52
+parameter "1" ... node    1 at coordinates ( 37.000000 , 52.000000 )
+2 49 49
+parameter "2" ... node    2 at coordinates ( 49.000000 , 49.000000 )
+3 52 64
+parameter "3" ... node    3 at coordinates ( 52.000000 , 64.000000 )
+4 20 26
+parameter "4" ... node    4 at coordinates ( 20.000000 , 26.000000 )
+5 40 30
+parameter "5" ... node    5 at coordinates ( 40.000000 , 30.000000 )
+6 21 47
+parameter "6" ... node    6 at coordinates ( 21.000000 , 47.000000 )
+7 17 63
+parameter "7" ... node    7 at coordinates ( 17.000000 , 63.000000 )
+8 31 62
+parameter "8" ... node    8 at coordinates ( 31.000000 , 62.000000 )
+9 52 33
+parameter "9" ... node    9 at coordinates ( 52.000000 , 33.000000 )
+10 51 21
+parameter "10" ... node   10 at coordinates ( 51.000000 , 21.000000 )
+11 42 41
+parameter "11" ... node   11 at coordinates ( 42.000000 , 41.000000 )
+12 31 32
+parameter "12" ... node   12 at coordinates ( 31.000000 , 32.000000 )
+13 5 25
+parameter "13" ... node   13 at coordinates ( 5.000000 , 25.000000 )
+14 12 42
+parameter "14" ... node   14 at coordinates ( 12.000000 , 42.000000 )
+15 36 16
+parameter "15" ... node   15 at coordinates ( 36.000000 , 16.000000 )
+16 52 41
+parameter "16" ... node   16 at coordinates ( 52.000000 , 41.000000 )
+17 27 23
+parameter "17" ... node   17 at coordinates ( 27.000000 , 23.000000 )
+18 17 33
+parameter "18" ... node   18 at coordinates ( 17.000000 , 33.000000 )
+19 13 13
+parameter "19" ... node   19 at coordinates ( 13.000000 , 13.000000 )
+20 57 58
+parameter "20" ... node   20 at coordinates ( 57.000000 , 58.000000 )
+21 62 42
+parameter "21" ... node   21 at coordinates ( 62.000000 , 42.000000 )
+22 42 57
+parameter "22" ... node   22 at coordinates ( 42.000000 , 57.000000 )
+23 16 57
+parameter "23" ... node   23 at coordinates ( 16.000000 , 57.000000 )
+24 8 52
+parameter "24" ... node   24 at coordinates ( 8.000000 , 52.000000 )
+25 7 38
+parameter "25" ... node   25 at coordinates ( 7.000000 , 38.000000 )
+26 27 68
+parameter "26" ... node   26 at coordinates ( 27.000000 , 68.000000 )
+27 30 48
+parameter "27" ... node   27 at coordinates ( 30.000000 , 48.000000 )
+28 43 67
+parameter "28" ... node   28 at coordinates ( 43.000000 , 67.000000 )
+29 58 48
+parameter "29" ... node   29 at coordinates ( 58.000000 , 48.000000 )
+30 58 27
+parameter "30" ... node   30 at coordinates ( 58.000000 , 27.000000 )
+31 37 69
+parameter "31" ... node   31 at coordinates ( 37.000000 , 69.000000 )
+32 38 46
+parameter "32" ... node   32 at coordinates ( 38.000000 , 46.000000 )
+33 46 10
+parameter "33" ... node   33 at coordinates ( 46.000000 , 10.000000 )
+34 61 33
+parameter "34" ... node   34 at coordinates ( 61.000000 , 33.000000 )
+35 62 63
+parameter "35" ... node   35 at coordinates ( 62.000000 , 63.000000 )
+36 63 69
+parameter "36" ... node   36 at coordinates ( 63.000000 , 69.000000 )
+37 32 22
+parameter "37" ... node   37 at coordinates ( 32.000000 , 22.000000 )
+38 45 35
+parameter "38" ... node   38 at coordinates ( 45.000000 , 35.000000 )
+39 59 15
+parameter "39" ... node   39 at coordinates ( 59.000000 , 15.000000 )
+40 5 6
+parameter "40" ... node   40 at coordinates ( 5.000000 , 6.000000 )
+41 10 17
+parameter "41" ... node   41 at coordinates ( 10.000000 , 17.000000 )
+42 21 10
+parameter "42" ... node   42 at coordinates ( 21.000000 , 10.000000 )
+43 5 64
+parameter "43" ... node   43 at coordinates ( 5.000000 , 64.000000 )
+44 30 15
+parameter "44" ... node   44 at coordinates ( 30.000000 , 15.000000 )
+45 39 10
+parameter "45" ... node   45 at coordinates ( 39.000000 , 10.000000 )
+46 32 39
+parameter "46" ... node   46 at coordinates ( 32.000000 , 39.000000 )
+47 25 32
+parameter "47" ... node   47 at coordinates ( 25.000000 , 32.000000 )
+48 25 55
+parameter "48" ... node   48 at coordinates ( 25.000000 , 55.000000 )
+49 48 28
+parameter "49" ... node   49 at coordinates ( 48.000000 , 28.000000 )
+50 56 37
+parameter "50" ... node   50 at coordinates ( 56.000000 , 37.000000 )
+51 30 40
+parameter "51" ... node   51 at coordinates ( 30.000000 , 40.000000 )
+EOF
+parameter "EOF
+"The variable x_1_2 number 0 has value 12.000000
+The variable x_1_3 number 1 has value 19.000000
+The variable x_1_4 number 2 has value 31.000000
+The variable x_1_5 number 3 has value 22.000000
+The variable x_1_6 number 4 has value 17.000000
+The variable x_1_7 number 5 has value 23.000000
+The variable x_1_8 number 6 has value 12.000000
+The variable x_1_9 number 7 has value 24.000000
+The variable x_1_10 number 8 has value 34.000000
+The variable x_1_11 number 9 has value 12.000000
+The variable x_1_12 number 10 has value 21.000000
+The variable x_1_13 number 11 has value 42.000000
+The variable x_1_14 number 12 has value 27.000000
+The variable x_1_15 number 13 has value 36.000000
+The variable x_1_16 number 14 has value 19.000000
+The variable x_1_17 number 15 has value 31.000000
+The variable x_1_18 number 16 has value 28.000000
+The variable x_1_19 number 17 has value 46.000000
+The variable x_1_20 number 18 has value 21.000000
+The variable x_1_21 number 19 has value 27.000000
+The variable x_1_22 number 20 has value 7.000000
+The variable x_1_23 number 21 has value 22.000000
+The variable x_1_24 number 22 has value 29.000000
+The variable x_1_25 number 23 has value 33.000000
+The variable x_1_26 number 24 has value 19.000000
+The variable x_1_27 number 25 has value 8.000000
+The variable x_1_28 number 26 has value 16.000000
+The variable x_1_29 number 27 has value 21.000000
+The variable x_1_30 number 28 has value 33.000000
+The variable x_1_31 number 29 has value 17.000000
+The variable x_1_32 number 30 has value 6.000000
+The variable x_1_33 number 31 has value 43.000000
+The variable x_1_34 number 32 has value 31.000000
+The variable x_1_35 number 33 has value 27.000000
+The variable x_1_36 number 34 has value 31.000000
+The variable x_1_37 number 35 has value 30.000000
+The variable x_1_38 number 36 has value 19.000000
+The variable x_1_39 number 37 has value 43.000000
+The variable x_1_40 number 38 has value 56.000000
+The variable x_1_41 number 39 has value 44.000000
+The variable x_1_42 number 40 has value 45.000000
+The variable x_1_43 number 41 has value 34.000000
+The variable x_1_44 number 42 has value 38.000000
+The variable x_1_45 number 43 has value 42.000000
+The variable x_1_46 number 44 has value 14.000000
+The variable x_1_47 number 45 has value 23.000000
+The variable x_1_48 number 46 has value 12.000000
+The variable x_1_49 number 47 has value 26.000000
+The variable x_1_50 number 48 has value 24.000000
+The variable x_1_51 number 49 has value 14.000000
+The variable x_2_3 number 50 has value 15.000000
+The variable x_2_4 number 51 has value 37.000000
+The variable x_2_5 number 52 has value 21.000000
+The variable x_2_6 number 53 has value 28.000000
+The variable x_2_7 number 54 has value 35.000000
+The variable x_2_8 number 55 has value 22.000000
+The variable x_2_9 number 56 has value 16.000000
+The variable x_2_10 number 57 has value 28.000000
+The variable x_2_11 number 58 has value 11.000000
+The variable x_2_12 number 59 has value 25.000000
+The variable x_2_13 number 60 has value 50.000000
+The variable x_2_14 number 61 has value 38.000000
+The variable x_2_15 number 62 has value 35.000000
+The variable x_2_16 number 63 has value 9.000000
+The variable x_2_17 number 64 has value 34.000000
+The variable x_2_18 number 65 has value 36.000000
+The variable x_2_19 number 66 has value 51.000000
+The variable x_2_20 number 67 has value 12.000000
+The variable x_2_21 number 68 has value 15.000000
+The variable x_2_22 number 69 has value 11.000000
+The variable x_2_23 number 70 has value 34.000000
+The variable x_2_24 number 71 has value 41.000000
+The variable x_2_25 number 72 has value 43.000000
+The variable x_2_26 number 73 has value 29.000000
+The variable x_2_27 number 74 has value 19.000000
+The variable x_2_28 number 75 has value 19.000000
+The variable x_2_29 number 76 has value 9.000000
+The variable x_2_30 number 77 has value 24.000000
+The variable x_2_31 number 78 has value 23.000000
+The variable x_2_32 number 79 has value 11.000000
+The variable x_2_33 number 80 has value 39.000000
+The variable x_2_34 number 81 has value 20.000000
+The variable x_2_35 number 82 has value 19.000000
+The variable x_2_36 number 83 has value 24.000000
+The variable x_2_37 number 84 has value 32.000000
+The variable x_2_38 number 85 has value 15.000000
+The variable x_2_39 number 86 has value 35.000000
+The variable x_2_40 number 87 has value 62.000000
+The variable x_2_41 number 88 has value 50.000000
+The variable x_2_42 number 89 has value 48.000000
+The variable x_2_43 number 90 has value 46.000000
+The variable x_2_44 number 91 has value 39.000000
+The variable x_2_45 number 92 has value 40.000000
+The variable x_2_46 number 93 has value 20.000000
+The variable x_2_47 number 94 has value 29.000000
+The variable x_2_48 number 95 has value 25.000000
+The variable x_2_49 number 96 has value 21.000000
+The variable x_2_50 number 97 has value 14.000000
+The variable x_2_51 number 98 has value 21.000000
+The variable x_3_4 number 99 has value 50.000000
+The variable x_3_5 number 100 has value 36.000000
+The variable x_3_6 number 101 has value 35.000000
+The variable x_3_7 number 102 has value 35.000000
+The variable x_3_8 number 103 has value 21.000000
+The variable x_3_9 number 104 has value 31.000000
+The variable x_3_10 number 105 has value 43.000000
+The variable x_3_11 number 106 has value 25.000000
+The variable x_3_12 number 107 has value 38.000000
+The variable x_3_13 number 108 has value 61.000000
+The variable x_3_14 number 109 has value 46.000000
+The variable x_3_15 number 110 has value 51.000000
+The variable x_3_16 number 111 has value 23.000000
+The variable x_3_17 number 112 has value 48.000000
+The variable x_3_18 number 113 has value 47.000000
+The variable x_3_19 number 114 has value 64.000000
+The variable x_3_20 number 115 has value 8.000000
+The variable x_3_21 number 116 has value 24.000000
+The variable x_3_22 number 117 has value 12.000000
+The variable x_3_23 number 118 has value 37.000000
+The variable x_3_24 number 119 has value 46.000000
+The variable x_3_25 number 120 has value 52.000000
+The variable x_3_26 number 121 has value 25.000000
+The variable x_3_27 number 122 has value 27.000000
+The variable x_3_28 number 123 has value 9.000000
+The variable x_3_29 number 124 has value 17.000000
+The variable x_3_30 number 125 has value 37.000000
+The variable x_3_31 number 126 has value 16.000000
+The variable x_3_32 number 127 has value 23.000000
+The variable x_3_33 number 128 has value 54.000000
+The variable x_3_34 number 129 has value 32.000000
+The variable x_3_35 number 130 has value 10.000000
+The variable x_3_36 number 131 has value 12.000000
+The variable x_3_37 number 132 has value 47.000000
+The variable x_3_38 number 133 has value 30.000000
+The variable x_3_39 number 134 has value 49.000000
+The variable x_3_40 number 135 has value 75.000000
+The variable x_3_41 number 136 has value 63.000000
+The variable x_3_42 number 137 has value 62.000000
+The variable x_3_43 number 138 has value 47.000000
+The variable x_3_44 number 139 has value 54.000000
+The variable x_3_45 number 140 has value 56.000000
+The variable x_3_46 number 141 has value 32.000000
+The variable x_3_47 number 142 has value 42.000000
+The variable x_3_48 number 143 has value 28.000000
+The variable x_3_49 number 144 has value 36.000000
+The variable x_3_50 number 145 has value 27.000000
+The variable x_3_51 number 146 has value 33.000000
+The variable x_4_5 number 147 has value 20.000000
+The variable x_4_6 number 148 has value 21.000000
+The variable x_4_7 number 149 has value 37.000000
+The variable x_4_8 number 150 has value 38.000000
+The variable x_4_9 number 151 has value 33.000000
+The variable x_4_10 number 152 has value 31.000000
+The variable x_4_11 number 153 has value 27.000000
+The variable x_4_12 number 154 has value 13.000000
+The variable x_4_13 number 155 has value 15.000000
+The variable x_4_14 number 156 has value 18.000000
+The variable x_4_15 number 157 has value 19.000000
+The variable x_4_16 number 158 has value 35.000000
+The variable x_4_17 number 159 has value 8.000000
+The variable x_4_18 number 160 has value 8.000000
+The variable x_4_19 number 161 has value 15.000000
+The variable x_4_20 number 162 has value 49.000000
+The variable x_4_21 number 163 has value 45.000000
+The variable x_4_22 number 164 has value 38.000000
+The variable x_4_23 number 165 has value 31.000000
+The variable x_4_24 number 166 has value 29.000000
+The variable x_4_25 number 167 has value 18.000000
+The variable x_4_26 number 168 has value 43.000000
+The variable x_4_27 number 169 has value 24.000000
+The variable x_4_28 number 170 has value 47.000000
+The variable x_4_29 number 171 has value 44.000000
+The variable x_4_30 number 172 has value 38.000000
+The variable x_4_31 number 173 has value 46.000000
+The variable x_4_32 number 174 has value 27.000000
+The variable x_4_33 number 175 has value 31.000000
+The variable x_4_34 number 176 has value 42.000000
+The variable x_4_35 number 177 has value 56.000000
+The variable x_4_36 number 178 has value 61.000000
+The variable x_4_37 number 179 has value 13.000000
+The variable x_4_38 number 180 has value 27.000000
+The variable x_4_39 number 181 has value 41.000000
+The variable x_4_40 number 182 has value 25.000000
+The variable x_4_41 number 183 has value 13.000000
+The variable x_4_42 number 184 has value 16.000000
+The variable x_4_43 number 185 has value 41.000000
+The variable x_4_44 number 186 has value 15.000000
+The variable x_4_45 number 187 has value 25.000000
+The variable x_4_46 number 188 has value 18.000000
+The variable x_4_47 number 189 has value 8.000000
+The variable x_4_48 number 190 has value 29.000000
+The variable x_4_49 number 191 has value 28.000000
+The variable x_4_50 number 192 has value 38.000000
+The variable x_4_51 number 193 has value 17.000000
+The variable x_5_6 number 194 has value 25.000000
+The variable x_5_7 number 195 has value 40.000000
+The variable x_5_8 number 196 has value 33.000000
+The variable x_5_9 number 197 has value 12.000000
+The variable x_5_10 number 198 has value 14.000000
+The variable x_5_11 number 199 has value 11.000000
+The variable x_5_12 number 200 has value 9.000000
+The variable x_5_13 number 201 has value 35.000000
+The variable x_5_14 number 202 has value 30.000000
+The variable x_5_15 number 203 has value 15.000000
+The variable x_5_16 number 204 has value 16.000000
+The variable x_5_17 number 205 has value 15.000000
+The variable x_5_18 number 206 has value 23.000000
+The variable x_5_19 number 207 has value 32.000000
+The variable x_5_20 number 208 has value 33.000000
+The variable x_5_21 number 209 has value 25.000000
+The variable x_5_22 number 210 has value 27.000000
+The variable x_5_23 number 211 has value 36.000000
+The variable x_5_24 number 212 has value 39.000000
+The variable x_5_25 number 213 has value 34.000000
+The variable x_5_26 number 214 has value 40.000000
+The variable x_5_27 number 215 has value 21.000000
+The variable x_5_28 number 216 has value 37.000000
+The variable x_5_29 number 217 has value 25.000000
+The variable x_5_30 number 218 has value 18.000000
+The variable x_5_31 number 219 has value 39.000000
+The variable x_5_32 number 220 has value 16.000000
+The variable x_5_33 number 221 has value 21.000000
+The variable x_5_34 number 222 has value 21.000000
+The variable x_5_35 number 223 has value 40.000000
+The variable x_5_36 number 224 has value 45.000000
+The variable x_5_37 number 225 has value 11.000000
+The variable x_5_38 number 226 has value 7.000000
+The variable x_5_39 number 227 has value 24.000000
+The variable x_5_40 number 228 has value 42.000000
+The variable x_5_41 number 229 has value 33.000000
+The variable x_5_42 number 230 has value 28.000000
+The variable x_5_43 number 231 has value 49.000000
+The variable x_5_44 number 232 has value 18.000000
+The variable x_5_45 number 233 has value 20.000000
+The variable x_5_46 number 234 has value 12.000000
+The variable x_5_47 number 235 has value 15.000000
+The variable x_5_48 number 236 has value 29.000000
+The variable x_5_49 number 237 has value 8.000000
+The variable x_5_50 number 238 has value 17.000000
+The variable x_5_51 number 239 has value 14.000000
+The variable x_6_7 number 240 has value 16.000000
+The variable x_6_8 number 241 has value 18.000000
+The variable x_6_9 number 242 has value 34.000000
+The variable x_6_10 number 243 has value 40.000000
+The variable x_6_11 number 244 has value 22.000000
+The variable x_6_12 number 245 has value 18.000000
+The variable x_6_13 number 246 has value 27.000000
+The variable x_6_14 number 247 has value 10.000000
+The variable x_6_15 number 248 has value 34.000000
+The variable x_6_16 number 249 has value 32.000000
+The variable x_6_17 number 250 has value 25.000000
+The variable x_6_18 number 251 has value 15.000000
+The variable x_6_19 number 252 has value 35.000000
+The variable x_6_20 number 253 has value 38.000000
+The variable x_6_21 number 254 has value 41.000000
+The variable x_6_22 number 255 has value 23.000000
+The variable x_6_23 number 256 has value 11.000000
+The variable x_6_24 number 257 has value 14.000000
+The variable x_6_25 number 258 has value 17.000000
+The variable x_6_26 number 259 has value 22.000000
+The variable x_6_27 number 260 has value 9.000000
+The variable x_6_28 number 261 has value 30.000000
+The variable x_6_29 number 262 has value 37.000000
+The variable x_6_30 number 263 has value 42.000000
+The variable x_6_31 number 264 has value 27.000000
+The variable x_6_32 number 265 has value 17.000000
+The variable x_6_33 number 266 has value 45.000000
+The variable x_6_34 number 267 has value 42.000000
+The variable x_6_35 number 268 has value 44.000000
+The variable x_6_36 number 269 has value 47.000000
+The variable x_6_37 number 270 has value 27.000000
+The variable x_6_38 number 271 has value 27.000000
+The variable x_6_39 number 272 has value 50.000000
+The variable x_6_40 number 273 has value 44.000000
+The variable x_6_41 number 274 has value 32.000000
+The variable x_6_42 number 275 has value 37.000000
+The variable x_6_43 number 276 has value 23.000000
+The variable x_6_44 number 277 has value 33.000000
+The variable x_6_45 number 278 has value 41.000000
+The variable x_6_46 number 279 has value 14.000000
+The variable x_6_47 number 280 has value 16.000000
+The variable x_6_48 number 281 has value 9.000000
+The variable x_6_49 number 282 has value 33.000000
+The variable x_6_50 number 283 has value 36.000000
+The variable x_6_51 number 284 has value 11.000000
+The variable x_7_8 number 285 has value 14.000000
+The variable x_7_9 number 286 has value 46.000000
+The variable x_7_10 number 287 has value 54.000000
+The variable x_7_11 number 288 has value 33.000000
+The variable x_7_12 number 289 has value 34.000000
+The variable x_7_13 number 290 has value 40.000000
+The variable x_7_14 number 291 has value 22.000000
+The variable x_7_15 number 292 has value 51.000000
+The variable x_7_16 number 293 has value 41.000000
+The variable x_7_17 number 294 has value 41.000000
+The variable x_7_18 number 295 has value 30.000000
+The variable x_7_19 number 296 has value 50.000000
+The variable x_7_20 number 297 has value 40.000000
+The variable x_7_21 number 298 has value 50.000000
+The variable x_7_22 number 299 has value 26.000000
+The variable x_7_23 number 300 has value 6.000000
+The variable x_7_24 number 301 has value 14.000000
+The variable x_7_25 number 302 has value 27.000000
+The variable x_7_26 number 303 has value 11.000000
+The variable x_7_27 number 304 has value 20.000000
+The variable x_7_28 number 305 has value 26.000000
+The variable x_7_29 number 306 has value 44.000000
+The variable x_7_30 number 307 has value 55.000000
+The variable x_7_31 number 308 has value 21.000000
+The variable x_7_32 number 309 has value 27.000000
+The variable x_7_33 number 310 has value 60.000000
+The variable x_7_34 number 311 has value 53.000000
+The variable x_7_35 number 312 has value 45.000000
+The variable x_7_36 number 313 has value 46.000000
+The variable x_7_37 number 314 has value 44.000000
+The variable x_7_38 number 315 has value 40.000000
+The variable x_7_39 number 316 has value 64.000000
+The variable x_7_40 number 317 has value 58.000000
+The variable x_7_41 number 318 has value 47.000000
+The variable x_7_42 number 319 has value 53.000000
+The variable x_7_43 number 320 has value 12.000000
+The variable x_7_44 number 321 has value 50.000000
+The variable x_7_45 number 322 has value 57.000000
+The variable x_7_46 number 323 has value 28.000000
+The variable x_7_47 number 324 has value 32.000000
+The variable x_7_48 number 325 has value 11.000000
+The variable x_7_49 number 326 has value 47.000000
+The variable x_7_50 number 327 has value 47.000000
+The variable x_7_51 number 328 has value 26.000000
+The variable x_8_9 number 329 has value 36.000000
+The variable x_8_10 number 330 has value 46.000000
+The variable x_8_11 number 331 has value 24.000000
+The variable x_8_12 number 332 has value 30.000000
+The variable x_8_13 number 333 has value 45.000000
+The variable x_8_14 number 334 has value 28.000000
+The variable x_8_15 number 335 has value 46.000000
+The variable x_8_16 number 336 has value 30.000000
+The variable x_8_17 number 337 has value 39.000000
+The variable x_8_18 number 338 has value 32.000000
+The variable x_8_19 number 339 has value 52.000000
+The variable x_8_20 number 340 has value 26.000000
+The variable x_8_21 number 341 has value 37.000000
+The variable x_8_22 number 342 has value 12.000000
+The variable x_8_23 number 343 has value 16.000000
+The variable x_8_24 number 344 has value 25.000000
+The variable x_8_25 number 345 has value 34.000000
+The variable x_8_26 number 346 has value 7.000000
+The variable x_8_27 number 347 has value 14.000000
+The variable x_8_28 number 348 has value 13.000000
+The variable x_8_29 number 349 has value 30.000000
+The variable x_8_30 number 350 has value 44.000000
+The variable x_8_31 number 351 has value 9.000000
+The variable x_8_32 number 352 has value 17.000000
+The variable x_8_33 number 353 has value 54.000000
+The variable x_8_34 number 354 has value 42.000000
+The variable x_8_35 number 355 has value 31.000000
+The variable x_8_36 number 356 has value 33.000000
+The variable x_8_37 number 357 has value 40.000000
+The variable x_8_38 number 358 has value 30.000000
+The variable x_8_39 number 359 has value 55.000000
+The variable x_8_40 number 360 has value 62.000000
+The variable x_8_41 number 361 has value 50.000000
+The variable x_8_42 number 362 has value 53.000000
+The variable x_8_43 number 363 has value 26.000000
+The variable x_8_44 number 364 has value 47.000000
+The variable x_8_45 number 365 has value 53.000000
+The variable x_8_46 number 366 has value 23.000000
+The variable x_8_47 number 367 has value 31.000000
+The variable x_8_48 number 368 has value 9.000000
+The variable x_8_49 number 369 has value 38.000000
+The variable x_8_50 number 370 has value 35.000000
+The variable x_8_51 number 371 has value 22.000000
+The variable x_9_10 number 372 has value 12.000000
+The variable x_9_11 number 373 has value 13.000000
+The variable x_9_12 number 374 has value 21.000000
+The variable x_9_13 number 375 has value 48.000000
+The variable x_9_14 number 376 has value 41.000000
+The variable x_9_15 number 377 has value 23.000000
+The variable x_9_16 number 378 has value 8.000000
+The variable x_9_17 number 379 has value 27.000000
+The variable x_9_18 number 380 has value 35.000000
+The variable x_9_19 number 381 has value 44.000000
+The variable x_9_20 number 382 has value 25.000000
+The variable x_9_21 number 383 has value 13.000000
+The variable x_9_22 number 384 has value 26.000000
+The variable x_9_23 number 385 has value 43.000000
+The variable x_9_24 number 386 has value 48.000000
+The variable x_9_25 number 387 has value 45.000000
+The variable x_9_26 number 388 has value 43.000000
+The variable x_9_27 number 389 has value 27.000000
+The variable x_9_28 number 390 has value 35.000000
+The variable x_9_29 number 391 has value 16.000000
+The variable x_9_30 number 392 has value 8.000000
+The variable x_9_31 number 393 has value 39.000000
+The variable x_9_32 number 394 has value 19.000000
+The variable x_9_33 number 395 has value 24.000000
+The variable x_9_34 number 396 has value 9.000000
+The variable x_9_35 number 397 has value 32.000000
+The variable x_9_36 number 398 has value 38.000000
+The variable x_9_37 number 399 has value 23.000000
+The variable x_9_38 number 400 has value 7.000000
+The variable x_9_39 number 401 has value 19.000000
+The variable x_9_40 number 402 has value 54.000000
+The variable x_9_41 number 403 has value 45.000000
+The variable x_9_42 number 404 has value 39.000000
+The variable x_9_43 number 405 has value 56.000000
+The variable x_9_44 number 406 has value 28.000000
+The variable x_9_45 number 407 has value 26.000000
+The variable x_9_46 number 408 has value 21.000000
+The variable x_9_47 number 409 has value 27.000000
+The variable x_9_48 number 410 has value 35.000000
+The variable x_9_49 number 411 has value 6.000000
+The variable x_9_50 number 412 has value 6.000000
+The variable x_9_51 number 413 has value 23.000000
+The variable x_10_11 number 414 has value 22.000000
+The variable x_10_12 number 415 has value 23.000000
+The variable x_10_13 number 416 has value 46.000000
+The variable x_10_14 number 417 has value 44.000000
+The variable x_10_15 number 418 has value 16.000000
+The variable x_10_16 number 419 has value 20.000000
+The variable x_10_17 number 420 has value 24.000000
+The variable x_10_18 number 421 has value 36.000000
+The variable x_10_19 number 422 has value 39.000000
+The variable x_10_20 number 423 has value 37.000000
+The variable x_10_21 number 424 has value 24.000000
+The variable x_10_22 number 425 has value 37.000000
+The variable x_10_23 number 426 has value 50.000000
+The variable x_10_24 number 427 has value 53.000000
+The variable x_10_25 number 428 has value 47.000000
+The variable x_10_26 number 429 has value 53.000000
+The variable x_10_27 number 430 has value 34.000000
+The variable x_10_28 number 431 has value 47.000000
+The variable x_10_29 number 432 has value 28.000000
+The variable x_10_30 number 433 has value 9.000000
+The variable x_10_31 number 434 has value 50.000000
+The variable x_10_32 number 435 has value 28.000000
+The variable x_10_33 number 436 has value 12.000000
+The variable x_10_34 number 437 has value 16.000000
+The variable x_10_35 number 438 has value 43.000000
+The variable x_10_36 number 439 has value 49.000000
+The variable x_10_37 number 440 has value 19.000000
+The variable x_10_38 number 441 has value 15.000000
+The variable x_10_39 number 442 has value 10.000000
+The variable x_10_40 number 443 has value 48.000000
+The variable x_10_41 number 444 has value 41.000000
+The variable x_10_42 number 445 has value 32.000000
+The variable x_10_43 number 446 has value 63.000000
+The variable x_10_44 number 447 has value 22.000000
+The variable x_10_45 number 448 has value 16.000000
+The variable x_10_46 number 449 has value 26.000000
+The variable x_10_47 number 450 has value 28.000000
+The variable x_10_48 number 451 has value 43.000000
+The variable x_10_49 number 452 has value 8.000000
+The variable x_10_50 number 453 has value 17.000000
+The variable x_10_51 number 454 has value 28.000000
+The variable x_11_12 number 455 has value 14.000000
+The variable x_11_13 number 456 has value 40.000000
+The variable x_11_14 number 457 has value 30.000000
+The variable x_11_15 number 458 has value 26.000000
+The variable x_11_16 number 459 has value 10.000000
+The variable x_11_17 number 460 has value 23.000000
+The variable x_11_18 number 461 has value 26.000000
+The variable x_11_19 number 462 has value 40.000000
+The variable x_11_20 number 463 has value 23.000000
+The variable x_11_21 number 464 has value 20.000000
+The variable x_11_22 number 465 has value 16.000000
+The variable x_11_23 number 466 has value 31.000000
+The variable x_11_24 number 467 has value 36.000000
+The variable x_11_25 number 468 has value 35.000000
+The variable x_11_26 number 469 has value 31.000000
+The variable x_11_27 number 470 has value 14.000000
+The variable x_11_28 number 471 has value 26.000000
+The variable x_11_29 number 472 has value 17.000000
+The variable x_11_30 number 473 has value 21.000000
+The variable x_11_31 number 474 has value 28.000000
+The variable x_11_32 number 475 has value 6.000000
+The variable x_11_33 number 476 has value 31.000000
+The variable x_11_34 number 477 has value 21.000000
+The variable x_11_35 number 478 has value 30.000000
+The variable x_11_36 number 479 has value 35.000000
+The variable x_11_37 number 480 has value 21.000000
+The variable x_11_38 number 481 has value 7.000000
+The variable x_11_39 number 482 has value 31.000000
+The variable x_11_40 number 483 has value 51.000000
+The variable x_11_41 number 484 has value 40.000000
+The variable x_11_42 number 485 has value 37.000000
+The variable x_11_43 number 486 has value 44.000000
+The variable x_11_44 number 487 has value 29.000000
+The variable x_11_45 number 488 has value 31.000000
+The variable x_11_46 number 489 has value 10.000000
+The variable x_11_47 number 490 has value 19.000000
+The variable x_11_48 number 491 has value 22.000000
+The variable x_11_49 number 492 has value 14.000000
+The variable x_11_50 number 493 has value 15.000000
+The variable x_11_51 number 494 has value 12.000000
+The variable x_12_13 number 495 has value 27.000000
+The variable x_12_14 number 496 has value 21.000000
+The variable x_12_15 number 497 has value 17.000000
+The variable x_12_16 number 498 has value 23.000000
+The variable x_12_17 number 499 has value 10.000000
+The variable x_12_18 number 500 has value 14.000000
+The variable x_12_19 number 501 has value 26.000000
+The variable x_12_20 number 502 has value 37.000000
+The variable x_12_21 number 503 has value 33.000000
+The variable x_12_22 number 504 has value 27.000000
+The variable x_12_23 number 505 has value 29.000000
+The variable x_12_24 number 506 has value 30.000000
+The variable x_12_25 number 507 has value 25.000000
+The variable x_12_26 number 508 has value 36.000000
+The variable x_12_27 number 509 has value 16.000000
+The variable x_12_28 number 510 has value 37.000000
+The variable x_12_29 number 511 has value 31.000000
+The variable x_12_30 number 512 has value 27.000000
+The variable x_12_31 number 513 has value 37.000000
+The variable x_12_32 number 514 has value 16.000000
+The variable x_12_33 number 515 has value 27.000000
+The variable x_12_34 number 516 has value 30.000000
+The variable x_12_35 number 517 has value 44.000000
+The variable x_12_36 number 518 has value 49.000000
+The variable x_12_37 number 519 has value 10.000000
+The variable x_12_38 number 520 has value 14.000000
+The variable x_12_39 number 521 has value 33.000000
+The variable x_12_40 number 522 has value 37.000000
+The variable x_12_41 number 523 has value 26.000000
+The variable x_12_42 number 524 has value 24.000000
+The variable x_12_43 number 525 has value 41.000000
+The variable x_12_44 number 526 has value 17.000000
+The variable x_12_45 number 527 has value 23.000000
+The variable x_12_46 number 528 has value 7.000000
+The variable x_12_47 number 529 has value 6.000000
+The variable x_12_48 number 530 has value 24.000000
+The variable x_12_49 number 531 has value 17.000000
+The variable x_12_50 number 532 has value 25.000000
+The variable x_12_51 number 533 has value 8.000000
+The variable x_13_14 number 534 has value 18.000000
+The variable x_13_15 number 535 has value 32.000000
+The variable x_13_16 number 536 has value 50.000000
+The variable x_13_17 number 537 has value 22.000000
+The variable x_13_18 number 538 has value 14.000000
+The variable x_13_19 number 539 has value 14.000000
+The variable x_13_20 number 540 has value 62.000000
+The variable x_13_21 number 541 has value 59.000000
+The variable x_13_22 number 542 has value 49.000000
+The variable x_13_23 number 543 has value 34.000000
+The variable x_13_24 number 544 has value 27.000000
+The variable x_13_25 number 545 has value 13.000000
+The variable x_13_26 number 546 has value 48.000000
+The variable x_13_27 number 547 has value 34.000000
+The variable x_13_28 number 548 has value 57.000000
+The variable x_13_29 number 549 has value 58.000000
+The variable x_13_30 number 550 has value 53.000000
+The variable x_13_31 number 551 has value 54.000000
+The variable x_13_32 number 552 has value 39.000000
+The variable x_13_33 number 553 has value 44.000000
+The variable x_13_34 number 554 has value 57.000000
+The variable x_13_35 number 555 has value 69.000000
+The variable x_13_36 number 556 has value 73.000000
+The variable x_13_37 number 557 has value 27.000000
+The variable x_13_38 number 558 has value 41.000000
+The variable x_13_39 number 559 has value 55.000000
+The variable x_13_40 number 560 has value 19.000000
+The variable x_13_41 number 561 has value 9.000000
+The variable x_13_42 number 562 has value 22.000000
+The variable x_13_43 number 563 has value 39.000000
+The variable x_13_44 number 564 has value 27.000000
+The variable x_13_45 number 565 has value 37.000000
+The variable x_13_46 number 566 has value 30.000000
+The variable x_13_47 number 567 has value 21.000000
+The variable x_13_48 number 568 has value 36.000000
+The variable x_13_49 number 569 has value 43.000000
+The variable x_13_50 number 570 has value 52.000000
+The variable x_13_51 number 571 has value 29.000000
+The variable x_14_15 number 572 has value 35.000000
+The variable x_14_16 number 573 has value 40.000000
+The variable x_14_17 number 574 has value 24.000000
+The variable x_14_18 number 575 has value 10.000000
+The variable x_14_19 number 576 has value 29.000000
+The variable x_14_20 number 577 has value 48.000000
+The variable x_14_21 number 578 has value 50.000000
+The variable x_14_22 number 579 has value 34.000000
+The variable x_14_23 number 580 has value 16.000000
+The variable x_14_24 number 581 has value 11.000000
+The variable x_14_25 number 582 has value 6.000000
+The variable x_14_26 number 583 has value 30.000000
+The variable x_14_27 number 584 has value 19.000000
+The variable x_14_28 number 585 has value 40.000000
+The variable x_14_29 number 586 has value 46.000000
+The variable x_14_30 number 587 has value 48.000000
+The variable x_14_31 number 588 has value 37.000000
+The variable x_14_32 number 589 has value 26.000000
+The variable x_14_33 number 590 has value 47.000000
+The variable x_14_34 number 591 has value 50.000000
+The variable x_14_35 number 592 has value 54.000000
+The variable x_14_36 number 593 has value 58.000000
+The variable x_14_37 number 594 has value 28.000000
+The variable x_14_38 number 595 has value 34.000000
+The variable x_14_39 number 596 has value 54.000000
+The variable x_14_40 number 597 has value 37.000000
+The variable x_14_41 number 598 has value 25.000000
+The variable x_14_42 number 599 has value 33.000000
+The variable x_14_43 number 600 has value 23.000000
+The variable x_14_44 number 601 has value 32.000000
+The variable x_14_45 number 602 has value 42.000000
+The variable x_14_46 number 603 has value 20.000000
+The variable x_14_47 number 604 has value 16.000000
+The variable x_14_48 number 605 has value 18.000000
+The variable x_14_49 number 606 has value 39.000000
+The variable x_14_50 number 607 has value 44.000000
+The variable x_14_51 number 608 has value 18.000000
+The variable x_15_16 number 609 has value 30.000000
+The variable x_15_17 number 610 has value 11.000000
+The variable x_15_18 number 611 has value 25.000000
+The variable x_15_19 number 612 has value 23.000000
+The variable x_15_20 number 613 has value 47.000000
+The variable x_15_21 number 614 has value 37.000000
+The variable x_15_22 number 615 has value 41.000000
+The variable x_15_23 number 616 has value 46.000000
+The variable x_15_24 number 617 has value 46.000000
+The variable x_15_25 number 618 has value 36.000000
+The variable x_15_26 number 619 has value 53.000000
+The variable x_15_27 number 620 has value 33.000000
+The variable x_15_28 number 621 has value 51.000000
+The variable x_15_29 number 622 has value 39.000000
+The variable x_15_30 number 623 has value 25.000000
+The variable x_15_31 number 624 has value 53.000000
+The variable x_15_32 number 625 has value 30.000000
+The variable x_15_33 number 626 has value 12.000000
+The variable x_15_34 number 627 has value 30.000000
+The variable x_15_35 number 628 has value 54.000000
+The variable x_15_36 number 629 has value 59.000000
+The variable x_15_37 number 630 has value 7.000000
+The variable x_15_38 number 631 has value 21.000000
+The variable x_15_39 number 632 has value 23.000000
+The variable x_15_40 number 633 has value 33.000000
+The variable x_15_41 number 634 has value 26.000000
+The variable x_15_42 number 635 has value 16.000000
+The variable x_15_43 number 636 has value 57.000000
+The variable x_15_44 number 637 has value 6.000000
+The variable x_15_45 number 638 has value 7.000000
+The variable x_15_46 number 639 has value 23.000000
+The variable x_15_47 number 640 has value 19.000000
+The variable x_15_48 number 641 has value 41.000000
+The variable x_15_49 number 642 has value 17.000000
+The variable x_15_50 number 643 has value 29.000000
+The variable x_15_51 number 644 has value 25.000000
+The variable x_16_17 number 645 has value 31.000000
+The variable x_16_18 number 646 has value 36.000000
+The variable x_16_19 number 647 has value 48.000000
+The variable x_16_20 number 648 has value 18.000000
+The variable x_16_21 number 649 has value 10.000000
+The variable x_16_22 number 650 has value 19.000000
+The variable x_16_23 number 651 has value 39.000000
+The variable x_16_24 number 652 has value 45.000000
+The variable x_16_25 number 653 has value 45.000000
+The variable x_16_26 number 654 has value 37.000000
+The variable x_16_27 number 655 has value 23.000000
+The variable x_16_28 number 656 has value 28.000000
+The variable x_16_29 number 657 has value 9.000000
+The variable x_16_30 number 658 has value 15.000000
+The variable x_16_31 number 659 has value 32.000000
+The variable x_16_32 number 660 has value 15.000000
+The variable x_16_33 number 661 has value 32.000000
+The variable x_16_34 number 662 has value 12.000000
+The variable x_16_35 number 663 has value 24.000000
+The variable x_16_36 number 664 has value 30.000000
+The variable x_16_37 number 665 has value 28.000000
+The variable x_16_38 number 666 has value 9.000000
+The variable x_16_39 number 667 has value 27.000000
+The variable x_16_40 number 668 has value 59.000000
+The variable x_16_41 number 669 has value 48.000000
+The variable x_16_42 number 670 has value 44.000000
+The variable x_16_43 number 671 has value 52.000000
+The variable x_16_44 number 672 has value 34.000000
+The variable x_16_45 number 673 has value 34.000000
+The variable x_16_46 number 674 has value 20.000000
+The variable x_16_47 number 675 has value 28.000000
+The variable x_16_48 number 676 has value 30.000000
+The variable x_16_49 number 677 has value 14.000000
+The variable x_16_50 number 678 has value 6.000000
+The variable x_16_51 number 679 has value 22.000000
+The variable x_17_18 number 680 has value 14.000000
+The variable x_17_19 number 681 has value 17.000000
+The variable x_17_20 number 682 has value 46.000000
+The variable x_17_21 number 683 has value 40.000000
+The variable x_17_22 number 684 has value 37.000000
+The variable x_17_23 number 685 has value 36.000000
+The variable x_17_24 number 686 has value 35.000000
+The variable x_17_25 number 687 has value 25.000000
+The variable x_17_26 number 688 has value 45.000000
+The variable x_17_27 number 689 has value 25.000000
+The variable x_17_28 number 690 has value 47.000000
+The variable x_17_29 number 691 has value 40.000000
+The variable x_17_30 number 692 has value 31.000000
+The variable x_17_31 number 693 has value 47.000000
+The variable x_17_32 number 694 has value 25.000000
+The variable x_17_33 number 695 has value 23.000000
+The variable x_17_34 number 696 has value 35.000000
+The variable x_17_35 number 697 has value 53.000000
+The variable x_17_36 number 698 has value 58.000000
+The variable x_17_37 number 699 has value 5.000000
+The variable x_17_38 number 700 has value 22.000000
+The variable x_17_39 number 701 has value 33.000000
+The variable x_17_40 number 702 has value 28.000000
+The variable x_17_41 number 703 has value 18.000000
+The variable x_17_42 number 704 has value 14.000000
+The variable x_17_43 number 705 has value 47.000000
+The variable x_17_44 number 706 has value 9.000000
+The variable x_17_45 number 707 has value 18.000000
+The variable x_17_46 number 708 has value 17.000000
+The variable x_17_47 number 709 has value 9.000000
+The variable x_17_48 number 710 has value 32.000000
+The variable x_17_49 number 711 has value 22.000000
+The variable x_17_50 number 712 has value 32.000000
+The variable x_17_51 number 713 has value 17.000000
+The variable x_18_19 number 714 has value 20.000000
+The variable x_18_20 number 715 has value 47.000000
+The variable x_18_21 number 716 has value 46.000000
+The variable x_18_22 number 717 has value 35.000000
+The variable x_18_23 number 718 has value 24.000000
+The variable x_18_24 number 719 has value 21.000000
+The variable x_18_25 number 720 has value 11.000000
+The variable x_18_26 number 721 has value 36.000000
+The variable x_18_27 number 722 has value 20.000000
+The variable x_18_28 number 723 has value 43.000000
+The variable x_18_29 number 724 has value 44.000000
+The variable x_18_30 number 725 has value 41.000000
+The variable x_18_31 number 726 has value 41.000000
+The variable x_18_32 number 727 has value 25.000000
+The variable x_18_33 number 728 has value 37.000000
+The variable x_18_34 number 729 has value 44.000000
+The variable x_18_35 number 730 has value 54.000000
+The variable x_18_36 number 731 has value 58.000000
+The variable x_18_37 number 732 has value 19.000000
+The variable x_18_38 number 733 has value 28.000000
+The variable x_18_39 number 734 has value 46.000000
+The variable x_18_40 number 735 has value 30.000000
+The variable x_18_41 number 736 has value 17.000000
+The variable x_18_42 number 737 has value 23.000000
+The variable x_18_43 number 738 has value 33.000000
+The variable x_18_44 number 739 has value 22.000000
+The variable x_18_45 number 740 has value 32.000000
+The variable x_18_46 number 741 has value 16.000000
+The variable x_18_47 number 742 has value 8.000000
+The variable x_18_48 number 743 has value 23.000000
+The variable x_18_49 number 744 has value 31.000000
+The variable x_18_50 number 745 has value 39.000000
+The variable x_18_51 number 746 has value 15.000000
+The variable x_19_20 number 747 has value 63.000000
+The variable x_19_21 number 748 has value 57.000000
+The variable x_19_22 number 749 has value 53.000000
+The variable x_19_23 number 750 has value 44.000000
+The variable x_19_24 number 751 has value 39.000000
+The variable x_19_25 number 752 has value 26.000000
+The variable x_19_26 number 753 has value 57.000000
+The variable x_19_27 number 754 has value 39.000000
+The variable x_19_28 number 755 has value 62.000000
+The variable x_19_29 number 756 has value 57.000000
+The variable x_19_30 number 757 has value 47.000000
+The variable x_19_31 number 758 has value 61.000000
+The variable x_19_32 number 759 has value 41.000000
+The variable x_19_33 number 760 has value 33.000000
+The variable x_19_34 number 761 has value 52.000000
+The variable x_19_35 number 762 has value 70.000000
+The variable x_19_36 number 763 has value 75.000000
+The variable x_19_37 number 764 has value 21.000000
+The variable x_19_38 number 765 has value 39.000000
+The variable x_19_39 number 766 has value 46.000000
+The variable x_19_40 number 767 has value 11.000000
+The variable x_19_41 number 768 has value 5.000000
+The variable x_19_42 number 769 has value 9.000000
+The variable x_19_43 number 770 has value 52.000000
+The variable x_19_44 number 771 has value 17.000000
+The variable x_19_45 number 772 has value 26.000000
+The variable x_19_46 number 773 has value 32.000000
+The variable x_19_47 number 774 has value 22.000000
+The variable x_19_48 number 775 has value 44.000000
+The variable x_19_49 number 776 has value 38.000000
+The variable x_19_50 number 777 has value 49.000000
+The variable x_19_51 number 778 has value 32.000000
+The variable x_20_21 number 779 has value 17.000000
+The variable x_20_22 number 780 has value 15.000000
+The variable x_20_23 number 781 has value 41.000000
+The variable x_20_24 number 782 has value 49.000000
+The variable x_20_25 number 783 has value 54.000000
+The variable x_20_26 number 784 has value 32.000000
+The variable x_20_27 number 785 has value 29.000000
+The variable x_20_28 number 786 has value 17.000000
+The variable x_20_29 number 787 has value 10.000000
+The variable x_20_30 number 788 has value 31.000000
+The variable x_20_31 number 789 has value 23.000000
+The variable x_20_32 number 790 has value 22.000000
+The variable x_20_33 number 791 has value 49.000000
+The variable x_20_34 number 792 has value 25.000000
+The variable x_20_35 number 793 has value 7.000000
+The variable x_20_36 number 794 has value 13.000000
+The variable x_20_37 number 795 has value 44.000000
+The variable x_20_38 number 796 has value 26.000000
+The variable x_20_39 number 797 has value 43.000000
+The variable x_20_40 number 798 has value 74.000000
+The variable x_20_41 number 799 has value 62.000000
+The variable x_20_42 number 800 has value 60.000000
+The variable x_20_43 number 801 has value 52.000000
+The variable x_20_44 number 802 has value 51.000000
+The variable x_20_45 number 803 has value 51.000000
+The variable x_20_46 number 804 has value 31.000000
+The variable x_20_47 number 805 has value 41.000000
+The variable x_20_48 number 806 has value 32.000000
+The variable x_20_49 number 807 has value 31.000000
+The variable x_20_50 number 808 has value 21.000000
+The variable x_20_51 number 809 has value 32.000000
+The variable x_21_22 number 810 has value 25.000000
+The variable x_21_23 number 811 has value 48.000000
+The variable x_21_24 number 812 has value 55.000000
+The variable x_21_25 number 813 has value 55.000000
+The variable x_21_26 number 814 has value 44.000000
+The variable x_21_27 number 815 has value 33.000000
+The variable x_21_28 number 816 has value 31.000000
+The variable x_21_29 number 817 has value 7.000000
+The variable x_21_30 number 818 has value 16.000000
+The variable x_21_31 number 819 has value 37.000000
+The variable x_21_32 number 820 has value 24.000000
+The variable x_21_33 number 821 has value 36.000000
+The variable x_21_34 number 822 has value 9.000000
+The variable x_21_35 number 823 has value 21.000000
+The variable x_21_36 number 824 has value 27.000000
+The variable x_21_37 number 825 has value 36.000000
+The variable x_21_38 number 826 has value 18.000000
+The variable x_21_39 number 827 has value 27.000000
+The variable x_21_40 number 828 has value 67.000000
+The variable x_21_41 number 829 has value 58.000000
+The variable x_21_42 number 830 has value 52.000000
+The variable x_21_43 number 831 has value 61.000000
+The variable x_21_44 number 832 has value 42.000000
+The variable x_21_45 number 833 has value 39.000000
+The variable x_21_46 number 834 has value 30.000000
+The variable x_21_47 number 835 has value 38.000000
+The variable x_21_48 number 836 has value 39.000000
+The variable x_21_49 number 837 has value 20.000000
+The variable x_21_50 number 838 has value 8.000000
+The variable x_21_51 number 839 has value 32.000000
+The variable x_22_23 number 840 has value 26.000000
+The variable x_22_24 number 841 has value 34.000000
+The variable x_22_25 number 842 has value 40.000000
+The variable x_22_26 number 843 has value 19.000000
+The variable x_22_27 number 844 has value 15.000000
+The variable x_22_28 number 845 has value 10.000000
+The variable x_22_29 number 846 has value 18.000000
+The variable x_22_30 number 847 has value 34.000000
+The variable x_22_31 number 848 has value 13.000000
+The variable x_22_32 number 849 has value 12.000000
+The variable x_22_33 number 850 has value 47.000000
+The variable x_22_34 number 851 has value 31.000000
+The variable x_22_35 number 852 has value 21.000000
+The variable x_22_36 number 853 has value 24.000000
+The variable x_22_37 number 854 has value 36.000000
+The variable x_22_38 number 855 has value 22.000000
+The variable x_22_39 number 856 has value 45.000000
+The variable x_22_40 number 857 has value 63.000000
+The variable x_22_41 number 858 has value 51.000000
+The variable x_22_42 number 859 has value 51.000000
+The variable x_22_43 number 860 has value 38.000000
+The variable x_22_44 number 861 has value 44.000000
+The variable x_22_45 number 862 has value 47.000000
+The variable x_22_46 number 863 has value 21.000000
+The variable x_22_47 number 864 has value 30.000000
+The variable x_22_48 number 865 has value 17.000000
+The variable x_22_49 number 866 has value 30.000000
+The variable x_22_50 number 867 has value 24.000000
+The variable x_22_51 number 868 has value 21.000000
+The variable x_23_24 number 869 has value 9.000000
+The variable x_23_25 number 870 has value 21.000000
+The variable x_23_26 number 871 has value 16.000000
+The variable x_23_27 number 872 has value 17.000000
+The variable x_23_28 number 873 has value 29.000000
+The variable x_23_29 number 874 has value 43.000000
+The variable x_23_30 number 875 has value 52.000000
+The variable x_23_31 number 876 has value 24.000000
+The variable x_23_32 number 877 has value 25.000000
+The variable x_23_33 number 878 has value 56.000000
+The variable x_23_34 number 879 has value 51.000000
+The variable x_23_35 number 880 has value 46.000000
+The variable x_23_36 number 881 has value 49.000000
+The variable x_23_37 number 882 has value 38.000000
+The variable x_23_38 number 883 has value 36.000000
+The variable x_23_39 number 884 has value 60.000000
+The variable x_23_40 number 885 has value 52.000000
+The variable x_23_41 number 886 has value 40.000000
+The variable x_23_42 number 887 has value 47.000000
+The variable x_23_43 number 888 has value 13.000000
+The variable x_23_44 number 889 has value 44.000000
+The variable x_23_45 number 890 has value 52.000000
+The variable x_23_46 number 891 has value 24.000000
+The variable x_23_47 number 892 has value 27.000000
+The variable x_23_48 number 893 has value 9.000000
+The variable x_23_49 number 894 has value 43.000000
+The variable x_23_50 number 895 has value 45.000000
+The variable x_23_51 number 896 has value 22.000000
+The variable x_24_25 number 897 has value 14.000000
+The variable x_24_26 number 898 has value 25.000000
+The variable x_24_27 number 899 has value 22.000000
+The variable x_24_28 number 900 has value 38.000000
+The variable x_24_29 number 901 has value 50.000000
+The variable x_24_30 number 902 has value 56.000000
+The variable x_24_31 number 903 has value 34.000000
+The variable x_24_32 number 904 has value 31.000000
+The variable x_24_33 number 905 has value 57.000000
+The variable x_24_34 number 906 has value 56.000000
+The variable x_24_35 number 907 has value 55.000000
+The variable x_24_36 number 908 has value 58.000000
+The variable x_24_37 number 909 has value 38.000000
+The variable x_24_38 number 910 has value 41.000000
+The variable x_24_39 number 911 has value 63.000000
+The variable x_24_40 number 912 has value 46.000000
+The variable x_24_41 number 913 has value 35.000000
+The variable x_24_42 number 914 has value 44.000000
+The variable x_24_43 number 915 has value 12.000000
+The variable x_24_44 number 916 has value 43.000000
+The variable x_24_45 number 917 has value 52.000000
+The variable x_24_46 number 918 has value 27.000000
+The variable x_24_47 number 919 has value 26.000000
+The variable x_24_48 number 920 has value 17.000000
+The variable x_24_49 number 921 has value 47.000000
+The variable x_24_50 number 922 has value 50.000000
+The variable x_24_51 number 923 has value 25.000000
+The variable x_25_26 number 924 has value 36.000000
+The variable x_25_27 number 925 has value 25.000000
+The variable x_25_28 number 926 has value 46.000000
+The variable x_25_29 number 927 has value 52.000000
+The variable x_25_30 number 928 has value 52.000000
+The variable x_25_31 number 929 has value 43.000000
+The variable x_25_32 number 930 has value 32.000000
+The variable x_25_33 number 931 has value 48.000000
+The variable x_25_34 number 932 has value 54.000000
+The variable x_25_35 number 933 has value 60.000000
+The variable x_25_36 number 934 has value 64.000000
+The variable x_25_37 number 935 has value 30.000000
+The variable x_25_38 number 936 has value 38.000000
+The variable x_25_39 number 937 has value 57.000000
+The variable x_25_40 number 938 has value 32.000000
+The variable x_25_41 number 939 has value 21.000000
+The variable x_25_42 number 940 has value 31.000000
+The variable x_25_43 number 941 has value 26.000000
+The variable x_25_44 number 942 has value 33.000000
+The variable x_25_45 number 943 has value 43.000000
+The variable x_25_46 number 944 has value 25.000000
+The variable x_25_47 number 945 has value 19.000000
+The variable x_25_48 number 946 has value 25.000000
+The variable x_25_49 number 947 has value 42.000000
+The variable x_25_50 number 948 has value 49.000000
+The variable x_25_51 number 949 has value 23.000000
+The variable x_26_27 number 950 has value 20.000000
+The variable x_26_28 number 951 has value 16.000000
+The variable x_26_29 number 952 has value 37.000000
+The variable x_26_30 number 953 has value 51.000000
+The variable x_26_31 number 954 has value 10.000000
+The variable x_26_32 number 955 has value 25.000000
+The variable x_26_33 number 956 has value 61.000000
+The variable x_26_34 number 957 has value 49.000000
+The variable x_26_35 number 958 has value 35.000000
+The variable x_26_36 number 959 has value 36.000000
+The variable x_26_37 number 960 has value 46.000000
+The variable x_26_38 number 961 has value 38.000000
+The variable x_26_39 number 962 has value 62.000000
+The variable x_26_40 number 963 has value 66.000000
+The variable x_26_41 number 964 has value 54.000000
+The variable x_26_42 number 965 has value 58.000000
+The variable x_26_43 number 966 has value 22.000000
+The variable x_26_44 number 967 has value 53.000000
+The variable x_26_45 number 968 has value 59.000000
+The variable x_26_46 number 969 has value 29.000000
+The variable x_26_47 number 970 has value 36.000000
+The variable x_26_48 number 971 has value 13.000000
+The variable x_26_49 number 972 has value 45.000000
+The variable x_26_50 number 973 has value 42.000000
+The variable x_26_51 number 974 has value 28.000000
+The variable x_27_28 number 975 has value 23.000000
+The variable x_27_29 number 976 has value 28.000000
+The variable x_27_30 number 977 has value 35.000000
+The variable x_27_31 number 978 has value 22.000000
+The variable x_27_32 number 979 has value 8.000000
+The variable x_27_33 number 980 has value 41.000000
+The variable x_27_34 number 981 has value 34.000000
+The variable x_27_35 number 982 has value 35.000000
+The variable x_27_36 number 983 has value 39.000000
+The variable x_27_37 number 984 has value 26.000000
+The variable x_27_38 number 985 has value 20.000000
+The variable x_27_39 number 986 has value 44.000000
+The variable x_27_40 number 987 has value 49.000000
+The variable x_27_41 number 988 has value 37.000000
+The variable x_27_42 number 989 has value 39.000000
+The variable x_27_43 number 990 has value 30.000000
+The variable x_27_44 number 991 has value 33.000000
+The variable x_27_45 number 992 has value 39.000000
+The variable x_27_46 number 993 has value 9.000000
+The variable x_27_47 number 994 has value 17.000000
+The variable x_27_48 number 995 has value 9.000000
+The variable x_27_49 number 996 has value 27.000000
+The variable x_27_50 number 997 has value 28.000000
+The variable x_27_51 number 998 has value 8.000000
+The variable x_28_29 number 999 has value 24.000000
+The variable x_28_30 number 1000 has value 43.000000
+The variable x_28_31 number 1001 has value 6.000000
+The variable x_28_32 number 1002 has value 22.000000
+The variable x_28_33 number 1003 has value 57.000000
+The variable x_28_34 number 1004 has value 38.000000
+The variable x_28_35 number 1005 has value 19.000000
+The variable x_28_36 number 1006 has value 20.000000
+The variable x_28_37 number 1007 has value 46.000000
+The variable x_28_38 number 1008 has value 32.000000
+The variable x_28_39 number 1009 has value 54.000000
+The variable x_28_40 number 1010 has value 72.000000
+The variable x_28_41 number 1011 has value 60.000000
+The variable x_28_42 number 1012 has value 61.000000
+The variable x_28_43 number 1013 has value 38.000000
+The variable x_28_44 number 1014 has value 54.000000
+The variable x_28_45 number 1015 has value 57.000000
+The variable x_28_46 number 1016 has value 30.000000
+The variable x_28_47 number 1017 has value 39.000000
+The variable x_28_48 number 1018 has value 22.000000
+The variable x_28_49 number 1019 has value 39.000000
+The variable x_28_50 number 1020 has value 33.000000
+The variable x_28_51 number 1021 has value 30.000000
+The variable x_29_30 number 1022 has value 21.000000
+The variable x_29_31 number 1023 has value 30.000000
+The variable x_29_32 number 1024 has value 20.000000
+The variable x_29_33 number 1025 has value 40.000000
+The variable x_29_34 number 1026 has value 15.000000
+The variable x_29_35 number 1027 has value 16.000000
+The variable x_29_36 number 1028 has value 22.000000
+The variable x_29_37 number 1029 has value 37.000000
+The variable x_29_38 number 1030 has value 18.000000
+The variable x_29_39 number 1031 has value 33.000000
+The variable x_29_40 number 1032 has value 68.000000
+The variable x_29_41 number 1033 has value 57.000000
+The variable x_29_42 number 1034 has value 53.000000
+The variable x_29_43 number 1035 has value 55.000000
+The variable x_29_44 number 1036 has value 43.000000
+The variable x_29_45 number 1037 has value 42.000000
+The variable x_29_46 number 1038 has value 28.000000
+The variable x_29_47 number 1039 has value 37.000000
+The variable x_29_48 number 1040 has value 34.000000
+The variable x_29_49 number 1041 has value 22.000000
+The variable x_29_50 number 1042 has value 11.000000
+The variable x_29_51 number 1043 has value 29.000000
+The variable x_30_31 number 1044 has value 47.000000
+The variable x_30_32 number 1045 has value 28.000000
+The variable x_30_33 number 1046 has value 21.000000
+The variable x_30_34 number 1047 has value 7.000000
+The variable x_30_35 number 1048 has value 36.000000
+The variable x_30_36 number 1049 has value 42.000000
+The variable x_30_37 number 1050 has value 26.000000
+The variable x_30_38 number 1051 has value 15.000000
+The variable x_30_39 number 1052 has value 12.000000
+The variable x_30_40 number 1053 has value 57.000000
+The variable x_30_41 number 1054 has value 49.000000
+The variable x_30_42 number 1055 has value 41.000000
+The variable x_30_43 number 1056 has value 65.000000
+The variable x_30_44 number 1057 has value 30.000000
+The variable x_30_45 number 1058 has value 25.000000
+The variable x_30_46 number 1059 has value 29.000000
+The variable x_30_47 number 1060 has value 33.000000
+The variable x_30_48 number 1061 has value 43.000000
+The variable x_30_49 number 1062 has value 10.000000
+The variable x_30_50 number 1063 has value 10.000000
+The variable x_30_51 number 1064 has value 31.000000
+The variable x_31_32 number 1065 has value 23.000000
+The variable x_31_33 number 1066 has value 60.000000
+The variable x_31_34 number 1067 has value 43.000000
+The variable x_31_35 number 1068 has value 26.000000
+The variable x_31_36 number 1069 has value 26.000000
+The variable x_31_37 number 1070 has value 47.000000
+The variable x_31_38 number 1071 has value 35.000000
+The variable x_31_39 number 1072 has value 58.000000
+The variable x_31_40 number 1073 has value 71.000000
+The variable x_31_41 number 1074 has value 59.000000
+The variable x_31_42 number 1075 has value 61.000000
+The variable x_31_43 number 1076 has value 32.000000
+The variable x_31_44 number 1077 has value 54.000000
+The variable x_31_45 number 1078 has value 59.000000
+The variable x_31_46 number 1079 has value 30.000000
+The variable x_31_47 number 1080 has value 39.000000
+The variable x_31_48 number 1081 has value 18.000000
+The variable x_31_49 number 1082 has value 42.000000
+The variable x_31_50 number 1083 has value 37.000000
+The variable x_31_51 number 1084 has value 30.000000
+The variable x_32_33 number 1085 has value 37.000000
+The variable x_32_34 number 1086 has value 26.000000
+The variable x_32_35 number 1087 has value 29.000000
+The variable x_32_36 number 1088 has value 34.000000
+The variable x_32_37 number 1089 has value 25.000000
+The variable x_32_38 number 1090 has value 13.000000
+The variable x_32_39 number 1091 has value 37.000000
+The variable x_32_40 number 1092 has value 52.000000
+The variable x_32_41 number 1093 has value 40.000000
+The variable x_32_42 number 1094 has value 40.000000
+The variable x_32_43 number 1095 has value 38.000000
+The variable x_32_44 number 1096 has value 32.000000
+The variable x_32_45 number 1097 has value 36.000000
+The variable x_32_46 number 1098 has value 9.000000
+The variable x_32_47 number 1099 has value 19.000000
+The variable x_32_48 number 1100 has value 16.000000
+The variable x_32_49 number 1101 has value 21.000000
+The variable x_32_50 number 1102 has value 20.000000
+The variable x_32_51 number 1103 has value 10.000000
+The variable x_33_34 number 1104 has value 27.000000
+The variable x_33_35 number 1105 has value 55.000000
+The variable x_33_36 number 1106 has value 61.000000
+The variable x_33_37 number 1107 has value 18.000000
+The variable x_33_38 number 1108 has value 25.000000
+The variable x_33_39 number 1109 has value 14.000000
+The variable x_33_40 number 1110 has value 41.000000
+The variable x_33_41 number 1111 has value 37.000000
+The variable x_33_42 number 1112 has value 25.000000
+The variable x_33_43 number 1113 has value 68.000000
+The variable x_33_44 number 1114 has value 17.000000
+The variable x_33_45 number 1115 has value 7.000000
+The variable x_33_46 number 1116 has value 32.000000
+The variable x_33_47 number 1117 has value 30.000000
+The variable x_33_48 number 1118 has value 50.000000
+The variable x_33_49 number 1119 has value 18.000000
+The variable x_33_50 number 1120 has value 29.000000
+The variable x_33_51 number 1121 has value 34.000000
+The variable x_34_35 number 1122 has value 30.000000
+The variable x_34_36 number 1123 has value 36.000000
+The variable x_34_37 number 1124 has value 31.000000
+The variable x_34_38 number 1125 has value 16.000000
+The variable x_34_39 number 1126 has value 18.000000
+The variable x_34_40 number 1127 has value 62.000000
+The variable x_34_41 number 1128 has value 53.000000
+The variable x_34_42 number 1129 has value 46.000000
+The variable x_34_43 number 1130 has value 64.000000
+The variable x_34_44 number 1131 has value 36.000000
+The variable x_34_45 number 1132 has value 32.000000
+The variable x_34_46 number 1133 has value 30.000000
+The variable x_34_47 number 1134 has value 36.000000
+The variable x_34_48 number 1135 has value 42.000000
+The variable x_34_49 number 1136 has value 14.000000
+The variable x_34_50 number 1137 has value 6.000000
+The variable x_34_51 number 1138 has value 32.000000
+The variable x_35_36 number 1139 has value 6.000000
+The variable x_35_37 number 1140 has value 51.000000
+The variable x_35_38 number 1141 has value 33.000000
+The variable x_35_39 number 1142 has value 48.000000
+The variable x_35_40 number 1143 has value 81.000000
+The variable x_35_41 number 1144 has value 69.000000
+The variable x_35_42 number 1145 has value 67.000000
+The variable x_35_43 number 1146 has value 57.000000
+The variable x_35_44 number 1147 has value 58.000000
+The variable x_35_45 number 1148 has value 58.000000
+The variable x_35_46 number 1149 has value 38.000000
+The variable x_35_47 number 1150 has value 48.000000
+The variable x_35_48 number 1151 has value 38.000000
+The variable x_35_49 number 1152 has value 38.000000
+The variable x_35_50 number 1153 has value 27.000000
+The variable x_35_51 number 1154 has value 39.000000
+The variable x_36_37 number 1155 has value 56.000000
+The variable x_36_38 number 1156 has value 38.000000
+The variable x_36_39 number 1157 has value 54.000000
+The variable x_36_40 number 1158 has value 86.000000
+The variable x_36_41 number 1159 has value 74.000000
+The variable x_36_42 number 1160 has value 72.000000
+The variable x_36_43 number 1161 has value 58.000000
+The variable x_36_44 number 1162 has value 63.000000
+The variable x_36_45 number 1163 has value 64.000000
+The variable x_36_46 number 1164 has value 43.000000
+The variable x_36_47 number 1165 has value 53.000000
+The variable x_36_48 number 1166 has value 40.000000
+The variable x_36_49 number 1167 has value 44.000000
+The variable x_36_50 number 1168 has value 33.000000
+The variable x_36_51 number 1169 has value 44.000000
+The variable x_37_38 number 1170 has value 18.000000
+The variable x_37_39 number 1171 has value 28.000000
+The variable x_37_40 number 1172 has value 31.000000
+The variable x_37_41 number 1173 has value 23.000000
+The variable x_37_42 number 1174 has value 16.000000
+The variable x_37_43 number 1175 has value 50.000000
+The variable x_37_44 number 1176 has value 7.000000
+The variable x_37_45 number 1177 has value 14.000000
+The variable x_37_46 number 1178 has value 17.000000
+The variable x_37_47 number 1179 has value 12.000000
+The variable x_37_48 number 1180 has value 34.000000
+The variable x_37_49 number 1181 has value 17.000000
+The variable x_37_50 number 1182 has value 28.000000
+The variable x_37_51 number 1183 has value 18.000000
+The variable x_38_39 number 1184 has value 24.000000
+The variable x_38_40 number 1185 has value 49.000000
+The variable x_38_41 number 1186 has value 39.000000
+The variable x_38_42 number 1187 has value 35.000000
+The variable x_38_43 number 1188 has value 49.000000
+The variable x_38_44 number 1189 has value 25.000000
+The variable x_38_45 number 1190 has value 26.000000
+The variable x_38_46 number 1191 has value 14.000000
+The variable x_38_47 number 1192 has value 20.000000
+The variable x_38_48 number 1193 has value 28.000000
+The variable x_38_49 number 1194 has value 8.000000
+The variable x_38_50 number 1195 has value 11.000000
+The variable x_38_51 number 1196 has value 16.000000
+The variable x_39_40 number 1197 has value 55.000000
+The variable x_39_41 number 1198 has value 49.000000
+The variable x_39_42 number 1199 has value 38.000000
+The variable x_39_43 number 1200 has value 73.000000
+The variable x_39_44 number 1201 has value 29.000000
+The variable x_39_45 number 1202 has value 21.000000
+The variable x_39_46 number 1203 has value 36.000000
+The variable x_39_47 number 1204 has value 38.000000
+The variable x_39_48 number 1205 has value 52.000000
+The variable x_39_49 number 1206 has value 17.000000
+The variable x_39_50 number 1207 has value 22.000000
+The variable x_39_51 number 1208 has value 38.000000
+The variable x_40_41 number 1209 has value 12.000000
+The variable x_40_42 number 1210 has value 16.000000
+The variable x_40_43 number 1211 has value 58.000000
+The variable x_40_44 number 1212 has value 27.000000
+The variable x_40_45 number 1213 has value 34.000000
+The variable x_40_46 number 1214 has value 43.000000
+The variable x_40_47 number 1215 has value 33.000000
+The variable x_40_48 number 1216 has value 53.000000
+The variable x_40_49 number 1217 has value 48.000000
+The variable x_40_50 number 1218 has value 60.000000
+The variable x_40_51 number 1219 has value 42.000000
+The variable x_41_42 number 1220 has value 13.000000
+The variable x_41_43 number 1221 has value 47.000000
+The variable x_41_44 number 1222 has value 20.000000
+The variable x_41_45 number 1223 has value 30.000000
+The variable x_41_46 number 1224 has value 31.000000
+The variable x_41_47 number 1225 has value 21.000000
+The variable x_41_48 number 1226 has value 41.000000
+The variable x_41_49 number 1227 has value 40.000000
+The variable x_41_50 number 1228 has value 50.000000
+The variable x_41_51 number 1229 has value 30.000000
+The variable x_42_43 number 1230 has value 56.000000
+The variable x_42_44 number 1231 has value 10.000000
+The variable x_42_45 number 1232 has value 18.000000
+The variable x_42_46 number 1233 has value 31.000000
+The variable x_42_47 number 1234 has value 22.000000
+The variable x_42_48 number 1235 has value 45.000000
+The variable x_42_49 number 1236 has value 32.000000
+The variable x_42_50 number 1237 has value 44.000000
+The variable x_42_51 number 1238 has value 31.000000
+The variable x_43_44 number 1239 has value 55.000000
+The variable x_43_45 number 1240 has value 64.000000
+The variable x_43_46 number 1241 has value 37.000000
+The variable x_43_47 number 1242 has value 38.000000
+The variable x_43_48 number 1243 has value 22.000000
+The variable x_43_49 number 1244 has value 56.000000
+The variable x_43_50 number 1245 has value 58.000000
+The variable x_43_51 number 1246 has value 35.000000
+The variable x_44_45 number 1247 has value 10.000000
+The variable x_44_46 number 1248 has value 24.000000
+The variable x_44_47 number 1249 has value 18.000000
+The variable x_44_48 number 1250 has value 40.000000
+The variable x_44_49 number 1251 has value 22.000000
+The variable x_44_50 number 1252 has value 34.000000
+The variable x_44_51 number 1253 has value 25.000000
+The variable x_45_46 number 1254 has value 30.000000
+The variable x_45_47 number 1255 has value 26.000000
+The variable x_45_48 number 1256 has value 47.000000
+The variable x_45_49 number 1257 has value 20.000000
+The variable x_45_50 number 1258 has value 32.000000
+The variable x_45_51 number 1259 has value 31.000000
+The variable x_46_47 number 1260 has value 10.000000
+The variable x_46_48 number 1261 has value 17.000000
+The variable x_46_49 number 1262 has value 19.000000
+The variable x_46_50 number 1263 has value 24.000000
+The variable x_46_51 number 1264 has value 2.000000
+The variable x_47_48 number 1265 has value 23.000000
+The variable x_47_49 number 1266 has value 23.000000
+The variable x_47_50 number 1267 has value 31.000000
+The variable x_47_51 number 1268 has value 9.000000
+The variable x_48_49 number 1269 has value 35.000000
+The variable x_48_50 number 1270 has value 36.000000
+The variable x_48_51 number 1271 has value 16.000000
+The variable x_49_50 number 1272 has value 12.000000
+The variable x_49_51 number 1273 has value 22.000000
+The variable x_50_51 number 1274 has value 26.000000
+Solution value  = 419.000000
+
+x_1_22 = 1.000000
+x_1_32 = 1.000000
+x_2_16 = 1.000000
+x_2_29 = 1.000000
+x_3_20 = 1.000000
+x_3_36 = 1.000000
+x_4_18 = 1.000000
+x_4_47 = 1.000000
+x_5_38 = 1.000000
+x_5_49 = 1.000000
+x_6_27 = 1.000000
+x_6_48 = 1.000000
+x_7_23 = 1.000000
+x_7_43 = 1.000000
+x_8_26 = 1.000000
+x_8_48 = 1.000000
+x_9_49 = 1.000000
+x_9_50 = 1.000000
+x_10_30 = 1.000000
+x_10_39 = 1.000000
+x_11_32 = 1.000000
+x_11_38 = 1.000000
+x_12_46 = 1.000000
+x_12_47 = 1.000000
+x_13_25 = 1.000000
+x_13_41 = 1.000000
+x_14_18 = 1.000000
+x_14_25 = 1.000000
+x_15_37 = 1.000000
+x_15_45 = 1.000000
+x_16_50 = 1.000000
+x_17_37 = 1.000000
+x_17_44 = 1.000000
+x_19_40 = 1.000000
+x_19_42 = 1.000000
+x_20_35 = 1.000000
+x_21_29 = 1.000000
+x_21_34 = 1.000000
+x_22_28 = 1.000000
+x_23_24 = 1.000000
+x_24_43 = 1.000000
+x_26_31 = 1.000000
+x_27_51 = 1.000000
+x_28_31 = 1.000000
+x_30_34 = 1.000000
+x_33_39 = 1.000000
+x_33_45 = 1.000000
+x_35_36 = 1.000000
+x_40_41 = 1.000000
+x_42_44 = 1.000000
+x_46_51 = 1.000000
