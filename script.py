@@ -7,6 +7,7 @@ import toyplot # pip install toyploy
 
 # import ghostscript
 import toyplot.png
+import toyplot.pdf
 
 
 def plot_vertexes(x,y,n):
@@ -43,7 +44,7 @@ def plot_vertexes(x,y,n):
     # for i in range(len(x)):
     #    ax.annotate(str(i), (x[i], y[i]), xytext=(x[i],y[i]-14))
     
-    toyplot.png.render(canvas, "nodes.png")
+    toyplot.pdf.render(canvas, "nodes.pdf")
     # plt.savefig('nodes', format='eps', dpi=1000)
 
 def init_nodes(f, n, x, y):
