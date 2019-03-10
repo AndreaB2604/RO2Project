@@ -6,6 +6,7 @@ void free_instance(instance *inst)
 {
 	free(inst->xcoord);
 	free(inst->ycoord);
+	free(inst->best_sol);
 }
 
 void parse_command_line(int argc, char** argv, instance *inst) 
@@ -176,7 +177,7 @@ void read_input(instance *inst)
 			inst->xcoord[i] = atof(token1);
 			inst->ycoord[i] = atof(token2);
 			if(do_print)
-				printf(" ... node %4d at coordinates ( %lf , %lf )\n", i+1, inst->xcoord[i], inst->ycoord[i]); 
+				printf(" ... node %d at coordinates ( %.f , %f )\n", i+1, inst->xcoord[i], inst->ycoord[i]); 
 			continue;
 		}
 
