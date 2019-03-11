@@ -72,7 +72,7 @@ int TSPopt(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
-	int i, j, k;
+	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;
 	double obj_val;
@@ -117,11 +117,11 @@ int TSPopt(instance *inst)
 	// print only the non-zero variables
 	if(VERBOSE > 1000)
 	{
-		for(k=0; k<cur_numcols; k++)
+		for(k = 0; k < cur_numcols; k++)
 		{	
 			l = inst->nnodes -1;
 			flag = 0;
-			for(i=0; (i<inst->nnodes-1) && (!(flag)); i++)
+			for(i=0; (i<inst->nnodes-1) && (!flag); i++)
 			{
 				if(k<l)
 				{
@@ -129,7 +129,7 @@ int TSPopt(instance *inst)
 					{
 						if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
 						{
-							fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+							printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
 							flag = 1;
 							break;
 						}
