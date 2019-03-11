@@ -60,8 +60,8 @@ void print_error(const char *err)
 
 void print_plot(instance *inst, char *plot_file_name)
 {
-	int i, j, k;
-	int cur_numcols = xpos(inst->nnodes-2, inst->nnodes-1, inst)+1;
+	int i, j, k, l, flag;
+	int cur_numcols = xpos(inst->nnodes-2, inst->nnodes-1, inst)+1; // this is equal to n*(n-1)/2
 	FILE *file = fopen(plot_file_name, "w");
 	fprintf(file, "%d\n", inst->nnodes);
 	for(i=0; i<inst->nnodes; i++)
@@ -71,11 +71,29 @@ void print_plot(instance *inst, char *plot_file_name)
 	
 	fprintf(file, "\nNON ZERO VARIABLES\n");
 	for(k=0; k<cur_numcols; k++)
-			for(i=0; i<inst->nnodes; i++)
+	{	
+		l = inst->nnodes -1;
+		flag = 0;
+		for(i=0; (i<inst->nnodes-1) && (!(flag)); i++)
+		{
+			if(k<l)
+			{
 				for(j=i+1; j<inst->nnodes; j++)
+				{
 					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
+					{
 						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
-	
+						flag = 1;
+						break;
+					}
+				}
+			}
+			else
+			{
+				l += inst->nnodes-i-2; 
+			}
+		}
+	}
 	fclose(file);
 }
 

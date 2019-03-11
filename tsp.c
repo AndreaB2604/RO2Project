@@ -103,7 +103,7 @@ int TSPopt(instance *inst)
 	printf("Solution value  = %lf\n\n", obj_val);
 
 	// cur_numrows is the number of nodes == inst->nnodes
-	// cur_numcols is the number of constraint
+	// cur_numcols is the number of variables 
 	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	
@@ -116,12 +116,32 @@ int TSPopt(instance *inst)
 
 	// print only the non-zero variables
 	if(VERBOSE > 1000)
+	{
 		for(k=0; k<cur_numcols; k++)
-			for(i=0; i<inst->nnodes; i++)
-				for(j=i+1; j<inst->nnodes; j++)
-					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
-						printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
-
+		{	
+			l = inst->nnodes -1;
+			flag = 0;
+			for(i=0; (i<inst->nnodes-1) && (!(flag)); i++)
+			{
+				if(k<l)
+				{
+					for(j=i+1; j<inst->nnodes; j++)
+					{
+						if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
+						{
+							fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+							flag = 1;
+							break;
+						}
+					}
+				}
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
+			}
+		}
+	}
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
 
