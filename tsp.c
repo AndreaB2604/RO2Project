@@ -16,19 +16,20 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 			// objective function
 			sprintf(cname[0], "x_%d_%d", i+1,j+1);
 			double obj = dist(i,j,inst);   
+			double ub = 1.0; // recall we deal with {0,1} variables
+
 			if(VERBOSE > 1000)
 			{
 				printf("The variable %s number %d has value %lf\n", cname[0], xpos(i,j,inst), obj);
 			}
-			double ub = 1.0; // recall we deal with {0,1} variables
 			if(CPXnewcols(env, lp, 1, &obj, &zero, &ub, &binary, cname)) 
 			{
 				print_error(" wrong CPXnewcols on x var.s");
 			}
-    		if(CPXgetnumcols(env,lp)-1 != xpos(i,j, inst))
-    		{
-    			print_error(" wrong position for x var.s");
-    		}
+			if(CPXgetnumcols(env,lp)-1 != xpos(i,j, inst))
+			{
+				print_error(" wrong position for x var.s");
+			}
 		}
 	}
 	
@@ -36,8 +37,8 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 	{
 		// Adding the constraint that each node has to have 2 adjacent edges selected
 		int lastrow = CPXgetnumrows(env, lp);
-		double rhs = 2.0; 
-		char sense = 'E'; 
+		double rhs = 2.0;
+		char sense = 'E';
 		sprintf(cname[0], "deg(%d)", h+1);   
 		if(CPXnewrows(env, lp, 1, &rhs, &sense, NULL, cname)) 
 		{
@@ -45,7 +46,7 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 		for(int i = 0; i < inst->nnodes; i++)
 		{
-			if(i==h) {continue;}
+			if(i==h) { continue; }
 			if(CPXchgcoef(env, lp, lastrow, xpos(h, i, inst), 1.0)) 
 			{
 				print_error(" wrong CPXchgcoef [x1]");
@@ -72,6 +73,7 @@ int TSPopt(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
+	const double TOLERANCE = 0.5;
 	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;
@@ -127,7 +129,7 @@ int TSPopt(instance *inst)
 				{
 					for(j=i+1; j<inst->nnodes; j++)
 					{
-						if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
+						if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
 						{
 							printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
 							flag = 1;

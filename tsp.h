@@ -19,7 +19,7 @@ typedef struct
 	// parameters
 	double time_limit; 								// long can be used
 	char *input_file;
-	double *best_sol; 								// best solution available
+	double *best_sol;								// best solution available
 } instance;
 
 
@@ -37,5 +37,10 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 double dist(int i, int j, instance *inst);
 int TSPopt(instance *inst);
 int xpos(int i, int j, instance *inst);
+
+// defined in tsp_compact.c
+void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp);
+int TSPopt_compact(instance *inst);
+int xpos_compact(int i, int j, instance *inst);
 
 #endif

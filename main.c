@@ -16,12 +16,18 @@ int main(int argc, char **argv)
 
 	read_input(&inst);
 	
+	/********************** TSP NORMAL
 	if(TSPopt(&inst))
-		print_error(" error within VRPopt()");
+		print_error(" error within TSPopt()");
 
 	print_plot(&inst, "plot_file.txt");
 
 	free_instance(&inst);
+	***********************/
+
+	/********************** TSP COMPACT */
+	if(TSPopt_compact(&inst))
+		print_error(" error within TSPopt_compact()");
 
 	return 0;
 }
