@@ -4,7 +4,9 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 {
 	int M = inst->nnodes-2;
 	double zero = 0.0;
-	double one = 1.0;	
+	double one = 1.0;
+	double obj;
+	double lb, ub;				// lower bound and upper bound
 	char binary = 'B';
 	char general = 'G';
 
@@ -17,13 +19,14 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		for(int j=0; j<inst->nnodes; j++)
 		{
 			sprintf(cname[0], "x_%d_%d", i+1,j+1);
-			double obj = (i==j)?zero : dist(i,j,inst);
-			double ub = (i==j)?zero : one;
+			obj = (i==j)?zero : dist(i,j,inst);
+			lb = zero;
+			ub = (i==j)?zero : one;
 			if(VERBOSE > 1000)
 			{
 				printf("The variable %s number %d has value %lf\n", cname[0], xpos_compact(i,j,inst), obj);
 			}
-			if(CPXnewcols(env, lp, 1, &obj, &zero, &ub, &binary, cname)) 
+			if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &binary, cname)) 
 			{
 				print_error(" wrong CPXnewcols on x var.s");
 			}
@@ -38,9 +41,9 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	for(int i=0; i<inst->nnodes; i++)
 	{
 		sprintf(cname[0], "u_%d", i+1);
-		double lb = one;
-		double ub = (i==0)? one : inst->nnodes;
-		double obj = zero;
+		obj = zero; 		// since the u_i variables don't have to appear in the objective function
+		lb = one;
+		ub = (i==0)? one : inst->nnodes;
 		if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &general, cname)) 
 		{
 			print_error(" wrong CPXnewcols on u var.s");
@@ -53,7 +56,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		*/
 	}
 
-	// Adding in degree constraints
+	// Adding in_degree constraints (summation over i of x_i_h = 1)
 	for(int h=0; h<inst->nnodes; h++)
 	{
 		int lastrow = CPXgetnumrows(env, lp);
@@ -83,7 +86,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 	}
 
-	// Adding out degree constraints
+	// Adding out degree constraints (summation over j of x_h_j = 1)
 	for(int h=0; h<inst->nnodes; h++)
 	{
 		int lastrow = CPXgetnumrows(env, lp);
@@ -119,32 +122,38 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		for(int j=i+1; j<inst->nnodes; j++)
 		{
 			int lastrow = CPXgetnumrows(env, lp);
-			double rhs = 1.0;
+			double rhs = 1.0;			// right hand side
 			char sense = 'L';
-			int rcnt = 1;
-			int nzcnt = 2;
-			double rmatval = 1.0;
+			int rcnt = 1;				// number of lazy constraint to add
+			int nzcnt = 2;				// number of non-zero variables in the constraint
+			double rmatval = 1.0;		// coefficient of the non-zero variables
+			// position of the variables to set (in terms of columns)
 			int rmatind[] = { xpos_compact(i,j, inst), xpos_compact(j,i, inst) };
-			int rmatbeg[] = { 0, 2 };
+			// start positions of the constraint  
+			//int rmatbeg[] = { 0, 2 };
+			int rmatbeg = 0;
 			sprintf(cname[0], "lazy_const(%d, %d)", i+1, j+1);
-			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, rmatbeg, rmatind, &rmatval, cname)) 
+			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, &rmatval, cname)) 
 			{
 				print_error(" wrong CPXnewrows [x1]");
 			}
 		}
 	}
 
-	// Adding big-M lazy constraints
+	
+	// Adding big-M lazy constraints (u_i - u_j + M*x_i_j <= M-1) 
 	for(int i=0; i<inst->nnodes; i++)
 	{
 		for(int j=1; j<inst->nnodes; j++)
 		{
 			if(i==j) { continue; }
 			int lastrow = CPXgetnumrows(env, lp);
-			double rhs = one - M;
-			char sense = 'G';
-			int rcnt = 1;
-			int nzcnt = 3;
+			double rhs = M - one;							// right hand side
+			char sense = 'L';
+			int rcnt = 1;									// number of lazy constraint to add
+			int nzcnt = 3;									// number of non-zero variables in the constraint
+			double rmatval[] = { 1.0, 1.0, (double) M };	// coefficient of the non-zero variables
+
 		}
 	}
 

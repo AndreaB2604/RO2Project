@@ -46,3 +46,4 @@ $(TARGET):$(OBJECTS)
 clean:
 	$(RM1) *.o 
 	$(RM1) $(TARGET)
+	$(RM1) *.lp
