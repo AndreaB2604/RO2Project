@@ -11,14 +11,27 @@ CC = gcc
 TARGET = main
 FILES=$(wildcard *.c) #this function lists all .c files
 OBJECTS=$(patsubst %.c, %.o, $(FILES)) #substitute file.c -> file.o
-CPLEX_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/include/ilcplex
-LIB_LOC = /opt/ibm/ILOG/CPLEX_Studio128/cplex/lib/x86-64_linux/static_pic
+CPLEX_128 = /opt/ibm/ILOG/CPLEX_Studio128
+CPLEX_129 = /opt/ibm/ILOG/CPLEX_Studio129
+#CPLEX_LOC = /cplex/include/ilcplex
+#LIB_LOC = /cplex/lib/x86-64_linux/static_pic
+#LIBS = -L ${LIB_LOC} -lcplex -lm -lpthread -ldl 
+#LIBS1 = -L ${LIB_LOC} -lcplex -lm 
+#CFLAGS = -I $(CPLEX_LOC) 
+
+ifneq "$(wildcard $(CPLEX_129) )" ""
+	CPLEX_LOC = $(CPLEX_129)/cplex/include/ilcplex
+	LIB_LOC = $(CPLEX_129)/cplex/lib/x86-64_linux/static_pic
+else
+	CPLEX_LOC = $(CPLEX_128)/cplex/include/ilcplex
+	LIB_LOC = $(CPLEX_128)/cplex/lib/x86-64_linux/static_pic
+endif
+
 LIBS = -L ${LIB_LOC} -lcplex -lm -lpthread -ldl 
 LIBS1 = -L ${LIB_LOC} -lcplex -lm 
-CFLAGS = -I $(CPLEX_LOC) 
+CFLAGS = -I $(CPLEX_LOC)
 
 RM1 = rm -f
-
 
 all: $(TARGET) 
 
