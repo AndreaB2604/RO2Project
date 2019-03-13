@@ -2712,3 +2712,16 @@ The variable x_51_39 number 2588 has value 38.000000
 The variable x_51_40 number 2589 has value 42.000000
 The variable x_51_41 number 2590 has value 30.000000
 The variable x_51_42 number 2591 has value 31.000000
+The variable x_51_43 number 2592 has value 35.000000
+The variable x_51_44 number 2593 has value 25.000000
+The variable x_51_45 number 2594 has value 31.000000
+The variable x_51_46 number 2595 has value 2.000000
+The variable x_51_47 number 2596 has value 9.000000
+The variable x_51_48 number 2597 has value 16.000000
+The variable x_51_49 number 2598 has value 22.000000
+The variable x_51_50 number 2599 has value 26.000000
+The variable x_51_51 number 2600 has value 0.000000
+
+
+2600
+

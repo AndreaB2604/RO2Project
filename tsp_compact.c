@@ -42,7 +42,8 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	{
 		sprintf(cname[0], "u_%d", i+1);
 		obj = zero; 		// since the u_i variables don't have to appear in the objective function
-		lb = one;
+		//lb = one;
+		lb = (i==0)? one : (one+one);  // as from the article MTZ
 		ub = (i==0)? one : inst->nnodes;
 		if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &general, cname)) 
 		{
@@ -133,7 +134,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 			sprintf(cname[0], "lazy_const_x(%d,%d)", i+1, j+1);
 			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, cname)) 
 			{
-				print_error(" wrong CPXnewrows lazy constraint x_i_j + x_j_i <= 1");
+				print_error(" wrong lazy constraint x_i_j + x_j_i <= 1");
 			}
 		}
 	}
@@ -142,21 +143,41 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	// Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 ) 
 	for(int i=0; i<inst->nnodes; i++)
 	{
-		for(int j=1; j<inst->nnodes; j++)
+			
+		if(i==0)
 		{
-			if(i==j) { continue; }
-			int num_x_var = inst->nnodes * inst->nnodes; 	// == xpos_compact(inst->nnodes-1, inst->nnodes-1, inst) + 1
-			double rhs = (double) M - one;					// right hand side
-			char sense = 'L';
-			int rcnt = 1;									// number of lazy constraint to add
-			int nzcnt = 3;									// number of non-zero variables in the constraint
-			double rmatval[] = {(double) M, one, -one};		// coefficient of the non-zero variables
-			int rmatind[] = { xpos_compact(i,j,inst), num_x_var+i, num_x_var+j };
-			int rmatbeg = 0;								// start positions of the constraint
-			sprintf(cname[0], "lazy_const_u(%d,%d)", i+1, j+1);
-			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, cname)) 
+			double rhs = one;
+			char sense = 'E';
+			int rcnt = 1;
+			int nzcnt = 1;
+			double rmatval = 1.0;
+			int rmatind = xpos_compact(inst->nnodes-1, inst ->nnodes-1, inst)+1;
+			int rmatbeg = 0;
+			sprintf(cname[0], "lazy_cost(u_1)");
+			if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, &rmatind, &rmatval, cname)) 
 			{
-				print_error(" wrong CPXnewrows M*x_i_j + u_i - u_j <= M-1");
+				print_error(" wrong lazy [u1]");
+			}
+
+		} 
+		else
+		{ 
+			for(int j=1; j<inst->nnodes; j++)
+			{
+				if(i==j) { continue; }
+				int num_x_var = inst->nnodes * inst->nnodes; 	// == xpos_compact(inst->nnodes-1, inst->nnodes-1, inst) + 1
+				double rhs = (double) M - one;					// right hand side
+				char sense = 'L';
+				int rcnt = 1;									// number of lazy constraint to add
+				int nzcnt = 3;									// number of non-zero variables in the constraint
+				double rmatval[] = {one, -one, (double) M};		// coefficient of the non-zero variables
+				int rmatind[] = {num_x_var+i, num_x_var+j, xpos_compact(i,j,inst)};
+				int rmatbeg = 0;								// start positions of the constraint
+				sprintf(cname[0], "lazy_const_u(%d,%d)", i+1, j+1);
+				if(CPXaddlazyconstraints(env, lp, rcnt, nzcnt, &rhs, &sense, &rmatbeg, rmatind, rmatval, cname)) 
+				{
+					print_error(" wrong lazy M*x_i_j + u_i - u_j <= M-1");
+				}
 			}
 		}
 	}
@@ -197,7 +218,7 @@ int TSPopt_compact(instance *inst)
 		CPXwriteprob(env, lp, "tsp.lp", NULL); 
 	}
 
-	
+	/*	
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
 	{
@@ -251,7 +272,7 @@ int TSPopt_compact(instance *inst)
 	}
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
-	
+	*/	
 
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */
 	if(lp != NULL)
