@@ -2,7 +2,7 @@
 
 void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 {
-	int M = inst->nnodes-2;
+	int M = inst->nnodes-1;
 	double zero = 0.0;
 	double one = 1.0;
 	double obj;
@@ -218,7 +218,7 @@ int TSPopt_compact(instance *inst)
 		CPXwriteprob(env, lp, "tsp.lp", NULL); 
 	}
 
-	/*	
+		
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
 	{
@@ -272,7 +272,7 @@ int TSPopt_compact(instance *inst)
 	}
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
-	*/	
+		
 
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */
 	if(lp != NULL)

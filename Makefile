@@ -60,3 +60,4 @@ clean:
 	$(RM1) *.o 
 	$(RM1) $(TARGET)
 	$(RM1) *.lp
+	$(RM1) *.log
