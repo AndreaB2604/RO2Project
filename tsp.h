@@ -6,8 +6,9 @@
 #include <string.h>
 #include <math.h>
 #include <cplex.h>
+#include <cplexx.h>
 
-#define VERBOSE 100 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
+#define VERBOSE 200 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
 
 typedef struct
@@ -31,8 +32,8 @@ void free_instance(instance *inst);
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);
-void read_input(instance *inst);
 void print_plot_compact(instance *inst, char *plot_file_name);
+void read_input(instance *inst);
 
 // defined in tsp.c
 void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);

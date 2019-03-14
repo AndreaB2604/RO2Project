@@ -3,8 +3,6 @@
 void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 {
 	int M = inst->nnodes;
-	double zero = 0.0;
-	double one = 1.0;
 	double obj;
 	double lb, ub;				// lower bound and upper bound
 	char binary = 'B';
@@ -69,16 +67,10 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 		for(int i=0; i < inst->nnodes; i++)
 		{
-			if(i == h) 
-			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_compact(i, h, inst), zero)) 
-				{
-					print_error(" wrong CPXchgcoef [x1]");
-				}
-			}
+			if(i == h) { continue; }
 			else
 			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_compact(i, h, inst), one)) 
+				if(CPXchgcoef(env, lp, lastrow, xpos_compact(i, h, inst), 1.0)) 
 				{
 					print_error(" wrong CPXchgcoef [x1]");
 				}
@@ -99,16 +91,10 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 		for(int j=0; j < inst->nnodes; j++)
 		{
-			if(j == h) 
-			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_compact(h, j, inst), zero)) 
-				{
-					print_error(" wrong CPXchgcoef [x1]");
-				}
-			}
+			if(j == h) { continue; }
 			else
 			{
-				if(CPXchgcoef(env, lp, lastrow, xpos_compact(h, j, inst), one)) 
+				if(CPXchgcoef(env, lp, lastrow, xpos_compact(h, j, inst), 1.0)) 
 				{
 					print_error(" wrong CPXchgcoef [x1]");
 				}
@@ -180,11 +166,12 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 	}
 
+	int max = xpos_compact(inst->nnodes-1, inst->nnodes-1, inst);
+	printf("\n\nThe number of variables is %d\n", max);
+
 	// save model
 	if(VERBOSE >= 100)
 	{
-		int max = xpos_compact(inst->nnodes-1, inst->nnodes-1, inst);
-		printf("\n\nThe number of variables is %d\n", max);
 		CPXwriteprob(env, lp, "tsp_compact.lp", NULL);
 	}
 
@@ -204,18 +191,11 @@ int TSPopt_compact(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT"); 
-	
+	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT");
+	CPXsetlogfilename(env, "logfile.txt", "w");					// it saves the log of the computation in logfile.txt
+
 	// build model
 	build_model_compact(inst, env, lp);
-
-	// save model
-	if(VERBOSE >= 100)
-	{
-		CPXwriteprob(env, lp, "tsp.lp", NULL); 
-	}
-
-	/*
 	
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
@@ -285,7 +265,7 @@ int TSPopt_compact(instance *inst)
 	{
 		status = CPXcloseCPLEX(&env);
 	}
-	*/
+	
 	return 0;
 }
 

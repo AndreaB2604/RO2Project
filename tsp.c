@@ -1,8 +1,7 @@
 #include "tsp.h"
 
 void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
-{
-	double zero = 0.0; // one = 1.0; 	
+{	
 	char binary = 'B';
 
 	char **cname = (char **) calloc(1, sizeof(char *));		// (char **) required by cplex...
@@ -15,14 +14,15 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 			// Adding variables to model + their respective cost in the
 			// objective function
 			sprintf(cname[0], "x_%d_%d", i+1,j+1);
-			double obj = dist(i,j,inst);   
+			double obj = dist(i,j,inst);
+			double lb = 0.0;  
 			double ub = 1.0; // recall we deal with {0,1} variables
 
 			if(VERBOSE > 1000)
 			{
 				printf("The variable %s number %d has value %lf\n", cname[0], xpos(i,j,inst), obj);
 			}
-			if(CPXnewcols(env, lp, 1, &obj, &zero, &ub, &binary, cname)) 
+			if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &binary, cname)) 
 			{
 				print_error(" wrong CPXnewcols on x var.s");
 			}
