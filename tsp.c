@@ -73,7 +73,6 @@ int TSPopt(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
-	const double TOLERANCE = 0.5;
 	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;

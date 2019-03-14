@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 		print_error(" error within TSPopt_compact()");
 	
 
-	print_plot(&inst, "plot_file_compact.txt");
+	print_plot_compact(&inst, "plot_file_compact.txt");
 
 	free_instance(&inst);
 

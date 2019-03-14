@@ -80,7 +80,7 @@ void print_plot(instance *inst, char *plot_file_name)
 			{
 				for(j=i+1; j<inst->nnodes; j++)
 				{
-					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) != 0)) 
+					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) > TOLERANCE)) 
 					{
 						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
 						flag = 1;
@@ -97,6 +97,37 @@ void print_plot(instance *inst, char *plot_file_name)
 	fclose(file);
 }
 
+void print_plot_compact(instance *inst, char *plot_file_name)
+{
+
+	int i,j,k;
+	FILE *file = fopen(plot_file_name, "w");
+	int max_idx_x = inst->nnodes * inst->nnodes;
+	fprintf(file, "%d\n", inst->nnodes);
+	for(i=0; i<inst->nnodes; i++)
+	{
+		fprintf(file, "%lf %lf\n", inst->xcoord[i], inst->ycoord[i]);
+	}
+
+	fprintf(file, "\nNON ZERO VARIABLES\n");
+	// print the x variables that are non-zero
+	for(k = 0; k < max_idx_x; k++)
+	{
+		for(i=0; i<inst->nnodes; i++)
+		{
+			for(j=0; j<inst->nnodes; j++)
+			{
+				if((i!=j) && (xpos_compact(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+				{
+					fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+				}
+			}
+		}
+	}
+	
+	
+	fclose(file);
+}
 
 void read_input(instance *inst)
 {

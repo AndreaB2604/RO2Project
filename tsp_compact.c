@@ -2,7 +2,7 @@
 
 void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 {
-	int M = inst->nnodes-1;
+	int M = inst->nnodes;
 	double zero = 0.0;
 	double one = 1.0;
 	double obj;
@@ -200,7 +200,6 @@ int TSPopt_compact(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
-	const double TOLERANCE = 0.5;
 	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;
