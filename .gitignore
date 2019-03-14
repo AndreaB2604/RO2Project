@@ -1,8 +1,10 @@
 # Prerequisites
 *.d
 
-# Swap files
+# Swap and log files
 *.swp
+*.log
+!cplex.log
 
 # Pdf files
 *.pdf
