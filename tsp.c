@@ -101,7 +101,6 @@ int TSPopt(instance *inst)
 	{
 		print_error("Optimisation failed in TSPopt()");
 	}
-	printf("Solution value  = %lf\n\n", obj_val);
 
 	// cur_numrows is the number of nodes == inst->nnodes
 	// cur_numcols is the number of variables 
@@ -145,6 +144,8 @@ int TSPopt(instance *inst)
 	}
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
+
+	printf("\nSolution value  = %lf\n", obj_val);
 
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */
 	if(lp != NULL)

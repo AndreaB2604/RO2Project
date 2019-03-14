@@ -19,9 +19,9 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		for(int j=0; j<inst->nnodes; j++)
 		{
 			sprintf(cname[0], "x_%d_%d", i+1,j+1);
-			obj = (i==j)?zero : dist(i,j,inst);
-			lb = zero;
-			ub = (i==j)?zero : one;
+			obj = (i==j)? 0.0 : dist(i,j,inst);
+			lb = 0.0;
+			ub = (i==j)? 0.0 : 1.0;
 			if(VERBOSE > 1000)
 			{
 				printf("The variable %s number %d has value %lf\n", cname[0], xpos_compact(i,j,inst), obj);
@@ -41,10 +41,9 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	for(int i=0; i<inst->nnodes; i++)
 	{
 		sprintf(cname[0], "u_%d", i+1);
-		obj = zero; 		// since the u_i variables don't have to appear in the objective function
-		//lb = one;
-		lb = (i==0)? one : (one+one);  // as from the article MTZ
-		ub = (i==0)? one : inst->nnodes;
+		obj = 0.0; 		// since the u_i variables don't have to appear in the objective function
+		lb = (i==0)? 1.0 : 2.0;  // as from the article MTZ
+		ub = (i==0)? 1.0 : inst->nnodes;
 		if(CPXnewcols(env, lp, 1, &obj, &lb, &ub, &general, cname)) 
 		{
 			print_error(" wrong CPXnewcols on u var.s");
@@ -56,7 +55,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 		*/
 	}
-
+	
 	// Adding in_degree constraints (summation over i of x_i_h = 1)
 	for(int h=0; h<inst->nnodes; h++)
 	{
@@ -122,11 +121,11 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	{
 		for(int j=i+1; j<inst->nnodes; j++)
 		{
-			double rhs = one;			// right hand side
+			double rhs = 1.0;			// right hand side
 			char sense = 'L';
 			int rcnt = 1;				// number of lazy constraint to add
 			int nzcnt = 2;				// number of non-zero variables in the constraint
-			double rmatval[] = {one, one};		// coefficient of the non-zero variables
+			double rmatval[] = {1.0, 1.0};		// coefficient of the non-zero variables
 			// position of the variables to set (in terms of columns)
 			int rmatind[] = { xpos_compact(i,j,inst), xpos_compact(j,i,inst) };
 			//int rmatbeg[] = { 0, 2 };
@@ -139,14 +138,13 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 	}
 
-	
 	// Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 ) 
 	for(int i=0; i<inst->nnodes; i++)
 	{
 			
 		if(i==0)
 		{
-			double rhs = one;
+			double rhs = 1.0;
 			char sense = 'E';
 			int rcnt = 1;
 			int nzcnt = 1;
@@ -166,11 +164,11 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 			{
 				if(i==j) { continue; }
 				int num_x_var = inst->nnodes * inst->nnodes; 	// == xpos_compact(inst->nnodes-1, inst->nnodes-1, inst) + 1
-				double rhs = (double) M - one;					// right hand side
+				double rhs = (double) M - 1.0;					// right hand side
 				char sense = 'L';
 				int rcnt = 1;									// number of lazy constraint to add
 				int nzcnt = 3;									// number of non-zero variables in the constraint
-				double rmatval[] = {one, -one, (double) M};		// coefficient of the non-zero variables
+				double rmatval[] = {1.0, -1.0, (double) M};		// coefficient of the non-zero variables
 				int rmatind[] = {num_x_var+i, num_x_var+j, xpos_compact(i,j,inst)};
 				int rmatbeg = 0;								// start positions of the constraint
 				sprintf(cname[0], "lazy_const_u(%d,%d)", i+1, j+1);
@@ -186,7 +184,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	if(VERBOSE >= 100)
 	{
 		int max = xpos_compact(inst->nnodes-1, inst->nnodes-1, inst);
-		printf("\n\n%d\n\n", max);
+		printf("\n\nThe number of variables is %d\n", max);
 		CPXwriteprob(env, lp, "tsp_compact.lp", NULL);
 	}
 
@@ -217,7 +215,8 @@ int TSPopt_compact(instance *inst)
 		CPXwriteprob(env, lp, "tsp.lp", NULL); 
 	}
 
-		
+	/*
+	
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
 	{
@@ -229,7 +228,6 @@ int TSPopt_compact(instance *inst)
 	{
 		print_error("Optimisation failed in TSPopt_compact()");
 	}
-	printf("Solution value  = %lf\n\n", obj_val);
 
 	// cur_numrows is the number of nodes == inst->nnodes
 	// cur_numcols is the number of variables 
@@ -245,7 +243,7 @@ int TSPopt_compact(instance *inst)
 	}
 
 	// print only the non-zero variables
-	if(VERBOSE > 1000)
+	if(VERBOSE > 50)
 	{
 		// print the x variables that are non-zero
 		for(k = 0; k < max_idx_x; k++)
@@ -265,26 +263,29 @@ int TSPopt_compact(instance *inst)
 		// print the u variables that are non-zero
 		for(k=0; k<inst->nnodes; k++)
 		{
-			printf("u_%d = %f", k+1, inst->best_sol[k+max_idx_x]);
+			printf("u_%d = %f\n", k+1, inst->best_sol[k+max_idx_x]);
 		}
 
 	}
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
-		
+	
+	printf("\nSolution value  = %lf\n", obj_val);		
+	
+	
 
-	/* Free up the problem as allocated by CPXcreateprob, if necessary */
+	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{
 		status = CPXfreeprob(env, &lp);
 	}
 
-	/* Free up the CPLEX environment, if necessary */
+	// Free up the CPLEX environment, if necessary
 	if(env != NULL) 
 	{
 		status = CPXcloseCPLEX(&env);
 	}
-
+	*/
 	return 0;
 }
 

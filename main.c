@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
 	print_plot_compact(&inst, "plot_file_compact.txt");
 
-	free_instance(&inst);
+	//free_instance(&inst);
 
 	return 0;
 }
