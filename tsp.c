@@ -80,7 +80,8 @@ int TSPopt(instance *inst)
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
-	
+	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+
 	// build model
 	build_model(inst, env, lp);
 

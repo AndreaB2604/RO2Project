@@ -6,7 +6,7 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	double obj;
 	double lb, ub;				// lower bound and upper bound
 	char binary = 'B';
-	char general = 'G';
+	char general = 'I';
 
 	char **cname = (char **) calloc(1, sizeof(char *));		// (char **) required by cplex...
 	cname[0] = (char *) calloc(100, sizeof(char));
@@ -174,7 +174,6 @@ void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp)
 	{
 		CPXwriteprob(env, lp, "tsp_compact.lp", NULL);
 	}
-
 }
 
 
@@ -191,20 +190,16 @@ int TSPopt_compact(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
+	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT");
-	CPXsetlogfilename(env, "logfile.txt", "w");					// it saves the log of the computation in logfile.txt
+	CPXsetlogfilename(env, "exec_compact_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
 	// build model
 	build_model_compact(inst, env, lp);
-	
+
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
-	{
-		print_error("Optimisation failed in TSPopt_compact()");
-	}
-
-	// get the best solution and print it
-	if(CPXgetobjval(env, lp, &obj_val))
 	{
 		print_error("Optimisation failed in TSPopt_compact()");
 	}
@@ -250,10 +245,13 @@ int TSPopt_compact(instance *inst)
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
 	
+	// get the best solution and print it
+	if(CPXgetobjval(env, lp, &obj_val))
+	{
+		print_error("Optimisation failed in TSPopt_compact()");
+	}
 	printf("\nSolution value  = %lf\n", obj_val);		
 	
-	
-
 	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{

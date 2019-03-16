@@ -14,6 +14,10 @@ int main(int argc, char **argv)
 
 	read_input(&inst);
 	
+	// If we will want to save the file to plot in the same directory of the file read
+	// char *file_to_plot = (char *) malloc(strlen(inst.input_file)+strlen("_to_plot"));
+	// char *str = strcat(strcpy(file_to_plot, inst.input_file), "_to_plot");
+	
 
 	/***** TSP 
 	if(TSPopt(&inst))
@@ -22,11 +26,11 @@ int main(int argc, char **argv)
 	print_plot(&inst, "plot_file.txt");
 	*/
 
+
 	/***** TSP COMPACT *****/
 	if(TSPopt_compact(&inst))
 		print_error(" error within TSPopt_compact()");
 	
-
 	print_plot_compact(&inst, "plot_file_compact.txt");
 
 	free_instance(&inst);
