@@ -37,10 +37,25 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 	{
 		for(int h = 0; h < inst->nnodes; h++)
 		{
+			double lb, ub;
 			sprintf(cname[0], "z_%d_%d", v+1,h+1);
 			double obj = 0.0;
-			double lb = (h!=0 || v!=0)? 0.0 : 1.0;  
-			double ub = 1.0; // recall we deal with {0,1} variables
+			if(v==0 && h==0)
+			{
+				lb = 1.0;
+				ub = 1.0;
+			}
+			else if(v==0 || h==0)
+			{
+				lb = 0.0;
+				ub = 0.0;
+			}
+			else
+			{
+				lb = 0.0;
+				ub = 1.0;
+			}
+
 			if(VERBOSE > 1000)
 			{
 				printf("The variable %s number %d has value %lf\n", cname[0], zpos_compact_custom(v,h,inst), obj);
@@ -164,13 +179,13 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 				// position of the variables to set (in terms of columns)
 				int rmatind[inst->nnodes - 1];
 				rmatind[0] = xpos(i, j, inst);
-				for(int t = 0; t < h-1; t++)
+				for(int t = 1; t <= h; t++)
 				{
-					rmatind[t+1] = zpos_compact_custom(i, t+1, inst);
+					rmatind[t] = zpos_compact_custom(i, t, inst);
 				}
-				for(int t = h; t < inst->nnodes-1; t++)
+				for(int t = h+2; t < inst->nnodes; t++)
 				{
-					rmatind[t] = zpos_compact_custom(j, t+1, inst);
+					rmatind[t-1] = zpos_compact_custom(j, t, inst);
 				}
 				int rmatbeg = 0;			// start positions of the constraint
 				sprintf(cname[0], "lazy_const_custom_x(%d,%d)_%d", i+1, j+1, h+1);
@@ -178,6 +193,17 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 				{
 					print_error(" wrong lazy custom constraint");
 				}
+
+				/*
+				if(i==1 && j==2 && h==1)
+				{
+					printf("\n\nPRINTING rmatval AND rmatind\n");
+					for(int k=0; k<inst->nnodes-1; k++)
+					{
+						printf("rmatval[%d] = %f         rmatind[%d] = %d\n", k, rmatval[k], k, rmatind[k]);
+					}	
+				}
+				*/
 			}
 		}
 	}
@@ -200,13 +226,12 @@ int TSPopt_compact_custom(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
-	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	 CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT_CUSTOM");
 	CPXsetlogfilename(env, "exec_compact_custom_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
@@ -214,8 +239,62 @@ int TSPopt_compact_custom(instance *inst)
 	// build model
 	build_model_compact_custom(inst, env, lp);
 
-	//printf("\n\nz_pos = %d\n\n", zpos_compact_custom(0,0, inst));
-	//printf("\n\nz_pos = %d\n\n", zpos_compact_custom(inst->nnodes-1, inst->nnodes-1, inst));
+	/*
+	// solve the optimisation problem
+	if(CPXmipopt(env, lp))
+	{
+		print_error("Optimisation failed in TSPopt_mtz()");
+	}
+
+	// cur_numrows is the number of nodes == inst->nnodes
+	// cur_numcols is the number of variables 
+	cur_numrows = CPXgetnumrows(env, lp);
+	cur_numcols = CPXgetnumcols(env, lp);
+	
+	// get the optimal solution of the variables
+	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
+	if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
+	{
+		print_error("Optimisation failed in TSPopt_compact_custom()");
+	}
+
+	int max_idx_x = inst->nnodes * (inst->nnodes-1) / 2; 	// == xpos(inst->nnodes-1, inst->nnodes-1, inst)
+	int num_z_var = cur_numcols - max_idx_x;
+	int n = inst->nnodes * inst->nnodes;
+	printf("\n\nnum_z_var = %d\nn = %d\n\n", num_z_var, n);
+	// print only the non-zero variables
+	if(VERBOSE > 50)
+	{
+		// print the x variables that are non-zero
+		for(int k = 0; k < max_idx_x; k++)
+		{	
+			int l = inst->nnodes -1;
+			int flag = 0;
+			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
+			{
+				if(k<l)
+				{
+					for(int j=i+1; j<inst->nnodes; j++)
+					{
+						if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+						{
+							printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+							flag = 1;
+							break;
+						}
+					}
+				}
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
+			}
+		}
+
+		// print the z variables that are non-zero
+		//for(int k = 0; k < )
+	}
+	*/
 }
 
 

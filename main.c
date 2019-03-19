@@ -37,6 +37,7 @@ int main(int argc, char **argv)
 	/***** TSP COMPACT CUSTOM *****/
 	if(TSPopt_compact_custom(&inst))
 		print_error(" error within TSPopt_compact_custom()");
+	
 
 	//free_instance(&inst);
 

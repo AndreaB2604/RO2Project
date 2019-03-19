@@ -213,7 +213,7 @@ int TSPopt_mtz(instance *inst)
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 	if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 	{
-		print_error("Optimisation failed in TSPopt()");
+		print_error("Optimisation failed in TSPopt_mtz()");
 	}
 
 	// print only the non-zero variables

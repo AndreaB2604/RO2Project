@@ -116,7 +116,7 @@ int TSPopt(instance *inst)
 	}
 
 	// print only the non-zero variables
-	if(VERBOSE > 1000)
+	if(VERBOSE > 50)
 	{
 		for(k = 0; k < cur_numcols; k++)
 		{	

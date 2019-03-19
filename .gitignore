@@ -10,8 +10,9 @@
 *.sav
 *.lp
 
-# Pdf files
+# Pdf and txt files
 *.pdf
+*.txt
 
 # Object files
 *.o
