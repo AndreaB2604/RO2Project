@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	// char *str = strcat(strcpy(file_to_plot, inst.input_file), "_to_plot");
 	
 
-	/***** TSP 
+	/***** TSP *****
 	if(TSPopt(&inst))
 		print_error(" error within TSPopt()");
 
@@ -27,13 +27,18 @@ int main(int argc, char **argv)
 	*/
 
 
-	/***** TSP COMPACT *****/
+	/***** TSP MTZ *****
 	if(TSPopt_mtz(&inst))
-		print_error(" error within TSPopt_compact()");
+		print_error(" error within TSPopt_mtz()");
 	
-	print_plot_mtz(&inst, "plot_file_compact.txt");
+	print_plot_mtz(&inst, "plot_file_mtz.txt");
+	*/
 
-	free_instance(&inst);
+	/***** TSP COMPACT CUSTOM *****/
+	if(TSPopt_compact_custom(&inst))
+		print_error(" error within TSPopt_compact_custom()");
+
+	//free_instance(&inst);
 
 	return 0;
 }

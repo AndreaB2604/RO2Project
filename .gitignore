@@ -6,6 +6,10 @@
 *.log
 !cplex.log
 
+# lp and sav files
+*.sav
+*.lp
+
 # Pdf files
 *.pdf
 

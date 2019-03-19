@@ -8,7 +8,7 @@
 #include <cplex.h>
 #include <cplexx.h>
 
-#define VERBOSE 200 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
+#define VERBOSE 10000 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
 
 typedef struct
@@ -45,5 +45,10 @@ int xpos(int i, int j, instance *inst);
 void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp);
 int TSPopt_mtz(instance *inst);
 int xpos_mtz(int i, int j, instance *inst);
+
+// defined in tsp_compact_custom
+void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp);
+int TSPopt_compact_custom(instance *inst);
+int zpos_compact_custom(int i, int j, instance *inst);
 
 #endif

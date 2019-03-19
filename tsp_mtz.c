@@ -126,8 +126,7 @@ void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp)
 
 	// Adding big-M lazy constraints ( M*x_i_j + u_i - u_j <= M-1 ) 
 	for(int i=0; i<inst->nnodes; i++)
-	{
-			
+	{	
 		if(i==0)
 		{
 			double rhs = 1.0;
