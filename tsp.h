@@ -32,7 +32,7 @@ void free_instance(instance *inst);
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);
-void print_plot_compact(instance *inst, char *plot_file_name);
+void print_plot_mtz(instance *inst, char *plot_file_name);
 void read_input(instance *inst);
 
 // defined in tsp.c
@@ -41,9 +41,9 @@ double dist(int i, int j, instance *inst);
 int TSPopt(instance *inst);
 int xpos(int i, int j, instance *inst);
 
-// defined in tsp_compact.c
-void build_model_compact(instance *inst, CPXENVptr env, CPXLPptr lp);
-int TSPopt_compact(instance *inst);
-int xpos_compact(int i, int j, instance *inst);
+// defined in tsp_mtz.c
+void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp);
+int TSPopt_mtz(instance *inst);
+int xpos_mtz(int i, int j, instance *inst);
 
 #endif

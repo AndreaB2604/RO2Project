@@ -97,7 +97,7 @@ void print_plot(instance *inst, char *plot_file_name)
 	fclose(file);
 }
 
-void print_plot_compact(instance *inst, char *plot_file_name)
+void print_plot_mtz(instance *inst, char *plot_file_name)
 {
 
 	int i,j,k;
@@ -117,7 +117,7 @@ void print_plot_compact(instance *inst, char *plot_file_name)
 		{
 			for(j=0; j<inst->nnodes; j++)
 			{
-				if((i!=j) && (xpos_compact(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+				if((i!=j) && (xpos_mtz(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
 				{
 					fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
 				}
