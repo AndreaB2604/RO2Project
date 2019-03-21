@@ -20,7 +20,9 @@ typedef struct
 
 	// parameters
 	double time_limit; 								// long can be used
+	char *dist_type;
 	char *input_file;
+	char *model_type;
 	double *best_sol;								// best solution available
 } instance;
 
@@ -28,16 +30,15 @@ typedef struct
 /* PROTOTYPES */
 
 // defined in utilities.c
+double dist(int i, int j, instance *inst);
 void free_instance(instance *inst);
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);
-void print_plot_mtz(instance *inst, char *plot_file_name);
 void read_input(instance *inst);
 
 // defined in tsp.c
 void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
-double dist(int i, int j, instance *inst);
 int TSPopt(instance *inst);
 int xpos(int i, int j, instance *inst);
 

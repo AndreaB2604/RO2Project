@@ -57,16 +57,6 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 	free(cname);
 }
 
-
-double dist(int i, int j, instance *inst)
-{
-	double dx = inst->xcoord[i] - inst->xcoord[j];
-	double dy = inst->ycoord[i] - inst->ycoord[j];
-	int dis = sqrt(dx*dx + dy*dy) + 0.5; // nearest integer 
-	return ((double) dis);
-}
-
-
 int TSPopt(instance *inst)
 {
 	//inst->tstart = second(); maybe we'll need it  
@@ -93,12 +83,6 @@ int TSPopt(instance *inst)
 
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
-	{
-		print_error("Optimisation failed in TSPopt()");
-	}
-
-	// get the best solution and print it
-	if(CPXgetobjval(env, lp, &obj_val))
 	{
 		print_error("Optimisation failed in TSPopt()");
 	}
@@ -146,6 +130,11 @@ int TSPopt(instance *inst)
 	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
 	//printf("cur_numcols = %d\n", cur_numcols);
 
+	// get the best solution and print it
+	if(CPXgetobjval(env, lp, &obj_val))
+	{
+		print_error("Optimisation failed in TSPopt()");
+	}
 	printf("\nSolution value  = %lf\n", obj_val);
 
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */

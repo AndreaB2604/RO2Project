@@ -192,7 +192,7 @@ int TSPopt_mtz(instance *inst)
 	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_MTZ");
-	CPXsetlogfilename(env, "exec_mtz_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
 	// build model
 	build_model_mtz(inst, env, lp);

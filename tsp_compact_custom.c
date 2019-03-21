@@ -234,12 +234,11 @@ int TSPopt_compact_custom(instance *inst)
 	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT_CUSTOM");
-	CPXsetlogfilename(env, "exec_compact_custom_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
 	// build model
 	build_model_compact_custom(inst, env, lp);
 
-	/*
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))
 	{
@@ -257,11 +256,10 @@ int TSPopt_compact_custom(instance *inst)
 	{
 		print_error("Optimisation failed in TSPopt_compact_custom()");
 	}
-
+	
 	int max_idx_x = inst->nnodes * (inst->nnodes-1) / 2; 	// == xpos(inst->nnodes-1, inst->nnodes-1, inst)
-	int num_z_var = cur_numcols - max_idx_x;
 	int n = inst->nnodes * inst->nnodes;
-	printf("\n\nnum_z_var = %d\nn = %d\n\n", num_z_var, n);
+
 	// print only the non-zero variables
 	if(VERBOSE > 50)
 	{
@@ -292,9 +290,42 @@ int TSPopt_compact_custom(instance *inst)
 		}
 
 		// print the z variables that are non-zero
-		//for(int k = 0; k < )
+		for(int k = max_idx_x; k < cur_numcols; k++)
+		{
+			for(int i = 0; i < inst->nnodes; i++)
+			{
+				for(int j = 0; j < inst->nnodes; j++)
+				{
+					if((zpos_compact_custom(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+					{
+						printf("z_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+					}
+				}
+			}
+		}
 	}
-	*/
+	
+	// get the best solution and print it
+	if(CPXgetobjval(env, lp, &obj_val))
+	{
+		print_error("Optimisation failed in TSPopt_mtz()");
+	}
+	printf("\nSolution value  = %lf\n", obj_val);
+
+	/* Free up the problem as allocated by CPXcreateprob, if necessary */
+	if(lp != NULL)
+	{
+		status = CPXfreeprob(env, &lp);
+	}
+
+	/* Free up the CPLEX environment, if necessary */
+	if(env != NULL) 
+	{
+		status = CPXcloseCPLEX(&env);
+	}
+
+
+	return 0;
 }
 
 
@@ -305,5 +336,5 @@ int zpos_compact_custom(int i, int j, instance *inst)
 		print_error("Domain contraint not respected zpos_compact_custom");
 	}
 	int offset = inst->nnodes*(inst->nnodes-1)/2;
-	return offset + (i*inst->nnodes + j);
+	return (offset + (i*inst->nnodes + j));
 }

@@ -62,3 +62,4 @@ clean:
 	$(RM1) *.lp
 	$(RM1) *.sav
 	$(RM1) *.log
+	$(RM1) *.txt
