@@ -27,17 +27,17 @@ int main(int argc, char **argv)
 	*/
 
 
-	/***** TSP MTZ *****
+	/***** TSP MTZ ******/
 	if(TSPopt_mtz(&inst))
 		print_error(" error within TSPopt_mtz()");
 	
 	print_plot_mtz(&inst, "plot_file_mtz.txt");
-	*/
+	
 
-	/***** TSP COMPACT CUSTOM *****/
+	/***** TSP COMPACT CUSTOM ****
 	if(TSPopt_compact_custom(&inst))
 		print_error(" error within TSPopt_compact_custom()");
-	
+	*/
 
 	//free_instance(&inst);
 

@@ -164,7 +164,7 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 		for(int j = 1; j < inst->nnodes; j++)
 		{
 			if(i == j) { continue; }
-			for(int h = 1; h < inst->nnodes; h++)
+			for(int h = 1; h <= inst->nnodes-3; h++)
 			{
 				double rhs = 2.0;				// right hand side
 				char sense = 'L';
