@@ -208,12 +208,6 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 	}
 
-	// save model
-	if(VERBOSE >= 100)
-	{
-		CPXwriteprob(env, lp, "tsp_compact_custom.lp", NULL);
-	}
-
 	free(cname[0]);
 	free(cname);
 }
@@ -231,13 +225,19 @@ int TSPopt_compact_custom(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	//CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT_CUSTOM");
 	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
 	// build model
 	build_model_compact_custom(inst, env, lp);
+
+	// save model
+	if(VERBOSE >= 100)
+	{
+		CPXwriteprob(env, lp, "tsp_compact_custom.lp", NULL);
+	}
 
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))

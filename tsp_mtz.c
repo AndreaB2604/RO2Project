@@ -167,12 +167,6 @@ void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp)
 
 	int max = xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst);
 	printf("\n\nThe number of variables is %d\n", max);
-
-	// save model
-	if(VERBOSE >= 100)
-	{
-		CPXwriteprob(env, lp, "tsp_mtz.lp", NULL);
-	}
 }
 
 
@@ -196,6 +190,12 @@ int TSPopt_mtz(instance *inst)
 
 	// build model
 	build_model_mtz(inst, env, lp);
+
+	// save model
+	if(VERBOSE >= 100)
+	{
+		CPXwriteprob(env, lp, "tsp_mtz.lp", NULL);
+	}
 
 	// solve the optimisation problem
 	if(CPXmipopt(env, lp))

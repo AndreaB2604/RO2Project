@@ -27,6 +27,13 @@ int main(int argc, char **argv)
 			print_error(" error within TSPopt()");
 	}
 
+	/***** TSP SEC_LOOP *****/
+	if(!strncmp(inst.model_type, "sec_loop", 8))
+	{
+		if(TSPopt_sec_loop(&inst))
+			print_error(" error within TSPopt()");
+	}
+
 	/***** TSP MTZ ******/
 	if(!strncmp(inst.model_type, "mtz", 3))
 	{

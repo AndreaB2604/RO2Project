@@ -42,6 +42,10 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
 int TSPopt(instance *inst);
 int xpos(int i, int j, instance *inst);
 
+// defined in tsp_sec_loop.c
+int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst);
+int TSPopt_sec_loop(instance *inst);
+
 // defined in tsp_mtz.c
 void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp);
 int TSPopt_mtz(instance *inst);
