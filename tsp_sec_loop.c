@@ -1,5 +1,6 @@
 #include "tsp.h"
 
+// computes the connected components and add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 {
 	int comp[inst->nnodes];
@@ -11,7 +12,7 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 	for(int k = 0; k < cur_numcols; k++)
 	{	
-		int l = inst->nnodes -1;
+		int l = inst->nnodes-1;
 		int flag = 0;
 		for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
 		{
@@ -19,6 +20,7 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 			{
 				for(int j=i+1; j<inst->nnodes; j++)
 				{
+					// if the {i,j} exists then i and j belong to the same connected component
 					if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
 					{
 						if(comp[i] != comp[j])
@@ -47,19 +49,21 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 	if(VERBOSE > 1000)
 	{
+		// print the component for each node
 		for(int i = 0; i < inst->nnodes; i++)
 		{
 			printf("comp[%d] = %d\n", (i+1), (comp[i]+1));
 		}
 	}
 
-	int conn_comp[inst->nnodes];
-	for(int i = 0; i<inst->nnodes; i++)
+	int conn_comp[inst->nnodes]; 			// this array will contain all the value of the connected components
+	for(int i = 0; i < inst->nnodes; i++)
 	{
 		conn_comp[i] = -1;
 	}
 
-	int num_comp = 0;
+	int num_comp = 0; // number of current connected components
+	// compute what the connected components are and their number
 	for(int i = 0; i < inst->nnodes; i++)
 	{
 		for(int j = 0; (j < inst->nnodes) && (comp[i] != conn_comp[j]); j++)
@@ -75,32 +79,33 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 	if(VERBOSE > 1000)
 	{
-		for(int i = 0; i < inst->nnodes; i++)
+		for(int i = 0; i < num_comp; i++)
 		{
-			printf("conn_comp[%d] = %d\n", (i), (conn_comp[i]+1));
+			printf("conn_comp[%d] = %d\n", i, (conn_comp[i]+1));
 		}
 		printf("Number of connected components = %d\n", num_comp);
 	}
 
 	if(num_comp == 1)
 	{
-		if(VERBOSE > 100)
+		if(VERBOSE > 1000)
 		{
-			printf("Only one connected component remained\n");
+			printf("Only one connected component remained, problem solved\n");
 		}
 		return 0;
 	}
 
+	// I have to add the SECs
 	for(int k = 0; k < num_comp; k++)
 	{
-		int num_x_var = (inst->nnodes-1) * inst->nnodes / 2;
+		int num_x_var = (inst->nnodes-1) * inst->nnodes / 2; 	// number of x variables
 		int nzcnt = 0;					// number of non-zero variables in the constraint
 		double rhs = -1.0;
 		char sense = 'L';
-		double rmatval[num_x_var];		// coefficient of the non-zero variables
-		// position of the variables to set (in terms of columns)
-		int rmatind[num_x_var];
-		int rmatbeg = 0;			// start positions of the constraint
+		double rmatval[num_x_var];		// coefficients of the non-zero variables
+		int rmatind[num_x_var]; 		// position of the variables to set (in terms of columns)
+		int rmatbeg = 0;				// start positions of the constraint
+
 		for(int i = 0; i < num_x_var; i++)
 		{
 			rmatval[i] = 0;
@@ -130,7 +135,6 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 	}
 
 	return 1;
-
 }
 
 
@@ -161,8 +165,6 @@ int TSPopt_sec_loop(instance *inst)
 			print_error("Optimisation failed in TSPopt_sec_loop()");
 		}
 
-		// cur_numrows is the number of nodes == inst->nnodes
-		// cur_numcols is the number of variables 
 		cur_numrows = CPXgetnumrows(env, lp);
 		cur_numcols = CPXgetnumcols(env, lp);
 		
@@ -173,6 +175,7 @@ int TSPopt_sec_loop(instance *inst)
 			print_error("Failure to read the optimal solution in CPXgetx()");
 		}
 
+		// check if have to add (new) SECs
 		if(!sec_loop(env, lp, inst))
 		{
 			done = 1;
@@ -213,25 +216,21 @@ int TSPopt_sec_loop(instance *inst)
 			}
 		}
 	}
-	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
-	//printf("cur_numcols = %d\n", cur_numcols);
 
 	// get the best solution and print it
-	status = CPXgetobjval(env, lp, &obj_val);
-	if(status)
+	if(CPXgetobjval(env, lp, &obj_val))
 	{
-		printf("status value = %d\n", status);
 		print_error("Failure to read the value of the optimal solution in CPXgetobjval()");
 	}
 	printf("\nSolution value  = %lf\n", obj_val);
 
-	/* Free up the problem as allocated by CPXcreateprob, if necessary */
+	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{
 		status = CPXfreeprob(env, &lp);
 	}
 
-	/* Free up the CPLEX environment, if necessary */
+	// Free up the CPLEX environment, if necessary
 	if(env != NULL) 
 	{
 		status = CPXcloseCPLEX(&env);

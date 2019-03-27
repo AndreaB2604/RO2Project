@@ -157,6 +157,7 @@ void print_plot_subtour(instance *inst, char *plot_file_name)
 	}
 	
 	fprintf(file, "\nNON ZERO VARIABLES\n");
+
 	for(k=0; k<cur_numcols; k++)
 	{	
 		l = inst->nnodes -1;
@@ -167,7 +168,7 @@ void print_plot_subtour(instance *inst, char *plot_file_name)
 			{
 				for(j=i+1; j<inst->nnodes; j++)
 				{
-					if((xpos(i, j, inst) == k) && (((int) inst->best_sol[k]) > TOLERANCE)) 
+					if((xpos(i, j, inst) == k) && ((inst->best_sol[k]) > TOLERANCE)) 
 					{
 						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
 						flag = 1;

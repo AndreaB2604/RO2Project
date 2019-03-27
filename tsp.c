@@ -63,12 +63,12 @@ int TSPopt(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
-	int i, j, k, l, flag;
 	int error, status;
 	int cur_numrows, cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
+	//CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
 	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
@@ -96,21 +96,21 @@ int TSPopt(instance *inst)
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 	if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 	{
-		print_error("Optimisation failed in TSPopt()");
+		print_error("Failure to read the optimal solution in CPXgetx()");
 	}
 
 	// print only the non-zero variables
 	if(VERBOSE > 50)
 	{
-		for(k = 0; k < cur_numcols; k++)
+		for(int k = 0; k < cur_numcols; k++)
 		{	
-			l = inst->nnodes -1;
-			flag = 0;
-			for(i=0; (i<inst->nnodes-1) && (!flag); i++)
+			int l = inst->nnodes -1;
+			int flag = 0;
+			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
 			{
 				if(k<l)
 				{
-					for(j=i+1; j<inst->nnodes; j++)
+					for(int j=i+1; j<inst->nnodes; j++)
 					{
 						if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
 						{
@@ -127,13 +127,11 @@ int TSPopt(instance *inst)
 			}
 		}
 	}
-	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
-	//printf("cur_numcols = %d\n", cur_numcols);
 
 	// get the best solution and print it
 	if(CPXgetobjval(env, lp, &obj_val))
 	{
-		print_error("Optimisation failed in TSPopt()");
+		print_error("Failure to read the value of the optimal solution in CPXgetobjval()");
 	}
 	printf("\nSolution value  = %lf\n", obj_val);
 
