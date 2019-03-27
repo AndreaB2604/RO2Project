@@ -12,37 +12,40 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 	for(int k = 0; k < cur_numcols; k++)
 	{	
-		int l = inst->nnodes-1;
-		int flag = 0;
-		for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
+		if(inst->best_sol[k] > TOLERANCE)
 		{
-			if(k<l)
+			int l = inst->nnodes-1;
+			int flag = 0;
+			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
 			{
-				for(int j=i+1; j<inst->nnodes; j++)
+				if(k<l)
 				{
-					// if the {i,j} exists then i and j belong to the same connected component
-					if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+					for(int j=i+1; j<inst->nnodes; j++)
 					{
-						if(comp[i] != comp[j])
+						// if the {i,j} exists then i and j belong to the same connected component
+						if((xpos(i, j, inst) == k)) 
 						{
-							int ci = comp[i];
-							int cj = comp[j];
-							for(int n = 0; n < inst->nnodes; n++)
+							if(comp[i] != comp[j])
 							{
-								if(comp[n] == cj)
+								int ci = comp[i];
+								int cj = comp[j];
+								for(int n = 0; n < inst->nnodes; n++)
 								{
-									comp[n] = ci;
+									if(comp[n] == cj)
+									{
+										comp[n] = ci;
+									}
 								}
-							}
-						}	
-						flag = 1;
-						break;
+							}	
+							flag = 1;
+							break;
+						}
 					}
 				}
-			}
-			else
-			{
-				l += inst->nnodes-i-2; 
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
 			}
 		}
 	}
