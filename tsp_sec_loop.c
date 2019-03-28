@@ -1,6 +1,7 @@
 #include "tsp.h"
 
-double ticks[] = {10000.0, 30000.0, 60000.0, 120000.0, 1.0e+75};
+double ticks[] = {5000.0, 10000.0, 30000.0, 60000.0, 1.0e+75};
+int max_ticks_idx = 4;
 
 // computes the connected components and add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
@@ -82,7 +83,7 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 		}
 	}
 
-	if(VERBOSE > 1000)
+	if(VERBOSE > 100)
 	{
 		for(int i = 0; i < num_comp; i++)
 		{
@@ -93,10 +94,6 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 	if(num_comp == 1)
 	{
-		if(VERBOSE > 1000)
-		{
-			printf("Only one connected component remained, problem solved\n");
-		}
 		return 0;
 	}
 
@@ -149,6 +146,7 @@ int TSPopt_sec_loop(instance *inst)
 	//inst->best_lb = -CPX_INFBOUND;   
 
 	// open cplex model
+	const double GAP_TOLERANCE = 1e-04;		// the default value in CPLEX
 	int error, status;
 	int done = 0;
 	int cur_numrows, cur_numcols;
@@ -166,6 +164,7 @@ int TSPopt_sec_loop(instance *inst)
 	while(!done)
 	{
 		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, ticks[timestamp_idx]);
+
 		// solve the optimisation problem
 		if(CPXmipopt(env, lp))
 		{
@@ -182,19 +181,39 @@ int TSPopt_sec_loop(instance *inst)
 			print_error("Failure to read the optimal solution in CPXgetx()");
 		}
 
+		// check the relative gap
+		double gap;
+		status = CPXgetmiprelgap(env, lp, &gap);
+		if(status)
+		{
+			print_error("Error in getting the gap in CPXgetmiprelgap()");
+		}
+
 		// check if have to add (new) SECs
 		char res_conn_comp = sec_loop(env, lp, inst);
-		if(!res_conn_comp && timestamp_idx < 4)
+		if(VERBOSE > 100)
+		{
+			printf("Gap = %.5f%%\n", (gap*100));
+			printf("Timelimit = %f ticks\n\n", ticks[timestamp_idx]);
+		}
+		if(!res_conn_comp && timestamp_idx < max_ticks_idx)
 		{
 			timestamp_idx++;
 		}
-		else if(!res_conn_comp && timestamp_idx == 4)
+		else if(!res_conn_comp && timestamp_idx == max_ticks_idx)
 		{
 			done = 1;
 		}
 		else
 		{
-			timestamp_idx = timestamp_idx % 5;
+			if(gap < GAP_TOLERANCE)
+			{
+				timestamp_idx = (timestamp_idx == 0)? timestamp_idx : (timestamp_idx-1);
+			}
+			else
+			{
+				timestamp_idx = (timestamp_idx == max_ticks_idx)? timestamp_idx : (timestamp_idx+1);
+			}
 		}
 	}
 
