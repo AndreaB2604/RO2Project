@@ -162,8 +162,10 @@ int TSPopt_sec_loop(instance *inst)
 	// build model
 	build_model(inst, env, lp);
 
+	char timestamp_idx = 0;
 	while(!done)
 	{
+		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, ticks[timestamp_idx]);
 		// solve the optimisation problem
 		if(CPXmipopt(env, lp))
 		{
@@ -181,9 +183,18 @@ int TSPopt_sec_loop(instance *inst)
 		}
 
 		// check if have to add (new) SECs
-		if(!sec_loop(env, lp, inst))
+		char res_conn_comp = sec_loop(env, lp, inst);
+		if(!res_conn_comp && timestamp_idx < 4)
+		{
+			timestamp_idx++;
+		}
+		else if(!res_conn_comp && timestamp_idx == 4)
 		{
 			done = 1;
+		}
+		else
+		{
+			timestamp_idx = timestamp_idx % 5;
 		}
 	}
 
