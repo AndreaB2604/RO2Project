@@ -222,13 +222,16 @@ int TSPopt_mtz(instance *inst)
 		// print the x variables that are non-zero
 		for(k = 0; k < max_idx_x; k++)
 		{
-			for(i=0; i<inst->nnodes; i++)
+			if(inst->best_sol[k] > TOLERANCE)
 			{
-				for(j=0; j<inst->nnodes; j++)
+				for(i=0; i<inst->nnodes; i++)
 				{
-					if((i!=j) && (xpos_mtz(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+					for(j=0; j<inst->nnodes; j++)
 					{
-						printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+						if((i!=j) && (xpos_mtz(i, j, inst) == k)) 
+						{
+							printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+						}
 					}
 				}
 			}

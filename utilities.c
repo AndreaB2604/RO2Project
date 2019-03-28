@@ -159,27 +159,30 @@ void print_plot_subtour(instance *inst, char *plot_file_name)
 	fprintf(file, "\nNON ZERO VARIABLES\n");
 
 	for(k=0; k<cur_numcols; k++)
-	{	
-		l = inst->nnodes -1;
-		flag = 0;
-		for(i=0; (i<inst->nnodes-1) && (!(flag)); i++)
+	{
+		if(inst->best_sol[k] > TOLERANCE)
 		{
-			if(k<l)
+			l = inst->nnodes -1;
+			flag = 0;
+			for(i=0; (i<inst->nnodes-1) && (!(flag)); i++)
 			{
-				for(j=i+1; j<inst->nnodes; j++)
+				if(k<l)
 				{
-					if((xpos(i, j, inst) == k) && ((inst->best_sol[k]) > TOLERANCE)) 
+					for(j=i+1; j<inst->nnodes; j++)
 					{
-						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
-						flag = 1;
-						break;
+						if(xpos(i, j, inst) == k) 
+						{
+							fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+							flag = 1;
+							break;
+						}
 					}
 				}
-			}
-			else
-			{
-				l += inst->nnodes-i-2; 
-			}
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
+			}	
 		}
 	}
 	fclose(file);
@@ -201,15 +204,18 @@ void print_plot_mtz(instance *inst, char *plot_file_name)
 	// print the x variables that are non-zero
 	for(k = 0; k < max_idx_x; k++)
 	{
-		for(i=0; i<inst->nnodes; i++)
+		if(inst->best_sol[k] > TOLERANCE)
 		{
-			for(j=0; j<inst->nnodes; j++)
+			for(i=0; i<inst->nnodes; i++)
 			{
-				if((i!=j) && (xpos_mtz(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+				for(j=0; j<inst->nnodes; j++)
 				{
-					fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+					if((i!=j) && (xpos_mtz(i, j, inst) == k)) 
+					{
+						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+					}
 				}
-			}
+			}	
 		}
 	}
 	
@@ -232,25 +238,28 @@ void print_plot_compact_custom(instance *inst, char *plot_file_name)
 	// print the x variables that are non-zero
 	for(int k = 0; k < max_idx_x; k++)
 	{	
-		int l = inst->nnodes -1;
-		int flag = 0;
-		for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
+		if(inst->best_sol[k] > TOLERANCE)
 		{
-			if(k<l)
+			int l = inst->nnodes -1;
+			int flag = 0;
+			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
 			{
-				for(int j=i+1; j<inst->nnodes; j++)
+				if(k<l)
 				{
-					if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+					for(int j=i+1; j<inst->nnodes; j++)
 					{
-						fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
-						flag = 1;
-						break;
+						if(xpos(i, j, inst) == k) 
+						{
+							fprintf(file, "x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+							flag = 1;
+							break;
+						}
 					}
 				}
-			}
-			else
-			{
-				l += inst->nnodes-i-2; 
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
 			}
 		}
 	}	

@@ -1,5 +1,7 @@
 #include "tsp.h"
 
+double ticks[] = {10000.0, 30000.0, 60000.0, 120000.0, 1.0e+75};
+
 // computes the connected components and add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 {
@@ -153,7 +155,7 @@ int TSPopt_sec_loop(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
 	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 
@@ -195,26 +197,29 @@ int TSPopt_sec_loop(instance *inst)
 	if(VERBOSE > 50)
 	{
 		for(int k = 0; k < cur_numcols; k++)
-		{	
-			int l = inst->nnodes -1;
-			int flag = 0;
-			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
-			{
-				if(k<l)
+		{
+			if(inst->best_sol[k] > TOLERANCE)
+			{	
+				int l = inst->nnodes -1;
+				int flag = 0;
+				for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
 				{
-					for(int j=i+1; j<inst->nnodes; j++)
+					if(k<l)
 					{
-						if((xpos(i, j, inst) == k) && (inst->best_sol[k] > TOLERANCE)) 
+						for(int j=i+1; j<inst->nnodes; j++)
 						{
-							printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
-							flag = 1;
-							break;
+							if(xpos(i, j, inst) == k) 
+							{
+								printf("x_%d_%d = %f\n", i+1, j+1, inst->best_sol[k]);
+								flag = 1;
+								break;
+							}
 						}
 					}
-				}
-				else
-				{
-					l += inst->nnodes-i-2; 
+					else
+					{
+						l += inst->nnodes-i-2; 
+					}
 				}
 			}
 		}
