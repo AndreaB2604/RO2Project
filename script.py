@@ -36,7 +36,7 @@ def plot_vertexes(x,y,n, edges_plot):
     colormap = toyplot.color.LinearMap(toyplot.color.Palette(["white"])) #, "yellow", "red"]))
     canvas, axes, mark = toyplot.graph(edges_plot, #extra_vertices ,
                                        vcoordinates=coordinates, layout=layout,
-                                       vcolor=colormap, vsize=18, vstyle=vstyle, width=1000)
+                                       vcolor=colormap, vsize=16, vstyle=vstyle, width=5000)
     axes.show = True
     axes.aspect = None
     axes.y.show = False
