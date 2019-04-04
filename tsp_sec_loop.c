@@ -1,59 +1,20 @@
 #include "tsp.h"
 
 double ticks[] = {5000.0, 10000.0, 30000.0, 60000.0, 1.0e+75};
-int rins_nodes[] = {0, 10, 50, 100};
+int rins_nodes[] = {0, 100, 50, 10};
 int max_ticks_idx = 4;
 int max_rins_idx = 3;
 
-// computes the connected components and add the SECs
+// add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 {
+	int num_comp;
 	int comp[inst->nnodes];
-	int cur_numcols = CPXgetnumcols(env, lp);
-	for(int i = 0; i < inst->nnodes; i++)
-	{
-		comp[i] = i;		// components go from 0 to n-1
-	}
+	int conn_comp[inst->nnodes]; 			// this array will contain all the value of the connected components
 
-	for(int k = 0; k < cur_numcols; k++)
-	{	
-		if(inst->best_sol[k] > TOLERANCE)
-		{
-			int l = inst->nnodes-1;
-			int flag = 0;
-			for(int i=0; (i<inst->nnodes-1) && (!flag); i++)
-			{
-				if(k<l)
-				{
-					for(int j=i+1; j<inst->nnodes; j++)
-					{
-						// if the {i,j} exists then i and j belong to the same connected component
-						if((xpos(i, j, inst) == k)) 
-						{
-							if(comp[i] != comp[j])
-							{
-								int ci = comp[i];
-								int cj = comp[j];
-								for(int n = 0; n < inst->nnodes; n++)
-								{
-									if(comp[n] == cj)
-									{
-										comp[n] = ci;
-									}
-								}
-							}	
-							flag = 1;
-							break;
-						}
-					}
-				}
-				else
-				{
-					l += inst->nnodes-i-2; 
-				}
-			}
-		}
-	}
+	int cur_numcols = CPXgetnumcols(env, lp);
+
+	connected_components(inst, inst->best_sol, cur_numcols, comp, conn_comp, &num_comp);
 
 	if(VERBOSE > 1000)
 	{
@@ -61,27 +22,6 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 		for(int i = 0; i < inst->nnodes; i++)
 		{
 			printf("comp[%d] = %d\n", (i+1), (comp[i]+1));
-		}
-	}
-
-	int conn_comp[inst->nnodes]; 			// this array will contain all the value of the connected components
-	for(int i = 0; i < inst->nnodes; i++)
-	{
-		conn_comp[i] = -1;
-	}
-
-	int num_comp = 0; // number of current connected components
-	// compute what the connected components are and their number
-	for(int i = 0; i < inst->nnodes; i++)
-	{
-		for(int j = 0; (j < inst->nnodes) && (comp[i] != conn_comp[j]); j++)
-		{
-			if(conn_comp[j] == -1)
-			{
-				conn_comp[j] = comp[i];
-				num_comp++;
-				break;
-			}
 		}
 	}
 
@@ -198,7 +138,8 @@ int TSPopt_sec_loop(instance *inst)
 		if(VERBOSE > 100)
 		{
 			printf("Gap = %.5f%%\n", (gap*100));
-			printf("Timelimit = %f ticks\n\n", ticks[timestamp_idx]);
+			printf("Timelimit = %f ticks\n", ticks[timestamp_idx]);
+			printf("Rins = %d\n\n", rins_nodes[rins_idx]);
 		}
 		if(!res_conn_comp && timestamp_idx < max_ticks_idx)
 		{

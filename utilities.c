@@ -2,11 +2,88 @@
 
 #define LINE_LENGTH 180
 
+double dist_att(int i, int j, instance *inst);
 double dist_euc2D(int i, int j, instance *inst);
 double dist_geo(int i, int j, instance *inst);
 void print_plot_subtour(instance *inst, char *plot_file_name);
 void print_plot_mtz(instance *inst, char *plot_file_name);
 void print_plot_compact_custom(instance *inst, char *plot_file_name);
+
+// this function computes the connected components where:
+// columns_number is the number of variables of the model
+// node_components will be an array that will contain in the i-th position the number of the connected component of the i-th node
+// components_value will be an array of length number_cc that will contain only the values of the different connected components
+// number_cc is a pointer that will contain the number of connected components of the graph
+// NOTE: the instance is needed only for the xpos function and the number of nodes
+void connected_components(instance *inst, double *best_sol, int columns_number, int *nodes_components, int *components_values, int *number_cc)
+{
+	for(int i = 0; i < inst->nnodes; i++)
+	{
+		nodes_components[i] = i;		// components go from 0 to n-1
+	}
+
+	for(int k = 0; k < columns_number; k++)
+	{
+		if(best_sol[k] > TOLERANCE)
+		{
+			int l = inst->nnodes-1;
+			int flag = 0;
+			for(int i = 0; (i < inst->nnodes-1) && (!flag); i++)
+			{
+				if(k < l)
+				{
+					for(int j = i+1; j < inst->nnodes; j++)
+					{
+						// if the {i,j} exists then i and j belong to the same connected component
+						if((xpos(i, j, inst) == k)) 
+						{
+							if(nodes_components[i] != nodes_components[j])
+							{
+								int ci = nodes_components[i];
+								int cj = nodes_components[j];
+								for(int n = 0; n < inst->nnodes; n++)
+								{
+									if(nodes_components[n] == cj)
+									{
+										nodes_components[n] = ci;
+									}
+								}
+							}	
+							flag = 1;
+							break;
+						}
+					}
+				}
+				else
+				{
+					l += inst->nnodes-i-2; 
+				}
+			}
+		}
+	}
+
+	for(int i = 0; i < inst->nnodes; i++)
+	{
+		components_values[i] = -1;
+	}
+
+	int num_comp = 0; // number of current connected components
+	// compute what the connected components are and their number
+	for(int i = 0; i < inst->nnodes; i++)
+	{
+		for(int j = 0; (j < inst->nnodes) && (nodes_components[i] != components_values[j]); j++)
+		{
+			if(components_values[j] == -1)
+			{
+				components_values[j] = nodes_components[i];
+				num_comp++;
+				break;
+			}
+		}
+	}
+
+	*number_cc = num_comp;
+}
 
 double dist(int i, int j, instance *inst)
 {
@@ -14,8 +91,24 @@ double dist(int i, int j, instance *inst)
 		return dist_euc2D(i, j, inst);
 	else if(!strncmp(inst->dist_type, "GEO", 3))
 		return dist_geo(i, j, inst);
+	else if(!strncmp(inst->dist_type, "ATT", 3))
+		return dist_att(i, j, inst);
 	else
-		print_error(" format error:  only EUC_2D and GEO distances implemented so far!");
+		print_error(" format error:  only ATT, EUC_2D and GEO distances implemented so far!");
+}
+
+double dist_att(int i, int j, instance *inst)
+{
+	double dx = inst->xcoord[i] - inst->xcoord[j];
+	double dy = inst->ycoord[i] - inst->ycoord[j];
+
+	double rij = sqrt((dx*dx + dy*dy) / 10.0);
+	double tij = (int) (rij + 0.5);
+
+	if(tij < rij)
+		return tij + 1;
+	else
+		return tij;
 }
 
 double dist_euc2D(int i, int j, instance *inst)
@@ -55,11 +148,11 @@ double dist_geo(int i, int j, instance *inst)
 
 void free_instance(instance *inst)
 {
-	free(inst->xcoord);
-	free(inst->ycoord);
-	free(inst->input_file);
-	free(inst->dist_type);
-	free(inst->best_sol);
+	if(inst->xcoord != NULL) free(inst->xcoord);
+	if(inst->ycoord != NULL) free(inst->ycoord);
+	if(inst->input_file != NULL) free(inst->input_file);
+	if(inst->dist_type != NULL) free(inst->dist_type);
+	if(inst->best_sol != NULL) free(inst->best_sol);
 }
 
 void parse_command_line(int argc, char** argv, instance *inst) 
@@ -344,9 +437,14 @@ void read_input(instance *inst)
 				inst->dist_type = (char *) calloc(strlen(token1), sizeof(char));
 				strcpy(inst->dist_type, token1);
 			}
+			else if(!strncmp(token1, "ATT", 3))
+			{
+				inst->dist_type = (char *) calloc(strlen(token1), sizeof(char));
+				strcpy(inst->dist_type, token1);
+			}
 			else
 			{
-				print_error(" format error:  only EUC_2D and GEO distances implemented so far!");
+				print_error(" format error:  only ATT, EUC_2D and GEO distances implemented so far!");
 			}
 			active_section = 0;
 			continue;
