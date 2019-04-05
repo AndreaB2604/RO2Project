@@ -21,8 +21,8 @@ int TSPopt_sec_callback(instance *inst)
 	build_model(inst, env, lp);
 
 	CPXsetintparam(env, CPX_PARAM_MIPCBREDLP, CPX_OFF); // let MIP callbacks work on the original model
-   CPXsetintparam(env, CPX_PARAM_PRELINEAR, 0);
-   CPXsetintparam(env, CPX_PARAM_REDUCE, CPX_PREREDUCE_PRIMALONLY);
+	CPXsetintparam(env, CPX_PARAM_PRELINEAR, 0);
+	CPXsetintparam(env, CPX_PARAM_REDUCE, CPX_PREREDUCE_PRIMALONLY);
 	CPXsetlazyconstraintcallbackfunc(env, mylazycallback, inst);
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
@@ -35,7 +35,7 @@ int TSPopt_sec_callback(instance *inst)
 	}
 
 	// Retrieve the best solution and put it in the instance
-   cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
+	cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 	if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 	{
@@ -129,7 +129,7 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 
 	//apply cut separator and possibly add violated cuts
 	int ncuts = myseparation(inst, xstar, env, cbdata, wherefrom);	    
-   printf("cuts is <%d>\n", ncuts);
+	printf("cuts is <%d>\n", ncuts);
 	free(xstar);
 	
 	if ( ncuts > 1 )
