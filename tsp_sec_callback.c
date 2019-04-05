@@ -21,8 +21,8 @@ int TSPopt_sec_callback(instance *inst)
 	build_model(inst, env, lp);
 
 	CPXsetintparam(env, CPX_PARAM_MIPCBREDLP, CPX_OFF); // let MIP callbacks work on the original model
-	CPXsetintparam(env, CPX_PARAM_PRELINEAR, 0);
-	CPXsetintparam(env, CPX_PARAM_REDUCE, CPX_PREREDUCE_PRIMALONLY);
+	//CPXsetintparam(env, CPX_PARAM_PRELINEAR, 0);
+	//CPXsetintparam(env, CPX_PARAM_REDUCE, CPX_PREREDUCE_PRIMALONLY);
 	CPXsetlazyconstraintcallbackfunc(env, mylazycallback, inst);
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
@@ -109,7 +109,6 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 	// get solution xstar
 	int ncols = inst->nnodes * (inst->nnodes - 1) / 2;
 	double *xstar = (double*) malloc(ncols * sizeof(double));
-	printf("ci passo\n");
 	if ( CPXgetcallbacknodex(env, cbdata, wherefrom, xstar, 0, ncols-1) )
 	{
 		printf("Error in mylazycallback\n");
@@ -125,11 +124,11 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_MY_THREAD_NUM, &mythread);    
 	double zbest;
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_BEST_INTEGER, &zbest); 
-	printf("i am thread <%d>\n", mythread);
+	//printf("i am thread <%d>\n", mythread);
 
 	//apply cut separator and possibly add violated cuts
 	int ncuts = myseparation(inst, xstar, env, cbdata, wherefrom);	    
-	printf("cuts is <%d>\n", ncuts);
+	//printf("cuts is <%d>\n", ncuts);
 	free(xstar);
 	
 	if ( ncuts > 1 )
