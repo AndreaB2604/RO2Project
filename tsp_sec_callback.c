@@ -7,7 +7,6 @@ int TSPopt_sec_callback(instance *inst)
 {
 
 	// open cplex model
-	const double GAP_TOLERANCE = 1e-04;		// the default value in CPLEX
 	int error, status;
 	int done = 0;
 	int cur_numrows, cur_numcols;
@@ -22,6 +21,8 @@ int TSPopt_sec_callback(instance *inst)
 	build_model(inst, env, lp);
 
 	CPXsetintparam(env, CPX_PARAM_MIPCBREDLP, CPX_OFF); // let MIP callbacks work on the original model
+   CPXsetintparam(env, CPX_PARAM_PRELINEAR, 0);
+   CPXsetintparam(env, CPX_PARAM_REDUCE, CPX_PREREDUCE_PRIMALONLY);
 	CPXsetlazyconstraintcallbackfunc(env, mylazycallback, inst);
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
@@ -34,6 +35,7 @@ int TSPopt_sec_callback(instance *inst)
 	}
 
 	// Retrieve the best solution and put it in the instance
+   cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 	if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 	{
@@ -116,27 +118,28 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 		
 	// get some random information at the node (as an example)
 	//----------------- GET USEFUL INFORMATIONS ON THE CURRENT STATE ----------------
-	/*
+	
 	double objval = CPX_INFBOUND; 
 	CPXgetcallbacknodeobjval(env, cbdata, wherefrom, &objval);   
 	int mythread = -1;
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_MY_THREAD_NUM, &mythread);    
 	double zbest;
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_BEST_INTEGER, &zbest); 
-	*/
+	printf("i am thread <%d>\n", mythread);
 
 	//apply cut separator and possibly add violated cuts
 	int ncuts = myseparation(inst, xstar, env, cbdata, wherefrom);	    
+   printf("cuts is <%d>\n", ncuts);
 	free(xstar);
 	
-	if ( ncuts >= 1 )
+	if ( ncuts > 1 )
 	{
 		*useraction_p = CPX_CALLBACK_SET; 		// tell CPLEX that cuts have been created
 	}
 	return 0; 
 }
 
-int myseparation(instance *inst, double *xtar, CPXCENVptr env, void *cbdata, int wherefrom)
+int myseparation(instance *inst, double *xstar, CPXCENVptr env, void *cbdata, int wherefrom)
 {
 	int num_comp;
 	int comp[inst->nnodes];
@@ -144,7 +147,7 @@ int myseparation(instance *inst, double *xtar, CPXCENVptr env, void *cbdata, int
 
 	int cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;  
 
-	connected_components(inst, inst->best_sol, cur_numcols, comp, conn_comp, &num_comp);
+	connected_components(inst, xstar, cur_numcols, comp, conn_comp, &num_comp);
 
 	if(VERBOSE > 1000)
 	{
