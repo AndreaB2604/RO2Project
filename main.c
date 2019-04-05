@@ -49,6 +49,12 @@ int main(int argc, char **argv)
 			print_error(" error within TSPopt_compact_custom()");
 	}
 
+	/***** TSP SEC CALLBACK *****/
+	if(!strncmp(inst.model_type, "sec_callback", 12))
+	{
+		if(TSPopt_sec_callback(&inst))
+			print_error(" error within TSPopt_sec_callback()");
+	}
 	print_plot(&inst, "plot_file.txt");
 
 	free_instance(&inst);

@@ -10,7 +10,7 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 {
 	int num_comp;
 	int comp[inst->nnodes];
-	int conn_comp[inst->nnodes]; 			// this array will contain all the value of the connected components
+	int conn_comp[inst->nnodes];
 
 	int cur_numcols = CPXgetnumcols(env, lp);
 
@@ -78,6 +78,14 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 		}
 	}
 
+	/*if(comp != NULL)
+	{
+		free(comp);
+	}
+	if(conn_comp != NULL)
+	{
+		free(conn_comp);
+	}*/
 	return 1;
 }
 
