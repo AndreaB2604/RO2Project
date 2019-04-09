@@ -13,16 +13,20 @@ FILES=$(wildcard *.c) #this function lists all .c files
 OBJECTS=$(patsubst %.c, %.o, $(FILES)) #substitute file.c -> file.o
 CPLEX_128 = /opt/ibm/ILOG/CPLEX_Studio128
 CPLEX_129 = /opt/ibm/ILOG/CPLEX_Studio129
+CPLEX_BLADE = /nfsd/rop/sw/ibm/cos128
 #CPLEX_LOC = /cplex/include/ilcplex
 #LIB_LOC = /cplex/lib/x86-64_linux/static_pic
 #LIBS = -L ${LIB_LOC} -lcplex -lm -lpthread -ldl 
 #LIBS1 = -L ${LIB_LOC} -lcplex -lm 
 #CFLAGS = -I $(CPLEX_LOC) 
 
-ifneq "$(wildcard $(CPLEX_129) )" ""
+ifneq "$(wildcard $(CPLEX_BLADE) )" ""
+	CPLEX_LOC = $(CPLEX_BLADE)/cplex/include/ilcplex
+	LIB_LOC = $(CPLEX_BLADE)/cplex/lib/x86-64_linux/static_pic
+else ifneq "$(wildcard $(CPLEX_129) )" ""
 	CPLEX_LOC = $(CPLEX_129)/cplex/include/ilcplex
 	LIB_LOC = $(CPLEX_129)/cplex/lib/x86-64_linux/static_pic
-else
+else ifneq "$(wildcard $(CPLEX_128) )" ""
 	CPLEX_LOC = $(CPLEX_128)/cplex/include/ilcplex
 	LIB_LOC = $(CPLEX_128)/cplex/lib/x86-64_linux/static_pic
 endif
