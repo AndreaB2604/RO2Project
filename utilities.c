@@ -155,6 +155,15 @@ void free_instance(instance *inst)
 	if(inst->best_sol != NULL) free(inst->best_sol);
 }
 
+unsigned long microseconds()
+{
+	struct timeval start;
+	unsigned long time;
+	gettimeofday(&start, NULL);
+	time = start.tv_sec * 1000000 + start.tv_usec;
+	return time;
+}
+
 void parse_command_line(int argc, char** argv, instance *inst) 
 { 
 	int i;
@@ -169,6 +178,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 	strcpy(inst->model_type, "NULL");
 
 	inst->time_limit = 2147483647;	// random number for now
+	inst->random_seed = 201709013;	// default random seed for CPLEX 12.8
 
 	int help = 0;
 	if(argc < 1) { help = 1; }
@@ -184,6 +194,10 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		else if(!strcmp(argv[i],"-time_limit") && param_exists)		// total time limit
 		{
 			inst->time_limit = atof(argv[++i]);
+		}
+		else if(!strcmp(argv[i],"-random_seed") && param_exists)	// total time limit
+		{
+			inst->random_seed = atol(argv[++i]);
 		}
 		else if(!strcmp(argv[i],"-model") && param_exists)	// model type
 		{
@@ -210,6 +224,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		printf("available parameters ---------------------------------------------------\n");
 		printf("-file %s\n", inst->input_file); 
 		printf("-model %s\n", inst->model_type);
+		printf("-random_seed %ld\n", inst->random_seed);
 		printf("-time_limit %lf\n", inst->time_limit);
 		printf("\nenter -help or --help for help\n");
 		printf("------------------------------------------------------------------------\n\n");

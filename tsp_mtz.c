@@ -166,16 +166,11 @@ void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp)
 	}
 
 	int max = xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst);
-	printf("\n\nThe number of variables is %d\n", max);
 }
 
 
 int TSPopt_mtz(instance *inst)
 {
-	
-	//inst->tstart = second(); maybe we'll need it  
-	//inst->best_lb = -CPX_INFBOUND;   
-
 	// open cplex model
 	int i, j, k, l, flag;
 	int error, status;
@@ -184,9 +179,13 @@ int TSPopt_mtz(instance *inst)
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_MTZ");
-	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	if(VERBOSE > 50)
+	{
+		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	}
 
 	// build model
 	build_model_mtz(inst, env, lp);
@@ -198,13 +197,13 @@ int TSPopt_mtz(instance *inst)
 	}
 
 	// solve the optimisation problem
+	unsigned long start = microseconds();
 	if(CPXmipopt(env, lp))
 	{
 		print_error("Optimisation failed in TSPopt_mtz()");
 	}
+	unsigned long exec_time = microseconds() - start;
 
-	// cur_numrows is the number of nodes == inst->nnodes
-	// cur_numcols is the number of variables 
 	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	int max_idx_x = inst->nnodes * inst->nnodes; 	// == xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst)
@@ -244,8 +243,7 @@ int TSPopt_mtz(instance *inst)
 		}
 
 	}
-	//printf("cur_numcols = %d\n", xpos(inst->nnodes-2, inst->nnodes-1, inst));
-	//printf("cur_numcols = %d\n", cur_numcols);
+	printf("Execution time of mtz = %.3f s\n", ((double)exec_time/1000000));
 	
 	// get the best solution and print it
 	if(CPXgetobjval(env, lp, &obj_val))
@@ -265,7 +263,6 @@ int TSPopt_mtz(instance *inst)
 	{
 		status = CPXcloseCPLEX(&env);
 	}
-	
 	return 0;
 }
 

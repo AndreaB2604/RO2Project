@@ -7,23 +7,25 @@
 #include <math.h>
 #include <cplex.h>
 #include <cplexx.h>
+#include <sys/time.h>
 
-#define VERBOSE 200 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
+#define VERBOSE 10 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
 
 typedef struct
 {
 	// input data
 	int nnodes;
-	double *xcoord; 								// they could be integer
+	double *xcoord; 						// they could be integer
 	double *ycoord;
 
 	// parameters
-	double time_limit; 								// long can be used
+	double time_limit; 						// long can be used
 	char *dist_type;
 	char *input_file;
 	char *model_type;
-	double *best_sol;								// best solution available
+	double *best_sol;						// best solution available
+	long random_seed;						// random seed
 } instance;
 
 
@@ -33,6 +35,7 @@ typedef struct
 void connected_components(instance *inst, double *best_sol, int columns_number, int *nodes_components, int *components_values, int *number_cc);
 double dist(int i, int j, instance *inst);
 void free_instance(instance *inst);
+unsigned long microseconds();
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);

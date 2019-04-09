@@ -59,9 +59,6 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 
 int TSPopt(instance *inst)
 {
-	//inst->tstart = second(); maybe we'll need it  
-	//inst->best_lb = -CPX_INFBOUND;   
-
 	// open cplex model
 	int error, status;
 	int cur_numrows, cur_numcols;
@@ -69,9 +66,14 @@ int TSPopt(instance *inst)
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
-	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
-
+	
+	if(VERBOSE > 50)
+	{
+		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	}
+	
 	// build model
 	build_model(inst, env, lp);
 
@@ -86,9 +88,7 @@ int TSPopt(instance *inst)
 	{
 		print_error("Optimisation failed in TSPopt()");
 	}
-
-	// cur_numrows is the number of nodes == inst->nnodes
-	// cur_numcols is the number of variables 
+ 
 	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	

@@ -215,10 +215,6 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 
 int TSPopt_compact_custom(instance *inst)
 {
-	
-	//inst->tstart = second(); maybe we'll need it  
-	//inst->best_lb = -CPX_INFBOUND;   
-
 	// open cplex model
 	int error, status;
 	int cur_numrows, cur_numcols;
@@ -226,9 +222,13 @@ int TSPopt_compact_custom(instance *inst)
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	//CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
-
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP_COMPACT_CUSTOM");
-	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	
+	if(VERBOSE > 50)
+	{
+		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	}
 
 	// build model
 	build_model_compact_custom(inst, env, lp);
@@ -240,13 +240,13 @@ int TSPopt_compact_custom(instance *inst)
 	}
 
 	// solve the optimisation problem
+	unsigned long start = microseconds();
 	if(CPXmipopt(env, lp))
 	{
 		print_error("Optimisation failed in TSPopt_mtz()");
 	}
+	unsigned long exec_time = microseconds() - start;
 
-	// cur_numrows is the number of nodes == inst->nnodes
-	// cur_numcols is the number of variables 
 	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	
@@ -310,6 +310,8 @@ int TSPopt_compact_custom(instance *inst)
 			}
 		}
 	}
+
+	printf("Execution time of compact_custom = %.3f s\n", ((double)exec_time/1000000));
 	
 	// get the best solution and print it
 	if(CPXgetobjval(env, lp, &obj_val))
@@ -329,7 +331,6 @@ int TSPopt_compact_custom(instance *inst)
 	{
 		status = CPXcloseCPLEX(&env);
 	}
-
 
 	return 0;
 }

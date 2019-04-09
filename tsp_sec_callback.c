@@ -5,7 +5,6 @@ int myseparation(instance *inst, double *xtar, CPXCENVptr env, void *cbdata, int
 
 int TSPopt_sec_callback(instance *inst)
 {
-
 	// open cplex model
 	int error, status;
 	int done = 0;
@@ -13,9 +12,13 @@ int TSPopt_sec_callback(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
-	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	if(VERBOSE > 50)
+	{
+		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	}
 
 	// build model
 	build_model(inst, env, lp);
@@ -29,10 +32,12 @@ int TSPopt_sec_callback(instance *inst)
 	CPXsetintparam(env, CPX_PARAM_THREADS, ncores); // reset after callback
 	
 	// Solve the problem
+	unsigned long start = microseconds();
 	if(CPXmipopt(env, lp))
 	{
 		print_error("Optimisation failed in TSPopt_sec_loop()");
 	}
+	unsigned long exec_time = microseconds() - start;
 
 	// Retrieve the best solution and put it in the instance
 	cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
@@ -79,6 +84,8 @@ int TSPopt_sec_callback(instance *inst)
 			}
 		}
 	}
+
+	printf("Execution time of sec_callback = %.3f s\n", ((double)exec_time/1000000));
 
 	// get the best solution and print it
 	if(CPXgetobjval(env, lp, &obj_val))
@@ -204,7 +211,7 @@ int myseparation(instance *inst, double *xstar, CPXCENVptr env, void *cbdata, in
 			}
 		}
 
-		if ( CPXcutcallbackadd(env, cbdata, wherefrom, nzcnt, rhs, sense, rmatind, rmatval, 0) )
+		if(CPXcutcallbackadd(env, cbdata, wherefrom, nzcnt, rhs, sense, rmatind, rmatval, 0))
 		{
 			print_error("USER_separation: CPXcutcallbackadd error");
 		}

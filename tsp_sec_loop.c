@@ -1,7 +1,8 @@
 #include "tsp.h"
 
 double ticks[] = {5000.0, 10000.0, 30000.0, 60000.0, 1.0e+75};
-int rins_nodes[] = {0, 100, 50, 10};
+int rins_nodes[] = {0, 100, 50, 10, 0};
+//int rins_nodes[] = {0, 0, 0, 0, 0};
 int max_ticks_idx = 4;
 int max_rins_idx = 3;
 
@@ -92,9 +93,6 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 
 int TSPopt_sec_loop(instance *inst)
 {
-	//inst->tstart = second(); maybe we'll need it  
-	//inst->best_lb = -CPX_INFBOUND;   
-
 	// open cplex model
 	const double GAP_TOLERANCE = 1e-04;		// the default value in CPLEX
 	int error, status;
@@ -104,14 +102,19 @@ int TSPopt_sec_loop(instance *inst)
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	// CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
-	CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	if(VERBOSE > 50)
+	{
+		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
+	}
 
 	// build model
 	build_model(inst, env, lp);
 
 	char rins_idx = 0;
 	char timestamp_idx = 0;
+	unsigned long start = microseconds();
 	while(!done)
 	{
 		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, ticks[timestamp_idx]);
@@ -172,6 +175,7 @@ int TSPopt_sec_loop(instance *inst)
 			}
 		}
 	}
+	unsigned long exec_time = microseconds() - start;
 
 	// save model
 	if(VERBOSE >= 100)
@@ -210,6 +214,7 @@ int TSPopt_sec_loop(instance *inst)
 			}
 		}
 	}
+	printf("Execution time of sec_loop = %.3f s\n", ((double)exec_time/1000000));
 
 	// get the best solution and print it
 	if(CPXgetobjval(env, lp, &obj_val))
