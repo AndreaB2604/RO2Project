@@ -55,9 +55,16 @@ int main(int argc, char **argv)
 		if(TSPopt_sec_callback(&inst))
 			print_error(" error within TSPopt_sec_callback()");
 	}
+	
+	/***** TSP HARD-FIXING HEURISTIC *****/
+	if(!strncmp(inst.model_type, "heur_hf", 7))
+	{
+		if(TSP_heur_hf(&inst))
+			print_error(" error within TSPopt_sec_callback()");
+	}
 	print_plot(&inst, "plot_file.txt");
 
-	free_instance(&inst);
+	//free_instance(&inst);
 
 	return 0;
 }

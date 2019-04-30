@@ -203,13 +203,19 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		{
 			inst->model_type = (char *) realloc(inst->model_type, strlen(argv[++i]));
 			strcpy(inst->model_type, argv[i]);
-			if(strncmp(inst->model_type, "subtour", 7) && strncmp(inst->model_type, "mtz", 3) && strncmp(inst->model_type, "compact_custom", 14) && strncmp(inst->model_type, "sec_loop", 8) && strncmp(inst->model_type, "sec_callback", 12))  
+			if(strncmp(inst->model_type, "subtour", 7) && 
+				strncmp(inst->model_type, "mtz", 3) && 
+				strncmp(inst->model_type, "compact_custom", 14) && 
+				strncmp(inst->model_type, "sec_loop", 8) && 
+				strncmp(inst->model_type, "sec_callback", 12) &&
+				strncmp(inst->model_type, "heur_hf", 7))  
 		    {
 		    	printf("\n\nModel type non supported, choose between:\n");
 		    	printf("subtour : optimisation without SECs\n");
 		    	printf("sec_loop: optimisation with SECs using the loop model\n");
 		    	printf("mtz : optimisation using the mtz constraints\n");
 		    	printf("compact_custom : optimisation using the compact custom model\n");
+		    	printf("heur_hf : optimisation using the hard-fixing heuristic\n");
 		    	fflush(NULL); 
 				exit(1);
 		    }
@@ -243,7 +249,10 @@ void print_error(const char *err)
 
 void print_plot(instance *inst, char *plot_file_name)
 {
-	if(!strncmp(inst->model_type, "subtour", 7) || !strncmp(inst->model_type, "sec_loop", 8) || !strncmp(inst->model_type, "sec_callback", 12))
+	if(!strncmp(inst->model_type, "subtour", 7) || 
+		!strncmp(inst->model_type, "sec_loop", 8) || 
+		!strncmp(inst->model_type, "sec_callback", 12) ||
+		!strncmp(inst->model_type, "heur_hf", 7))
 		return print_plot_subtour(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "mtz", 3))
 		return print_plot_mtz(inst, plot_file_name);

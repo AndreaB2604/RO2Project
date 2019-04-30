@@ -1,8 +1,8 @@
 #include "tsp.h"
 
 double ticks[] = {5000.0, 10000.0, 30000.0, 60000.0, 1.0e+75};
-int rins_nodes[] = {0, 100, 50, 10, 0};
-//int rins_nodes[] = {0, 0, 0, 0, 0};
+//int rins_nodes[] = {0, 100, 50, 10, 0};
+int rins_nodes[] = {0, 0, 0, 0, 0};
 int max_ticks_idx = 4;
 int max_rins_idx = 3;
 
