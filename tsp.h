@@ -9,6 +9,7 @@
 #include <cplexx.h>
 #include <sys/time.h>
 #include <float.h>
+#include <concorde.h>
 
 #define VERBOSE 100 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
@@ -29,6 +30,23 @@ typedef struct
 	long random_seed;						// random seed
 } instance;
 
+typedef struct
+{
+	CPXCENVptr env;
+	void *cbdata;
+	int wherefrom;
+	int *useraction_p;
+	instance *inst;
+
+} cc_instance;
+
+
+struct node
+{
+	int number;
+	struct node *firstchild;
+	struct node *nextsibling;
+};
 
 /* PROTOTYPES */
 
@@ -66,6 +84,19 @@ int TSPopt_compact_custom(instance *inst);
 int zpos_compact_custom(int i, int j, instance *inst);
 
 // defined in tsp_hard_fixing
+void add_children(struct node *node, int *prev, int *visited, int size);
+void free_tree(struct node *node);
+void pre_order_visit(struct node *node, int *tour, int *tour_idx);
+void prim_dijkstra_MST(instance *inst, int **pred);
+void random_fixing(CPXENVptr env, CPXLPptr lp, double *sol_heur, int size, double prob);
+void set_default_lb(CPXENVptr env, CPXLPptr lp, int size);
+void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr);
 int TSP_heur_hf(instance *inst);
+
+// defined in tsp_local_branching.c
+int TSP_heur_lb(instance *inst);
+
+//defined in tsp_usr_callback.c
+int TSPopt_usr_callback(instance *inst);
 
 #endif

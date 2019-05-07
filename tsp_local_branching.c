@@ -2,17 +2,15 @@
 
 static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p);
 
-int TSP_heur_hf(instance *inst)
+int TSP_heur_lb(instance *inst)
 {
 	const int MAX_COUNT = 10;
 
-	double prob_rate[] = {0.9, 0.5, 0.2};
-	int prob_rate_max_idx = 2;
+	double lb_rate[] = {3, 5, 10};
+	int lb_rate_max_idx = 2;
 	// open cplex model
 	int error, status;
 	int done = 0;
-	//int cur_numrows, cur_numcols;
-	//double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
 	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
@@ -78,9 +76,11 @@ int TSP_heur_hf(instance *inst)
 	}
 
 	int counter = 0;
-	int idx_prob_rate = 0;
+	int idx_lb_rate = 0;
 	double callback_time_limit = 10;	// time-limit of the callback
 	unsigned long start = microseconds();
+	char **cname = (char **) calloc(1, sizeof(char *));		// (char **) required by cplex...
+	cname[0] = "Local Branching constraint";
 	while(!done)
 	{
 		// save model
@@ -99,13 +99,37 @@ int TSP_heur_hf(instance *inst)
 			if(counter >= 10)
 			{
 				callback_time_limit *= 1.5;
-				idx_prob_rate = (idx_prob_rate == prob_rate_max_idx)? idx_prob_rate : idx_prob_rate+1;
+				idx_lb_rate = (idx_lb_rate == lb_rate_max_idx)? idx_lb_rate : idx_lb_rate+1;
 			}
 
 			callback_time_limit = (elapsed+callback_time_limit <= inst->time_limit)? callback_time_limit : inst->time_limit-elapsed;
 			CPXsetdblparam(env, CPXPARAM_TimeLimit, callback_time_limit);
-			random_fixing(env, lp, inst->best_sol, cur_numcols, prob_rate[idx_prob_rate]);
-			
+
+			// adding the local branching constraint
+			int cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
+			int j = 0;
+			double rhs = (double) inst->nnodes - lb_rate[idx_lb_rate];
+			char sense = 'G';
+			double rmatval[inst->nnodes];	// coefficients of the non-zero variables
+			int rmatind[inst->nnodes]; 		// position of the variables to set (in terms of columns)
+			int rmatbeg = 0;				// start positions of the constraint
+
+			for(int i = 0; i < inst->nnodes; i++)
+			{
+				rmatval[i] = 1.0;
+			}
+			for(int i = 0; i < cur_numcols; i++)
+			{
+				if(inst->best_sol[i] > TOLERANCE)
+				{
+					rmatind[j++] = i;
+				}
+			}
+			if(CPXaddrows(env, lp, 0, 1, inst->nnodes, &rhs, &sense, &rmatbeg, rmatind, rmatval, NULL, cname))
+			{
+				print_error(" wrong local branching constraint added");
+			}
+
 			if(status = CPXmipopt(env, lp))
 			{
 				printf("Status: %d\n", status);
@@ -124,9 +148,10 @@ int TSP_heur_hf(instance *inst)
 				{
 					printf("Best x_heu: %f\nIncumbent solution: %f\n\n", best_obj_val, current_obj_val);
 				}
+
 				best_obj_val = current_obj_val;
 				counter = 0;
-				idx_prob_rate = 0;
+				idx_lb_rate = 0;
 
 				if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 				{
@@ -138,12 +163,16 @@ int TSP_heur_hf(instance *inst)
 				counter++;
 			}
 
-			set_default_lb(env, lp, cur_numcols);
+			// remove the local branching constraint
+			if(CPXdelrows(env, lp, CPXgetnumrows(env, lp)-1, CPXgetnumrows(env, lp)-1))
+			{
+				print_error(" wrong local branching constraint removed");
+			}
 
 			// save model
 			if(VERBOSE >= 5000)
 			{
-				CPXwriteprob(env, lp, "tsp_hard_fixing.lp", NULL); 
+				CPXwriteprob(env, lp, "tsp_local_branching.lp", NULL);
 			}
 		}
 	}
@@ -153,42 +182,6 @@ int TSP_heur_hf(instance *inst)
 	free(varindices);
 	return 0;
 
-}
-
-void set_default_lb(CPXENVptr env, CPXLPptr lp, int size)
-{
-	double zero = 0.0;
-	char lb = 'L';
-
-	for(int i = 0; i < size; i++)
-	{
-		CPXchgbds(env, lp, 1, &i, &lb, &zero);
-	}
-}
-
-void random_fixing(CPXENVptr env, CPXLPptr lp, double *sol_heur, int size, double prob)
-{
-	double rand;
-	double one = 1.0;
-	char lb = 'L';
-	struct timeval start;
-
-	if(prob < 0 || prob > 1)
-	{
-		print_error(" in random_fixing: probability must be in [0,1]");
-	}
-
-	for(int i = 0; i < size; i++)
-	{
-		gettimeofday(&start, NULL);
-		srand(start.tv_usec);
-		rand = (double) random() / RAND_MAX;
-		
-		if(sol_heur[i] > 0.5 && rand < prob)
-		{
-			CPXchgbds(env, lp, 1, &i, &lb, &one);
-		}
-	}
 }
 
 static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p)
@@ -226,153 +219,4 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 		*useraction_p = CPX_CALLBACK_SET; 		// tell CPLEX that cuts have been created
 	}
 	return 0; 
-}
-
-void prim_dijkstra_MST(instance *inst, int **pred)
-{
-	const int n = inst->nnodes;
-	int *flag = (int *) calloc(inst->nnodes, sizeof(int));
-	double *L = (double *) calloc(inst->nnodes, sizeof(double));
-	*pred = (int *) calloc(inst->nnodes, sizeof(int));
-
-	flag[0] = 1;
-	(*pred)[0] = 0;
-
-	for(int j = 1; j < n; j++)
-	{
-		flag[j] = 0;
-		L[j] = dist(1, j, inst);
-		(*pred)[j] = 0;
-	}
-
-	for(int k = 1; k < n; k++)
-	{
-		double min = DBL_MAX;
-		int h;
-		for(int j = 1; j < n; j++)
-		{
-			if(flag[j] == 0 && L[j] < min)
-			{
-				min = L[j];
-				h = j;
-			}
-		}
-		flag[h] = 1;
-		for(int j = 1; j < n; j++)
-		{
-			double c_h_j = dist(h, j, inst);
-			if(flag[j] == 0 && c_h_j < L[j])
-			{
-				L[j] = c_h_j;
-				(*pred)[j] = h;
-			}
-		}
-	}
-
-	free(flag);
-	free(L);
-}
-
-void add_children(struct node *node, int *prev, int *visited, int size)
-{
-	for(int i = 1; i < size; i++)
-	{
-		if(prev[i] == node->number && !visited[i])
-		{
-			if(node->firstchild == NULL)
-			{
-				node->firstchild = (struct node *) malloc(sizeof(struct node));
-				node->firstchild->number = i;
-				node->firstchild->firstchild = NULL;
-				node->firstchild->nextsibling = NULL;
-				add_children(node->firstchild, prev, visited, size);
-			}
-			else
-			{
-				struct node *current_node = node->firstchild;
-				while(current_node->nextsibling != NULL)
-				{
-					current_node = current_node->nextsibling;
-				}
-
-				current_node->nextsibling = (struct node *) malloc(sizeof(struct node));
-				current_node->nextsibling->number = i;
-				current_node->nextsibling->firstchild = NULL;
-				current_node->nextsibling->nextsibling = NULL;
-				add_children(current_node->nextsibling, prev, visited, size);
-			}
-		}
-	}
-}
-
-void pre_order_visit(struct node *node, int *tour, int *tour_idx)
-{
-	if(node == NULL) 
-		return;
-
-	if(VERBOSE > 5000)
-	{
-		printf("Node %d visited\n", (node->number)+1);
-	}
-
-	tour[*tour_idx] = node->number;
-	(*tour_idx)++;
-
-	pre_order_visit(node->firstchild, tour, tour_idx);
-	pre_order_visit(node->nextsibling, tour, tour_idx);
-}
-
-void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr)
-{
-	*approx_tour_ptr = (int *) calloc(inst->nnodes, sizeof(int));
-	int tour_idx = 0;
-
-	/*if(!strncmp(inst->dist_type, "GEO", 3)) // not sure if the GEO distance obey the triangle inequality
-	{
-		if(VERBOSE > 50)
-		{
-			printf("GEO distance: cannot apply the 2-approximation algorithm for the TSP\n");
-			printf("Returning the stupid solution\n");
-		}
-		for(int i = 0; i < inst->nnodes; i++)
-		{
-			(*approx_tour_ptr)[i] = i;
-		}
-		return;
-	}*/
-
-	int *prev = NULL;
-	prim_dijkstra_MST(inst, &prev);
-	
-	if(VERBOSE > 5000)
-	{
-		for(int i = 1; i < inst->nnodes; i++)
-		{
-			printf("Edge %d %d\n", (prev[i]+1), (i+1));
-		}
-	}
-
-	struct node *root = (struct node *) malloc(sizeof(struct node));
-	root->number = 0;
-	root->firstchild = NULL;
-	root->nextsibling = NULL;
-	int *visited = (int *) calloc(inst->nnodes, sizeof(int));
-	add_children(root, prev, visited, inst->nnodes);
-
-	pre_order_visit(root, *approx_tour_ptr, &tour_idx);
-
-	free(prev);
-	free_tree(root);
-}
-
-
-void free_tree(struct node *node)
-{
-	if(node == NULL)
-		return;
-	
-	free_tree(node->nextsibling);
-	free_tree(node->firstchild);
-		
-	free(node);
 }

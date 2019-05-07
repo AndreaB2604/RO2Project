@@ -1,10 +1,11 @@
 #include "tsp.h"
 
-double ticks[] = {5000.0, 10000.0, 30000.0, 60000.0, 1.0e+75};
-//int rins_nodes[] = {0, 100, 50, 10, 0};
-int rins_nodes[] = {0, 0, 0, 0, 0};
-int max_ticks_idx = 4;
-int max_rins_idx = 3;
+double ticks[] = {5000.0, 10000.0, 30000.0, 45000.0, 60000.0, 1.0e+75};
+int rins_nodes[] = {0, 100, 45, 10, 5};
+//int rins_nodes[] = {0, 0, 0, 0, 0};
+int max_ticks_idx = 5;
+int max_rins_idx = 4;
+int rins_active = 1; // 0 rins not active, 1 otherwise
 
 // add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
@@ -118,7 +119,10 @@ int TSPopt_sec_loop(instance *inst)
 	while(!done)
 	{
 		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, ticks[timestamp_idx]);
-		CPXsetintparam(env, CPXPARAM_MIP_Strategy_RINSHeur, rins_nodes[rins_idx]); 
+		if(rins_active)
+		{
+			CPXsetintparam(env, CPXPARAM_MIP_Strategy_RINSHeur, rins_nodes[rins_idx]); 
+		}
 
 		// solve the optimisation problem
 		if(CPXmipopt(env, lp))
@@ -152,25 +156,56 @@ int TSPopt_sec_loop(instance *inst)
 			printf("Timelimit = %f ticks\n", ticks[timestamp_idx]);
 			printf("Rins = %d\n\n", rins_nodes[rins_idx]);
 		}
-		if(!res_conn_comp && timestamp_idx < max_ticks_idx)
+		
+		if(!res_conn_comp)
 		{
-			timestamp_idx++;
-			rins_idx = 0; 	
-		}
-		else if(!res_conn_comp && timestamp_idx == max_ticks_idx)
-		{
-			done = 1;
+			int lpstat = CPXgetstat(env,lp);
+			int solved = (lpstat == CPXMIP_OPTIMAL) || (lpstat == CPXMIP_OPTIMAL_INFEAS) || (lpstat == CPXMIP_OPTIMAL_TOL);
+			if(solved)
+			{
+				done = 1;
+			}
+			else
+			{
+				timestamp_idx++;
+				if(rins_active)
+				{
+					rins_idx = 0;
+				}
+			}
 		}
 		else
 		{
 			if(gap < GAP_TOLERANCE)
 			{
-				rins_idx = (rins_idx == max_rins_idx)? rins_idx : (rins_idx+1) ; 	
+
+				if(rins_active)
+				{
+					if(timestamp_idx <= ((max_ticks_idx+1)/2))
+					{
+						rins_idx = (rins_idx == 0)? rins_idx : (rins_idx-1) ; // Decrementing the RINS verbosity	
+					}
+					else
+					{
+						rins_idx = (rins_idx == max_rins_idx)? rins_idx : (rins_idx+1) ; // Incrementing the RINS verbosity	
+					}
+				}
 				timestamp_idx = (timestamp_idx == 0)? timestamp_idx : (timestamp_idx-1);
 			}
 			else
 			{
-				rins_idx = (rins_idx == 0)? rins_idx : (rins_idx-1) ; 	
+				
+				if(rins_active)
+				{
+					if(timestamp_idx <= ((max_ticks_idx+1)/2))
+					{
+						rins_idx = 0; // setting RINS to default
+					}
+					else
+					{
+						rins_idx = (rins_idx == max_rins_idx)? rins_idx : (rins_idx+1) ; // Incrementing the RINS verbosity	
+					}
+				}
 				timestamp_idx = (timestamp_idx == max_ticks_idx)? timestamp_idx : (timestamp_idx+1);
 			}
 		}
