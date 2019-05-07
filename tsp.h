@@ -8,6 +8,7 @@
 #include <cplex.h>
 #include <cplexx.h>
 #include <sys/time.h>
+#include <float.h>
 
 #define VERBOSE 100 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
@@ -47,6 +48,7 @@ int TSPopt(instance *inst);
 int xpos(int i, int j, instance *inst);
 
 // defined in tsp_sec_callback.c
+int myseparation(instance *inst, double *xtar, CPXCENVptr env, void *cbdata, int wherefrom);
 int TSPopt_sec_callback(instance *inst);
 
 // defined in tsp_sec_loop.c

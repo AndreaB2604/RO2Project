@@ -1,7 +1,6 @@
 #include "tsp.h"
 
 static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom, void *cbhandle, int *useraction_p);
-int myseparation(instance *inst, double *xtar, CPXCENVptr env, void *cbdata, int wherefrom);
 
 int TSPopt_sec_callback(instance *inst)
 {
