@@ -59,6 +59,7 @@ void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);
 void print_plot(instance *inst, char *plot_file_name);
 void read_input(instance *inst);
+double tour_dist(int *v, int vsize, instance *inst);
 
 // defined in tsp.c
 void build_model(instance *inst, CPXENVptr env, CPXLPptr lp);
@@ -98,5 +99,9 @@ int TSP_heur_lb(instance *inst);
 
 //defined in tsp_usr_callback.c
 int TSPopt_usr_callback(instance *inst);
+
+//defined in tsp_nn_grasp.c
+void grasp_heur(instance *inst, int init_node, double prob, int nnc, int **tour, double *obj_val);
+int TSP_nn_grasp_heur(instance *inst);
 
 #endif

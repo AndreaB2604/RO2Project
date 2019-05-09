@@ -77,9 +77,16 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_heur_lb()");
 	}
 
-	print_plot(&inst, "plot_file.txt");
+	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	if(!strncmp(inst.model_type, "heur_nn_grasp", 13))
+	{
+		if(TSP_nn_grasp_heur(&inst))
+			print_error(" error within TSP_nn_grasp_heur()");
+	}
 
-	free_instance(&inst);
+	//print_plot(&inst, "plot_file.txt");
+
+	//free_instance(&inst);
 
 	return 0;
 }
