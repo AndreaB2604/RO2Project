@@ -36,14 +36,35 @@ int TSPopt_usr_callback(instance *inst)
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
 	CPXsetintparam(env, CPX_PARAM_THREADS, ncores); // reset after callback
-	
+	double detstart, detend, exec_det_time;
+	unsigned long start, exec_time;
+	if(dettime)
+	{
+		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, 2127600.0);
+	}
+	else
+	{
+		CPXsetdblparam(env, CPXPARAM_TimeLimit, 3600.0);
+	}
+
+	if(CPXgetdettime(env, &detstart))
+	{
+		print_error("Error in getting deterministic time start");
+	}
+
 	// Solve the problem
-	unsigned long start = microseconds();
+	start = microseconds();
 	if(CPXmipopt(env, lp))
 	{
 		print_error("Optimisation failed in TSPopt_sec_loop()");
 	}
-	unsigned long exec_time = microseconds() - start;
+	exec_time = microseconds() - start;
+
+	if(CPXgetdettime(env, &detend))
+	{
+			print_error("Error in getting deterministic time end");
+	}
+	exec_det_time = detend - detstart;
 
 	// Retrieve the best solution and put it in the instance
 	cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
@@ -89,7 +110,10 @@ int TSPopt_usr_callback(instance *inst)
 			}
 		}
 	}
-
+	int lpstat = CPXgetstat(env,lp);
+	int solved = (lpstat == CPXMIP_OPTIMAL) || (lpstat == CPXMIP_OPTIMAL_INFEAS) || (lpstat == CPXMIP_OPTIMAL_TOL);
+	printf("Solved %d\n", solved);
+	printf("Execution dettime of usrcut_callback = %.3f ticks\n", exec_det_time);
 	printf("Execution time of usrcut_callback = %.3f s\n", ((double)exec_time/1000000));
 
 	// get the best solution and print it
@@ -118,6 +142,44 @@ static int CPXPUBLIC cutcallback(CPXCENVptr env, void *cbdata, int wherefrom, vo
 {
 	*useraction_p = CPX_CALLBACK_DEFAULT; 
 	instance* inst = (instance *) cbhandle; 			// casting of cbhandle    
+
+	int status;
+	int active = 0; // active = 0 then use the depth limit, active = 1 always separate solution
+	int mynode = 0;
+	CPXINT depth = 0;
+	CPXINT seqn = 0;
+	if(VERBOSE > 1000)
+	{
+		if(CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_NODES_LEFT, &mynode))
+		{
+			print_error("Error in getting node number");
+		}
+		mynode -= 1;
+		if(status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_SEQNUM, &seqn))
+		{
+			printf("Node is: %d\n", (mynode+1));
+			printf("Status is %d\n", status);
+			print_error("Error in getting the node depth");
+		}
+	}
+	// Getting the depth of the current node
+	if(status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_DEPTH, &depth))
+	{
+		printf("Node is: %d\n", (mynode+1));
+		printf("Status is %d\n", status);
+		print_error("Error in getting the node depth");
+	}
+	if(VERBOSE > 1000)
+	{
+		printf("Node sequence: %d\n", (seqn));
+		printf("Node is: %d\n", (mynode+1));
+		printf("Node depth is: %d\n", depth);
+	}
+	// Applying the separation only if the depth is <= 10
+	if(depth > 10 && !active)
+	{
+		return 0;
+	}
 
 	int edgecount = inst->nnodes * (inst->nnodes - 1) / 2;
 	int idx_elist = 0; // index for filling edge list

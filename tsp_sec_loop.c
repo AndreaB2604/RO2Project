@@ -6,6 +6,7 @@ int rins_nodes[] = {0, 100, 45, 10, 5};
 int max_ticks_idx = 5;
 int max_rins_idx = 4;
 int rins_active = 1; // 0 rins not active, 1 otherwise
+const double HOUR_TICKS = 2127600.0;
 
 // add the SECs
 int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
@@ -116,12 +117,38 @@ int TSPopt_sec_loop(instance *inst)
 	char rins_idx = 0;
 	char timestamp_idx = 0;
 	unsigned long start = microseconds();
+	unsigned long elapsed = 0;
+	double detstart;
+	double detelapsed = 0;
+	if(CPXgetdettime(env, &detstart))
+	{
+		print_error("Error in getting deterministic time start");
+	}
 	while(!done)
 	{
 		CPXsetdblparam(env, CPXPARAM_DetTimeLimit, ticks[timestamp_idx]);
 		if(rins_active)
 		{
 			CPXsetintparam(env, CPXPARAM_MIP_Strategy_RINSHeur, rins_nodes[rins_idx]); 
+		}
+		if(dettime)
+		{
+			if(CPXgetdettime(env, &detelapsed))
+			{
+					print_error("Error in getting deterministic time elapsed");
+			}
+			if((detelapsed - detstart) >= HOUR_TICKS)
+			{
+					break;
+			}
+		}
+		else
+		{
+			elapsed = microseconds() - start;
+			if(((double)elapsed/1000000) >= 3600.0)
+			{
+					break;
+			}
 		}
 
 		// solve the optimisation problem
@@ -212,6 +239,13 @@ int TSPopt_sec_loop(instance *inst)
 	}
 	unsigned long exec_time = microseconds() - start;
 
+	double detend;
+	if(CPXgetdettime(env, &detend))
+	{
+			print_error("Error in getting deterministic time end");
+	}
+	double exec_det_time = detend - detstart;
+
 	// save model
 	if(VERBOSE >= 100)
 	{
@@ -249,6 +283,10 @@ int TSPopt_sec_loop(instance *inst)
 			}
 		}
 	}
+	int lpstat = CPXgetstat(env,lp);
+	int solved = (lpstat == CPXMIP_OPTIMAL) || (lpstat == CPXMIP_OPTIMAL_INFEAS) || (lpstat == CPXMIP_OPTIMAL_TOL);
+	printf("Solved %d\n", solved);
+	printf("Execution dettime of sec_loop = %.3f ticks\n", exec_det_time);
 	printf("Execution time of sec_loop = %.3f s\n", ((double)exec_time/1000000));
 
 	// get the best solution and print it

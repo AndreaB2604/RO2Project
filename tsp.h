@@ -13,6 +13,7 @@
 
 #define VERBOSE 100 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
 #define TOLERANCE 0.5
+#define dettime 0 // 0 = use non deterministic time (seconds), 1 = use ticks
 
 typedef struct
 {
