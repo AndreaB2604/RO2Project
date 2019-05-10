@@ -84,9 +84,9 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_nn_grasp_heur()");
 	}
 
-	//print_plot(&inst, "plot_file.txt");
+	print_plot(&inst, "plot_file.txt");
 
-	//free_instance(&inst);
+	free_instance(&inst);
 
 	return 0;
 }

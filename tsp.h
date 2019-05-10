@@ -101,7 +101,7 @@ int TSP_heur_lb(instance *inst);
 int TSPopt_usr_callback(instance *inst);
 
 //defined in tsp_nn_grasp.c
-void grasp_heur(instance *inst, int init_node, double prob, int nnc, int **tour, double *obj_val);
+void grasp_heur(instance *inst, int init_node, double prob, int nnc, int *tour, double *obj_val);
 int TSP_nn_grasp_heur(instance *inst);
 
 #endif
