@@ -101,6 +101,10 @@ int TSP_heur_hf(instance *inst)
 				callback_time_limit *= 1.5;
 				idx_prob_rate = (idx_prob_rate == prob_rate_max_idx)? idx_prob_rate : idx_prob_rate+1;
 			}
+			else
+			{
+				idx_prob_rate = (idx_prob_rate == 0)? idx_prob_rate : idx_prob_rate-1;
+			}
 
 			callback_time_limit = (elapsed+callback_time_limit <= inst->time_limit)? callback_time_limit : inst->time_limit-elapsed;
 			CPXsetdblparam(env, CPXPARAM_TimeLimit, callback_time_limit);

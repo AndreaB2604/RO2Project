@@ -16,7 +16,7 @@ int TSPopt_usr_callback(instance *inst)
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
-	CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
+	//CPXsetintparam(env, CPXPARAM_Read_DataCheck, 1);			// used to check if there are errors while reading data
 
 	CPXLPptr lp = CPXcreateprob(env, &error, "TSP"); 
 	if(VERBOSE > 50)
@@ -24,7 +24,6 @@ int TSPopt_usr_callback(instance *inst)
 		CPXsetlogfilename(env, "exec_log.txt", "w");			// it saves the log of the computation in exec_compact_log.txt
 	}
 
-	printf("User callback model\n");
 	// build model
 	build_model(inst, env, lp);
 
@@ -36,6 +35,7 @@ int TSPopt_usr_callback(instance *inst)
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
 	CPXsetintparam(env, CPX_PARAM_THREADS, ncores); // reset after callback
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 	double detstart, detend, exec_det_time;
 	unsigned long start, exec_time;
 	if(dettime)

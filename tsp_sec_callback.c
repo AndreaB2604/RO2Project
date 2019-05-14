@@ -29,6 +29,7 @@ int TSPopt_sec_callback(instance *inst)
 	int ncores = 1;
 	CPXgetnumcores(env, &ncores);
 	CPXsetintparam(env, CPX_PARAM_THREADS, ncores); // reset after callback
+	CPXsetintparam(env, CPXPARAM_RandomSeed, inst->random_seed);
 	double detstart, detend, exec_det_time;
 	unsigned long start, exec_time;
 	if(dettime)
