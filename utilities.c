@@ -211,7 +211,8 @@ void parse_command_line(int argc, char** argv, instance *inst)
 				strncmp(inst->model_type, "usr_callback", 12) &&
 				strncmp(inst->model_type, "heur_hf", 7) &&
 				strncmp(inst->model_type, "heur_lb", 7) &&
-				strncmp(inst->model_type, "heur_nn_grasp", 13))  
+				strncmp(inst->model_type, "heur_nn_grasp", 13) &&  
+				strncmp(inst->model_type, "heur_2opt", 9))  
 
 		    {
 		    	printf("\n\nModel type non supported, choose between:\n");
@@ -224,6 +225,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		    	printf("heur_hf : optimisation using the hard-fixing heuristic\n");
 		    	printf("heur_lb : optimisation using the local branching heuristic\n");
 		    	printf("heur_nn_grasp : optimisation using the nearest neighbourhood with GRASP heuristic\n");
+		    	printf("heur_2opt : optimisation using the 2-OPT heuristic\n");
 		    	fflush(NULL); 
 				exit(1);
 		    }
@@ -263,7 +265,8 @@ void print_plot(instance *inst, char *plot_file_name)
 		!strncmp(inst->model_type, "usr_callback", 12) ||
 		!strncmp(inst->model_type, "heur_hf", 7) ||
 		!strncmp(inst->model_type, "heur_lb", 7) || 
-		!strncmp(inst->model_type, "heur_nn_grasp", 13))
+		!strncmp(inst->model_type, "heur_nn_grasp", 13) ||
+		!strncmp(inst->model_type, "heur_2opt", 9))
 		return print_plot_subtour(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "mtz", 3))
 		return print_plot_mtz(inst, plot_file_name);
@@ -529,9 +532,10 @@ void read_input(instance *inst)
 	}
 }
 
-double tour_dist(int *v, int vsize, instance *inst)
+double tour_dist(instance *inst, int *v)
 {
 	double d = 0;
+	int vsize = inst->nnodes;
 	for(int i = 0; i < vsize; i++)
 		d += dist(v[i], v[(i+1)%vsize], inst);
 

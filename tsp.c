@@ -158,7 +158,7 @@ int xpos(int i, int j, instance *inst)
 {
 	if(i==j)
 	{
-		print_error("Error: i==j");
+		print_error("Error: i==j in xpos()");
 	}
 	if((i >= inst->nnodes) || (j >= inst->nnodes) || (i<0) || (j<0))
 	{

@@ -1,7 +1,5 @@
 #include "tsp.h"
 
-void insert(double *values, int *positions, double value, int pos, int size);
-
 int TSP_nn_grasp_heur(instance *inst)
 {
 	int *tour = (int *) calloc(inst->nnodes, sizeof(int));
@@ -87,6 +85,10 @@ void grasp_heur(instance *inst, int init_node, double prob, int nnc, int *tour, 
 	{
 		print_error(" in grasp_heur: the number of possible choices (nnc) is greater than the number of nodes");
 	}
+	if(prob == 0)
+	{
+		nnc = 1;
+	}
 
 	*tour = init_node;
 	
@@ -140,7 +142,7 @@ void grasp_heur(instance *inst, int init_node, double prob, int nnc, int *tour, 
 		}
 	}
 
-	*obj_val = tour_dist(tour, inst->nnodes, inst);
+	*obj_val = tour_dist(inst, tour);
 
 	free(visited);
 }
