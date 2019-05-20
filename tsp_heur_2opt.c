@@ -31,9 +31,9 @@ int TSP_heur_2opt(instance *inst)
 	double two_opt_dist = tour_dist(inst, tmp_tour);
 	if(VERBOSE >= 100)
 	{
-		printf("Time limit of %.3f seconds reached\n", inst->time_limit);
 		printf("Obj val after 2-OPT = %f\n", two_opt_dist);
 	}
+	
 
 	// saving in the inst->best_sol for the plot
 	int cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
@@ -61,14 +61,16 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 		curr_tour[i] = init_sol[i];
 	}
 	double curr_tour_dist = tour_dist(inst, curr_tour);
+	double prev_sol = curr_tour_dist;
 
 	int done = 0;
 	unsigned long start = microseconds();
-	while(!done)
+	do
 	{
 		double elasped = (microseconds() - start)/1000000.0;
 		if(elasped > time_limit)
 		{
+			printf("Time limit of %.3f seconds reached\n", inst->time_limit);
 			done = 1;
 		}
 		else
@@ -77,12 +79,14 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 			{
 				for(int j = i+1; j < n; j++) 
 				{
-					swap_edges(inst, curr_tour, tmp_tour, i, j);
-					double tmp_tour_dist = tour_dist(inst, tmp_tour);
+					double pos_term = dist(curr_tour[i-1], curr_tour[j], inst) + dist(curr_tour[i], curr_tour[(j+1)%n], inst);
+					double neg_term = dist(curr_tour[i-1], curr_tour[i], inst) + dist(curr_tour[j], curr_tour[(j+1)%n], inst);
+					double delta = pos_term - neg_term;
+					if(delta < 0)
+					{						
+						swap_two_edges(inst, curr_tour, tmp_tour, i, j);
 
-					if(tmp_tour_dist < curr_tour_dist)
-					{
-						curr_tour_dist = tmp_tour_dist;
+						curr_tour_dist += delta;
 						for(int k = 0; k < n; k++)
 						{
 							curr_tour[k] = tmp_tour[k];
@@ -91,7 +95,16 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 				}
 			}
 		}
+		if(((int)curr_tour_dist) == ((int)prev_sol))
+		{
+			done = 1;
+		}
+		else
+		{
+			prev_sol = curr_tour_dist;
+		}
 	}
+	while(!done);
 	
 	for(int i = 0; i < n; i++)
 	{
@@ -102,7 +115,7 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 	free(curr_tour);
 }
 
-void swap_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
+void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
 {
 	int n = inst->nnodes;
 	for(int k = 0; k < i; k++)
@@ -118,4 +131,9 @@ void swap_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
 	{
 		new_tour[k] = old_tour[k];
 	}	
+}
+
+void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int k)
+{
+	
 }

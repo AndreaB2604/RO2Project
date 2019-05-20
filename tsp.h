@@ -107,7 +107,7 @@ void insert(double *values, int *positions, double value, int pos, int size);
 int TSP_nn_grasp_heur(instance *inst);
 
 // defined in tsp_heur_2opt.c
-void swap_edges(instance *inst, int *old_tour, int *new_tour, int i, int j);
+void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j);
 void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit);
 int TSP_heur_2opt(instance *inst);
 
