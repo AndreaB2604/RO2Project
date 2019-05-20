@@ -186,23 +186,55 @@ void parse_command_line(int argc, char** argv, instance *inst)
 	{
 		// input file
 		int param_exists = (argc != i+1);
-		if(!strcmp(argv[i], "-file") || !strcmp(argv[i],"-f") && param_exists)
+		if(!strcmp(argv[i], "-file") || !strcmp(argv[i],"-f"))
 		{
-			inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])); 
-			strcpy(inst->input_file, argv[i]);
+			if(param_exists)
+			{
+				inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])); 
+				strcpy(inst->input_file, argv[i]);
+			}
+			else
+			{
+				printf("\nUse -file <input_file>\n");
+				help = 1;
+				break;
+			}
+			
 		}
-		else if(!strcmp(argv[i],"-time_limit") && param_exists)		// total time limit
+		else if(!strcmp(argv[i],"-time_limit"))		// total time limit
 		{
-			inst->time_limit = atof(argv[++i]);
+			if(param_exists)
+			{
+				inst->time_limit = atof(argv[++i]);
+			}
+			else
+			{
+				printf("\nUse -time_limit <number of seconds of time limit>\n");
+				help = 1;
+				break;
+			}
 		}
-		else if(!strcmp(argv[i],"-random_seed") && param_exists)	// total time limit
+		else if(!strcmp(argv[i],"-random_seed"))	// total time limit
 		{
-			inst->random_seed = atol(argv[++i]);
+			if(param_exists)
+			{
+				inst->random_seed = atol(argv[++i]);
+			}
+			else
+			{
+				printf("\nUse -random_seed <integer specifying the random seed>\n");
+				printf("NOTE: in heuristics the random seed is useless\n");
+				help = 1;
+				break;
+			}
 		}
-		else if(!strcmp(argv[i],"-model") && param_exists)	// model type
+		else if(!strcmp(argv[i],"-model"))	// model type
 		{
-			inst->model_type = (char *) realloc(inst->model_type, strlen(argv[++i]));
-			strcpy(inst->model_type, argv[i]);
+			if(param_exists)
+			{
+				inst->model_type = (char *) realloc(inst->model_type, strlen(argv[++i]));
+				strcpy(inst->model_type, argv[i]);
+			}
 			if(strncmp(inst->model_type, "subtour", 7) && 
 				strncmp(inst->model_type, "mtz", 3) && 
 				strncmp(inst->model_type, "compact_custom", 14) && 
@@ -212,10 +244,10 @@ void parse_command_line(int argc, char** argv, instance *inst)
 				strncmp(inst->model_type, "heur_hf", 7) &&
 				strncmp(inst->model_type, "heur_lb", 7) &&
 				strncmp(inst->model_type, "heur_nn_grasp", 13) &&  
-				strncmp(inst->model_type, "heur_2opt", 9))  
+				strncmp(inst->model_type, "heur_2opt", 9) || !param_exists)  
 
 		    {
-		    	printf("\n\nModel type non supported, choose between:\n");
+		    	printf("\nModel type non supported, choose between:\n");
 		    	printf("subtour : optimisation without SECs\n");
 		    	printf("sec_loop : optimisation with SECs using the loop model\n");
 		    	printf("sec_callback : optimisation with SECs using the lazy callback model\n");
@@ -227,7 +259,8 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		    	printf("heur_nn_grasp : optimisation using the nearest neighbourhood with GRASP heuristic\n");
 		    	printf("heur_2opt : optimisation using the 2-OPT heuristic\n");
 		    	fflush(NULL); 
-				exit(1);
+				help = 1;
+				break;
 		    }
 		} 	
 		else if(!strcmp(argv[i], "-help") || !strcmp(argv[i], "--help")) { help = 1; break; }		// help mutually exclusive
