@@ -40,7 +40,7 @@ LIBS = -L ${LIB_LOC}  -lcplex -lm -lpthread -ldl
 # CONCLIBS = -L ${CONCORDELIB}/${CONCNAME}
 CONCLIBS = -L ${CONCORDELIB}/ -lconcorde
 LIBS1 = -L ${LIB_LOC} -lcplex -lm 
-CFLAGS = -I $(CPLEX_LOC) -I ${CONCORDELIB}
+CFLAGS = -I $(CPLEX_LOC) -I ${CONCORDELIB} -g
 
 RM1 = rm -f
 

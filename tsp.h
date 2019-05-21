@@ -9,6 +9,7 @@
 #include <cplexx.h>
 #include <sys/time.h>
 #include <float.h>
+#include <limits.h>
 #include <concorde.h>
 
 #define VERBOSE 100 // printing level  (=10 only incumbent, =20 little output, =50-60 good, =70 verbose, >=100 cplex log) 
@@ -109,6 +110,10 @@ int TSP_nn_grasp_heur(instance *inst);
 // defined in tsp_heur_2opt.c
 void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j);
 void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit);
+void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int h, int type);
 int TSP_heur_2opt(instance *inst);
+
+// defined in tsp_heur_vns.c
+int TSP_heur_vns(instance *inst);
 
 #endif

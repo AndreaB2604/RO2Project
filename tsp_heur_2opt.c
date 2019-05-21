@@ -34,7 +34,6 @@ int TSP_heur_2opt(instance *inst)
 		printf("Obj val after 2-OPT = %f\n", two_opt_dist);
 	}
 	
-
 	// saving in the inst->best_sol for the plot
 	int cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
@@ -70,7 +69,7 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 		double elasped = (microseconds() - start)/1000000.0;
 		if(elasped > time_limit)
 		{
-			printf("Time limit of %.3f seconds reached\n", inst->time_limit);
+			printf("2-OPT: Time limit of %.3f seconds reached\n", time_limit);
 			done = 1;
 		}
 		else
@@ -133,7 +132,64 @@ void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
 	}	
 }
 
-void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int k)
+void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int h, int type)
 {
-	
+	int n = inst->nnodes;
+	for(int k = 0; k < i; k++)
+	{
+		new_tour[k] = old_tour[k];
+	}
+	// reference to paper "combining 2opt 3 opt...": figure (1.e) 
+	if(type == 0)
+	{
+		for(int k = i, count = 0; k <= h-j+i-1; k++, count++)
+		{
+			new_tour[k] = old_tour[j+1+count];
+		}
+		for(int k = h-j+i, count = 0; k <= h; k++, count++)
+		{
+			new_tour[k] = old_tour[j-count];
+		}
+	}
+	// reference to paper: figure (1.f)
+	else if(type == 1)
+	{
+		for(int k = i, count = 0; k <= h-j+i-1; k++, count++)
+		{
+			new_tour[k] = old_tour[h-count];
+		}
+		for(int k = h-j+i, count = 0; k <= h; k++, count++)
+		{
+			new_tour[k] = old_tour[i+count];
+		}
+	}
+	// reference to paper: figure (1.g)
+	else if(type == 2)
+	{
+		for(int k = i, count = 0; k <= j; k++, count++)
+		{
+			new_tour[k] = old_tour[j-count];
+		}
+		for(int k = j+1, count = 0; k <= h; k++, count++)
+		{
+			new_tour[k] = old_tour[h-count];
+		}
+	}
+	// reference to paper: figure (1.h)
+	else if(type == 3)
+	{
+		for(int k = i, count = 0; k <= h-j+i-1; k++, count++)
+		{
+			new_tour[k] = old_tour[j+1+count];
+		}
+		for(int k = h-j+i, count = 0; k <= h; k++, count++)
+		{
+			new_tour[k] = old_tour[i+count];
+		}
+	}
+
+	for(int k = h+1; k < n; k++)
+	{
+		new_tour[k] = old_tour[k];
+	}
 }

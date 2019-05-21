@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_heur_hf()");
 	}
 
-	/***** TSP HARD-FIXING HEURISTIC *****/
+	/***** TSP LOCAL BRANCHING HEURISTIC *****/
 	if(!strncmp(inst.model_type, "heur_lb", 7))
 	{
 		if(TSP_heur_lb(&inst))
@@ -91,9 +91,18 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_heur_2opt()");
 	}
 
-	print_plot(&inst, "plot_file.txt");
+	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	if(!strncmp(inst.model_type, "heur_vns", 8))
+	{
+		if(TSP_heur_vns(&inst))
+			print_error(" error within TSP_heur_2opt()");
+	}
 
-	free_instance(&inst);
+	//print_plot(&inst, "plot_file.txt");
+
+	//	free_instance(&inst);
+
+	printf("Ci passo 5\n");
 
 	return 0;
 }
