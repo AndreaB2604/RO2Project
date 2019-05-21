@@ -153,6 +153,19 @@ int TSP_heur_hf(instance *inst)
 	free(approx_tour);
 	free(values);
 	free(varindices);
+
+	// Free up the problem as allocated by CPXcreateprob, if necessary
+	if(lp != NULL)
+	{
+		CPXfreeprob(env, &lp);
+	}
+
+	// Free up the CPLEX environment, if necessary
+	if(env != NULL) 
+	{
+		CPXcloseCPLEX(&env);
+	}
+
 	return 0;
 
 }
@@ -216,11 +229,9 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_MY_THREAD_NUM, &mythread);    
 	double zbest;
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_BEST_INTEGER, &zbest); 
-	//printf("i am thread <%d>\n", mythread);
 
 	//apply cut separator and possibly add violated cuts
 	int ncuts = myseparation(inst, xstar, env, cbdata, wherefrom);	    
-	//printf("cuts is <%d>\n", ncuts);
 	free(xstar);
 	
 	if ( ncuts > 1 )
@@ -329,20 +340,6 @@ void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr)
 	*approx_tour_ptr = (int *) calloc(inst->nnodes, sizeof(int));
 	int tour_idx = 0;
 
-	/*if(!strncmp(inst->dist_type, "GEO", 3)) // not sure if the GEO distance obey the triangle inequality
-	{
-		if(VERBOSE > 50)
-		{
-			printf("GEO distance: cannot apply the 2-approximation algorithm for the TSP\n");
-			printf("Returning the stupid solution\n");
-		}
-		for(int i = 0; i < inst->nnodes; i++)
-		{
-			(*approx_tour_ptr)[i] = i;
-		}
-		return;
-	}*/
-
 	int *prev = NULL;
 	prim_dijkstra_MST(inst, &prev);
 	
@@ -353,6 +350,7 @@ void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr)
 			printf("Edge %d %d\n", (prev[i]+1), (i+1));
 		}
 	}
+	
 
 	struct node *root = (struct node *) malloc(sizeof(struct node));
 	root->number = 0;
@@ -365,17 +363,17 @@ void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr)
 
 	free(visited);
 	free(prev);
-	free_tree(root);
+	free_tree(&root);
 }
 
 
-void free_tree(struct node *node)
+void free_tree(struct node **node)
 {
-	if(node == NULL)
+	if(*node == NULL)
 		return;
 	
-	free_tree(node->nextsibling);
-	free_tree(node->firstchild);
+	free_tree(&((*node)->nextsibling));
+	free_tree(&((*node)->firstchild));
 		
-	free(node);
+	free(*node);
 }

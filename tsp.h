@@ -89,7 +89,7 @@ int zpos_compact_custom(int i, int j, instance *inst);
 
 // defined in tsp_hard_fixing
 void add_children(struct node *node, int *prev, int *visited, int size);
-void free_tree(struct node *node);
+void free_tree(struct node **node);
 void pre_order_visit(struct node *node, int *tour, int *tour_idx);
 void prim_dijkstra_MST(instance *inst, int **pred);
 void random_fixing(CPXENVptr env, CPXLPptr lp, double *sol_heur, int size, double prob);

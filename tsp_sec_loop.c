@@ -80,15 +80,6 @@ int sec_loop(CPXENVptr env, CPXLPptr lp, instance *inst)
 			print_error(" wrong SEC constraint");
 		}
 	}
-
-	/*if(comp != NULL)
-	{
-		free(comp);
-	}
-	if(conn_comp != NULL)
-	{
-		free(conn_comp);
-	}*/
 	return 1;
 }
 

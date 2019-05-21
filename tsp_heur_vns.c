@@ -9,6 +9,11 @@ int TSP_heur_vns(instance *inst)
 
 	two_approx_algorithm_TSP(inst, &x);
 	double best_curr_val = tour_dist(inst, x);
+	
+	if(VERBOSE >= 100)
+	{
+		printf("Obj val after the 2-Approximation algorithm = %f\n", best_curr_val);
+	}
 
 	int *x_first = (int *) calloc(inst->nnodes, sizeof(int));
 
@@ -21,7 +26,7 @@ int TSP_heur_vns(instance *inst)
 		double elasped = (microseconds() - start)/1000000.0;
 		if(elasped > inst->time_limit)
 		{
-			if(VERBOSE > 100)
+			if(VERBOSE >= 100)
 			{
 				printf("VNS: Time limit of %.3f seconds reached\n", inst->time_limit);
 			}
@@ -51,12 +56,18 @@ int TSP_heur_vns(instance *inst)
 				swap_two_edges(inst, x, x_first, v[0], v[1]);
 			}
 
-			printf("Obj-val before 2-OPT of x = %f\n", tour_dist(inst, x));
-			printf("Obj-val before 2-OPT of x_first = %f\n", tour_dist(inst, x_first));
+			if(VERBOSE >= 1000)
+			{
+				printf("Obj-val before 2-OPT of x = %f\n", tour_dist(inst, x));
+				printf("Obj-val before 2-OPT of x_first = %f\n", tour_dist(inst, x_first));
+			}
 
 			two_opt(inst, x_first, x_first, DBL_MAX);
 
-			printf("Obj-val after 2-OPT of x_first = %f\n", tour_dist(inst, x_first));
+			if(VERBOSE >= 1000)
+			{
+				printf("Obj-val after 2-OPT of x_first = %f\n", tour_dist(inst, x_first));
+			}
 
 			double x_first_val = tour_dist(inst, x_first);
 			if(x_first_val < best_curr_val)
@@ -82,6 +93,11 @@ int TSP_heur_vns(instance *inst)
 			printf("%d, ", x[i]);
 		}
 		printf("\n");	
+	}
+
+	if(VERBOSE >= 100)
+	{
+		printf("Obj val after the VNS = %f\n", tour_dist(inst, x));
 	}
 	
 	

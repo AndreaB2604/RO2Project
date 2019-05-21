@@ -30,6 +30,7 @@ int TSP_nn_grasp_heur(instance *inst)
 		printf("Length of the tour = %f\n", best_heur_sol);
 	}
 
+	int count = 0;
 	// using the GRASP
 	double prob = 0.5;
 	for(int i = 0; i < inst->nnodes; i++)
@@ -44,10 +45,11 @@ int TSP_nn_grasp_heur(instance *inst)
 				{
 					tour[j] = tmp_tour[j];
 				}
-			}	
+			}
+			count++;
 		}
 	}
-
+	
 	printf("\nBest tour found with GRASP:\n");
 	for(int i = 0; i < inst->nnodes; i++)
 		printf("%d, ", tour[i]+1);

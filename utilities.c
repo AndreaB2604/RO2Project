@@ -515,7 +515,7 @@ void read_input(instance *inst)
 			token1 = strtok(NULL, " :");
 			if(!strncmp(token1, "EUC_2D", 6))
 			{
-				inst->dist_type = (char *) calloc(strlen(token1), sizeof(char));
+				inst->dist_type = (char *) calloc(strlen(token1)+1, sizeof(char));
 				strcpy(inst->dist_type, token1);
 			}
 			else if(!strncmp(token1, "GEO", 3))
@@ -525,7 +525,7 @@ void read_input(instance *inst)
 			}
 			else if(!strncmp(token1, "ATT", 3))
 			{
-				inst->dist_type = (char *) calloc(strlen(token1), sizeof(char));
+				inst->dist_type = (char *) calloc(strlen(token1)+1, sizeof(char));
 				strcpy(inst->dist_type, token1);
 			}
 			else
@@ -578,6 +578,7 @@ void read_input(instance *inst)
 		printf(" final active section %d\n", active_section);
 		print_error(" ... wrong format for the current simplified parser!!!!!!!!!");
 	}
+	fclose(fin);
 }
 
 double tour_dist(instance *inst, int *v)

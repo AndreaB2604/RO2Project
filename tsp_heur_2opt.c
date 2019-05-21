@@ -69,7 +69,10 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 		double elasped = (microseconds() - start)/1000000.0;
 		if(elasped > time_limit)
 		{
-			printf("2-OPT: Time limit of %.3f seconds reached\n", time_limit);
+			if(VERBOSE >= 100)
+			{
+				printf("2-OPT: Time limit of %.3f seconds reached\n", time_limit);
+			}
 			done = 1;
 		}
 		else
