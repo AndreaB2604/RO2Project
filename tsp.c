@@ -60,8 +60,8 @@ void build_model(instance *inst, CPXENVptr env, CPXLPptr lp)
 int TSPopt(instance *inst)
 {
 	// open cplex model
-	int error, status;
-	int cur_numrows, cur_numcols;
+	int error;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -89,7 +89,6 @@ int TSPopt(instance *inst)
 		print_error("Optimisation failed in TSPopt()");
 	}
  
-	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	
 	// get the optimal solution of the variables
@@ -141,13 +140,13 @@ int TSPopt(instance *inst)
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */
 	if(lp != NULL)
 	{
-		status = CPXfreeprob(env, &lp);
+		CPXfreeprob(env, &lp);
 	}
 
 	/* Free up the CPLEX environment, if necessary */
 	if(env != NULL) 
 	{
-		status = CPXcloseCPLEX(&env);
+		CPXcloseCPLEX(&env);
 	}
 
 	return 0;

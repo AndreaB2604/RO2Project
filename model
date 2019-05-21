@@ -1,0 +1,25 @@
+ running ./main with 3 parameters
+
+Model type non supported, choose between:
+subtour : optimisation without SECs
+sec_loop : optimisation with SECs using the loop model
+sec_callback : optimisation with SECs using the lazy callback model
+usr_callback : optimisation with SECs using the user-cut callback model
+mtz : optimisation using the mtz constraints
+compact_custom : optimisation using the compact custom model
+heur_hf : optimisation using the hard-fixing heuristic
+heur_lb : optimisation using the local branching heuristic
+heur_nn_grasp : optimisation using the nearest neighbourhood with GRASP heuristic
+heur_2opt : optimisation using the 2-OPT heuristic
+heur_vns : optimisation using the VNS heuristic
+
+
+available parameters ---------------------------------------------------
+-file test_file/ulysses16.tsp
+-model NULL
+-random_seed 201709013
+-time_limit 2147483647.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+

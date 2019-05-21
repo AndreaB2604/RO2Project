@@ -165,16 +165,17 @@ void build_model_mtz(instance *inst, CPXENVptr env, CPXLPptr lp)
 		}
 	}
 
-	int max = xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst);
+	free(cname[0]);
+	free(cname);
 }
 
 
 int TSPopt_mtz(instance *inst)
 {
 	// open cplex model
-	int i, j, k, l, flag;
-	int error, status;
-	int cur_numrows, cur_numcols;
+	int i, j, k;
+	int error;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -204,7 +205,6 @@ int TSPopt_mtz(instance *inst)
 	}
 	unsigned long exec_time = microseconds() - start;
 
-	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	int max_idx_x = inst->nnodes * inst->nnodes; 	// == xpos_mtz(inst->nnodes-1, inst->nnodes-1, inst)
 	
@@ -255,13 +255,13 @@ int TSPopt_mtz(instance *inst)
 	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{
-		status = CPXfreeprob(env, &lp);
+		CPXfreeprob(env, &lp);
 	}
 
 	// Free up the CPLEX environment, if necessary
 	if(env != NULL) 
 	{
-		status = CPXcloseCPLEX(&env);
+		CPXcloseCPLEX(&env);
 	}
 	return 0;
 }

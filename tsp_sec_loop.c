@@ -99,7 +99,7 @@ int TSPopt_sec_loop(instance *inst)
 	const double GAP_TOLERANCE = 1e-04;		// the default value in CPLEX
 	int error, status;
 	int done = 0;
-	int cur_numrows, cur_numcols;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -114,8 +114,11 @@ int TSPopt_sec_loop(instance *inst)
 	// build model
 	build_model(inst, env, lp);
 
-	char rins_idx = 0;
-	char timestamp_idx = 0;
+	cur_numcols = CPXgetnumcols(env, lp);
+	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));	
+
+	int rins_idx = 0;
+	int timestamp_idx = 0;
 	unsigned long start = microseconds();
 	unsigned long elapsed = 0;
 	double detstart;
@@ -156,12 +159,8 @@ int TSPopt_sec_loop(instance *inst)
 		{
 			print_error("Optimisation failed in TSPopt_sec_loop()");
 		}
-
-		cur_numrows = CPXgetnumrows(env, lp);
-		cur_numcols = CPXgetnumcols(env, lp);
 		
 		// get the optimal solution of the variables
-		inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 		if(CPXgetx(env, lp, inst->best_sol, 0, cur_numcols-1))
 		{
 			print_error("Failure to read the optimal solution in CPXgetx()");

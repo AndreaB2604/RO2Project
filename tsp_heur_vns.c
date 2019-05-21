@@ -21,7 +21,10 @@ int TSP_heur_vns(instance *inst)
 		double elasped = (microseconds() - start)/1000000.0;
 		if(elasped > inst->time_limit)
 		{
-			printf("VNS: Time limit of %.3f seconds reached\n", inst->time_limit);
+			if(VERBOSE > 100)
+			{
+				printf("VNS: Time limit of %.3f seconds reached\n", inst->time_limit);
+			}
 			done = 1;
 		}
 		else
@@ -41,10 +44,10 @@ int TSP_heur_vns(instance *inst)
 			else if(k == 4)
 			{
 				int v[2] = {INT_MAX, INT_MAX};
-				random_vertexes(inst, v, k);
+				random_vertexes(inst, v, k/2);
 				swap_two_edges(inst, x, x_first, v[0], v[1]);
 				v[0] = INT_MAX; v[1] = INT_MAX;
-				random_vertexes(inst, v, k);
+				random_vertexes(inst, v, k/2);
 				swap_two_edges(inst, x, x_first, v[0], v[1]);
 			}
 
@@ -72,13 +75,16 @@ int TSP_heur_vns(instance *inst)
 		}
 	}
 
-	for(int i = 0; i < inst->nnodes; i++)
+	if(VERBOSE > 1000)
 	{
-		printf("%d, ", x[i]);
+		for(int i = 0; i < inst->nnodes; i++)
+		{
+			printf("%d, ", x[i]);
+		}
+		printf("\n");	
 	}
-	printf("\n");
 	
-	printf("Ci passo 1\n");
+	
 	// saving in the inst->best_sol for the plot
 	int cur_numcols = inst->nnodes * (inst->nnodes - 1) / 2;
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
@@ -88,13 +94,9 @@ int TSP_heur_vns(instance *inst)
 		inst->best_sol[idx] = 1.0;
 	}
 
-	printf("Ci passo 2\n");
-
 	free(x_first);
 	free(x);
 	
-	printf("Ci passo 3\n");
-
 	return 0;
 }
 

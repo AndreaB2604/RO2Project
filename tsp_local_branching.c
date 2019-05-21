@@ -4,8 +4,6 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 
 int TSP_heur_lb(instance *inst)
 {
-	const int MAX_COUNT = 10;
-
 	double lb_rate[] = {3, 5, 10};
 	int lb_rate_max_idx = 2;
 	// open cplex model
@@ -135,7 +133,7 @@ int TSP_heur_lb(instance *inst)
 				print_error(" wrong local branching constraint added");
 			}
 
-			if(status = CPXmipopt(env, lp))
+			if((status = CPXmipopt(env, lp)))
 			{
 				printf("Status: %d\n", status);
 				print_error("Optimisation failed in TSP_heur_hf()");

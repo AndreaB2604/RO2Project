@@ -216,8 +216,8 @@ void build_model_compact_custom(instance *inst, CPXENVptr env, CPXLPptr lp)
 int TSPopt_compact_custom(instance *inst)
 {
 	// open cplex model
-	int error, status;
-	int cur_numrows, cur_numcols;
+	int error;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -247,7 +247,6 @@ int TSPopt_compact_custom(instance *inst)
 	}
 	unsigned long exec_time = microseconds() - start;
 
-	cur_numrows = CPXgetnumrows(env, lp);
 	cur_numcols = CPXgetnumcols(env, lp);
 	
 	// get the optimal solution of the variables
@@ -258,7 +257,6 @@ int TSPopt_compact_custom(instance *inst)
 	}
 	
 	int max_idx_x = inst->nnodes * (inst->nnodes-1) / 2; 	// == xpos(inst->nnodes-1, inst->nnodes-1, inst)
-	int n = inst->nnodes * inst->nnodes;
 
 	// print only the non-zero variables
 	if(VERBOSE > 50)
@@ -323,13 +321,13 @@ int TSPopt_compact_custom(instance *inst)
 	/* Free up the problem as allocated by CPXcreateprob, if necessary */
 	if(lp != NULL)
 	{
-		status = CPXfreeprob(env, &lp);
+		CPXfreeprob(env, &lp);
 	}
 
 	/* Free up the CPLEX environment, if necessary */
 	if(env != NULL) 
 	{
-		status = CPXcloseCPLEX(&env);
+		CPXcloseCPLEX(&env);
 	}
 
 	return 0;

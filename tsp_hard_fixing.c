@@ -4,8 +4,6 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 
 int TSP_heur_hf(instance *inst)
 {
-	const int MAX_COUNT = 10;
-
 	double prob_rate[] = {0.9, 0.5, 0.2};
 	int prob_rate_max_idx = 2;
 	// open cplex model
@@ -110,7 +108,7 @@ int TSP_heur_hf(instance *inst)
 			CPXsetdblparam(env, CPXPARAM_TimeLimit, callback_time_limit);
 			random_fixing(env, lp, inst->best_sol, cur_numcols, prob_rate[idx_prob_rate]);
 			
-			if(status = CPXmipopt(env, lp))
+			if((status = CPXmipopt(env, lp)))
 			{
 				printf("Status: %d\n", status);
 				print_error("Optimisation failed in TSP_heur_hf()");
@@ -365,6 +363,7 @@ void two_approx_algorithm_TSP(instance *inst, int **approx_tour_ptr)
 
 	pre_order_visit(root, *approx_tour_ptr, &tour_idx);
 
+	free(visited);
 	free(prev);
 	free_tree(root);
 }

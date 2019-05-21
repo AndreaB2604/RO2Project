@@ -56,6 +56,7 @@ struct node
 void connected_components(instance *inst, double *best_sol, int columns_number, int *nodes_components, int *components_values, int *number_cc);
 double dist(int i, int j, instance *inst);
 void free_instance(instance *inst);
+void init_instance(instance *inst);
 unsigned long microseconds();
 void parse_command_line(int argc, char** argv, instance *inst);
 void print_error(const char *err);

@@ -4,8 +4,9 @@
 int main(int argc, char **argv)
 {
 	instance inst;
-	int model_chosen;
 
+	init_instance(&inst);
+	
 	if(argc < 2)
 	{
 		printf("Usage : %s -help for help\n", argv[0]);
@@ -98,11 +99,9 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_heur_2opt()");
 	}
 
-	//print_plot(&inst, "plot_file.txt");
+	print_plot(&inst, "plot_file.txt");
 
-	//	free_instance(&inst);
-
-	printf("Ci passo 5\n");
+	free_instance(&inst);
 
 	return 0;
 }

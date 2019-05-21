@@ -94,7 +94,10 @@ double dist(int i, int j, instance *inst)
 	else if(!strncmp(inst->dist_type, "ATT", 3))
 		return dist_att(i, j, inst);
 	else
+	{
 		print_error(" format error:  only ATT, EUC_2D and GEO distances implemented so far!");
+		return -1;
+	}
 }
 
 double dist_att(int i, int j, instance *inst)
@@ -148,11 +151,22 @@ double dist_geo(int i, int j, instance *inst)
 
 void free_instance(instance *inst)
 {
-	if(inst->xcoord != NULL) free(inst->xcoord);
-	if(inst->ycoord != NULL) free(inst->ycoord);
-	if(inst->input_file != NULL) free(inst->input_file);
-	if(inst->dist_type != NULL) free(inst->dist_type);
-	if(inst->best_sol != NULL) free(inst->best_sol);
+	free(inst->xcoord);
+	free(inst->ycoord);
+	free(inst->input_file);
+	free(inst->dist_type);
+	free(inst->model_type);
+	free(inst->best_sol);
+}
+
+void init_instance(instance *inst)
+{
+	inst->xcoord = NULL;
+	inst->ycoord = NULL;
+	inst->input_file = NULL;
+	inst->dist_type = NULL;
+	inst->model_type = NULL;
+	inst->best_sol = NULL;
 }
 
 unsigned long microseconds()
@@ -171,10 +185,10 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		printf(" running %s with %d parameters\n", argv[0], argc-1); 
 		
 	// default values
-	inst->input_file = (char *) calloc(strlen("NULL"), sizeof(char));
+	inst->input_file = (char *) calloc(strlen("NULL\n"), sizeof(char));
 	strcpy(inst->input_file, "NULL");
 
-	inst->model_type = (char *) calloc(strlen("NULL"), sizeof(char));
+	inst->model_type = (char *) calloc(strlen("NULL\n"), sizeof(char));
 	strcpy(inst->model_type, "NULL");
 
 	inst->time_limit = 2147483647;	// random number for now
@@ -190,7 +204,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		{
 			if(param_exists)
 			{
-				inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])); 
+				inst->input_file = (char *) realloc(inst->input_file, strlen(argv[++i])+1); 
 				strcpy(inst->input_file, argv[i]);
 			}
 			else
@@ -232,10 +246,10 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		{
 			if(param_exists)
 			{
-				inst->model_type = (char *) realloc(inst->model_type, strlen(argv[++i]));
+				inst->model_type = (char *) realloc(inst->model_type, strlen(argv[++i])+1);
 				strcpy(inst->model_type, argv[i]);
 			}
-			if(strncmp(inst->model_type, "subtour", 7) && 
+			if((strncmp(inst->model_type, "subtour", 7) && 
 				strncmp(inst->model_type, "mtz", 3) && 
 				strncmp(inst->model_type, "compact_custom", 14) && 
 				strncmp(inst->model_type, "sec_loop", 8) && 
@@ -245,7 +259,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 				strncmp(inst->model_type, "heur_lb", 7) &&
 				strncmp(inst->model_type, "heur_nn_grasp", 13) &&  
 				strncmp(inst->model_type, "heur_2opt", 9) &&
-				strncmp(inst->model_type, "heur_vns", 8) || !param_exists)  
+				strncmp(inst->model_type, "heur_vns", 8)) || !param_exists)  
 
 		    {
 		    	printf("\nModel type non supported, choose between:\n");
@@ -303,11 +317,11 @@ void print_plot(instance *inst, char *plot_file_name)
 		!strncmp(inst->model_type, "heur_nn_grasp", 13) ||
 		!strncmp(inst->model_type, "heur_2opt", 9) ||
 		!strncmp(inst->model_type, "heur_vns", 8))
-		return print_plot_subtour(inst, plot_file_name);
+		print_plot_subtour(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "mtz", 3))
-		return print_plot_mtz(inst, plot_file_name);
+		print_plot_mtz(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "compact_custom", 14))
-		return print_plot_compact_custom(inst, plot_file_name);
+		print_plot_compact_custom(inst, plot_file_name);
 	else 
 		print_error(" format error: plot non supported in print_plot()!");
 }
@@ -391,12 +405,10 @@ void print_plot_mtz(instance *inst, char *plot_file_name)
 
 void print_plot_compact_custom(instance *inst, char *plot_file_name)
 {
-
-	int i,j,k;
 	FILE *file = fopen(plot_file_name, "w");
 	int max_idx_x = inst->nnodes * (inst->nnodes-1) / 2; 	// == xpos(inst->nnodes-1, inst->nnodes-1, inst)
 	fprintf(file, "%d\n", inst->nnodes);
-	for(i=0; i<inst->nnodes; i++)
+	for(int i=0; i<inst->nnodes; i++)
 	{
 		fprintf(file, "%lf %lf\n", inst->xcoord[i], inst->ycoord[i]);
 	}
@@ -508,7 +520,7 @@ void read_input(instance *inst)
 			}
 			else if(!strncmp(token1, "GEO", 3))
 			{
-				inst->dist_type = (char *) calloc(strlen(token1), sizeof(char));
+				inst->dist_type = (char *) calloc(strlen(token1)+1, sizeof(char));
 				strcpy(inst->dist_type, token1);
 			}
 			else if(!strncmp(token1, "ATT", 3))

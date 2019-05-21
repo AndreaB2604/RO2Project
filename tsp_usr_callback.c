@@ -10,9 +10,8 @@ const double EPS = 0.1;
 int TSPopt_usr_callback(instance *inst)
 {
 	// open cplex model
-	int error, status;
-	int done = 0;
-	int cur_numrows, cur_numcols;
+	int error;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -62,7 +61,7 @@ int TSPopt_usr_callback(instance *inst)
 
 	if(CPXgetdettime(env, &detend))
 	{
-			print_error("Error in getting deterministic time end");
+		print_error("Error in getting deterministic time end");
 	}
 	exec_det_time = detend - detstart;
 
@@ -126,13 +125,13 @@ int TSPopt_usr_callback(instance *inst)
 	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{
-		status = CPXfreeprob(env, &lp);
+		CPXfreeprob(env, &lp);
 	}
 
 	// Free up the CPLEX environment, if necessary
 	if(env != NULL) 
 	{
-		status = CPXcloseCPLEX(&env);
+		CPXcloseCPLEX(&env);
 	}
 
 	return 0;
@@ -155,7 +154,7 @@ static int CPXPUBLIC cutcallback(CPXCENVptr env, void *cbdata, int wherefrom, vo
 			print_error("Error in getting node number");
 		}
 		mynode -= 1;
-		if(status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_SEQNUM, &seqn))
+		if((status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_SEQNUM, &seqn)))
 		{
 			printf("Node is: %d\n", (mynode+1));
 			printf("Status is %d\n", status);
@@ -163,7 +162,7 @@ static int CPXPUBLIC cutcallback(CPXCENVptr env, void *cbdata, int wherefrom, vo
 		}
 	}
 	// Getting the depth of the current node
-	if(status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_DEPTH, &depth))
+	if((status = CPXgetcallbacknodeinfo(env, cbdata, wherefrom, 0, CPX_CALLBACK_INFO_NODE_DEPTH, &depth)))
 	{
 		printf("Node is: %d\n", (mynode+1));
 		printf("Status is %d\n", status);
@@ -193,17 +192,15 @@ static int CPXPUBLIC cutcallback(CPXCENVptr env, void *cbdata, int wherefrom, vo
 		}
 	}
 	double *xstar = (double*) malloc(edgecount * sizeof(double)); // curr solution
-	if ( CPXgetcallbacknodex(env, cbdata, wherefrom, xstar, 0, edgecount-1) )
+	if(CPXgetcallbacknodex(env, cbdata, wherefrom, xstar, 0, edgecount-1))
 	{
 		printf("Error in retrieving solution usercutcallback\n");
 		return 1; // y = current y from CPLEX-- y starts from position 0
 	}
 	int ncomp = 0;
-	int *comps = (int*) malloc(inst->nnodes * sizeof(int));
-	int *compscount = (int*) malloc(inst->nnodes * sizeof(int));
+	int *comps, *compscount;
 
 	if(CCcut_connect_components(inst->nnodes, edgecount, elist, xstar, &ncomp, &compscount, &comps))
-	//if(myfunction(inst->nnodes, edgecount, elist, xstar, &ncomp, &compscount, & comps))
 	{
 		printf("Error in getting components of solution usercutcallback\n");
 		return 1; // y = current y from CPLEX-- y starts from position 0
@@ -311,7 +308,6 @@ int doit_fn_concorde(double cutval, int cutcount, int *cut, void *inParam)
 }
 int separationMultiple(instance *inst, int ncomp, int *compscount, int *comps, CPXCENVptr env, void *cbdata, int wherefrom)
 {
-	
 	int num_x_var = (inst->nnodes-1) * inst->nnodes / 2; 	// number of x variables
 	int offset = 0;
 	int added = 0;
@@ -401,11 +397,9 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_MY_THREAD_NUM, &mythread);    
 	double zbest;
 	CPXgetcallbackinfo(env, cbdata, wherefrom, CPX_CALLBACK_INFO_BEST_INTEGER, &zbest); 
-	//printf("i am thread <%d>\n", mythread);
 
 	//apply cut separator and possibly add violated cuts
 	int ncuts = myseparation(inst, xstar, env, cbdata, wherefrom);	    
-	//printf("cuts is <%d>\n", ncuts);
 	free(xstar);
 	
 	if ( ncuts > 1 )

@@ -5,9 +5,8 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 int TSPopt_sec_callback(instance *inst)
 {
 	// open cplex model
-	int error, status;
-	int done = 0;
-	int cur_numrows, cur_numcols;
+	int error;
+	int cur_numcols;
 	double obj_val;
 
 	CPXENVptr env = CPXopenCPLEX(&error);
@@ -122,13 +121,13 @@ int TSPopt_sec_callback(instance *inst)
 	// Free up the problem as allocated by CPXcreateprob, if necessary
 	if(lp != NULL)
 	{
-		status = CPXfreeprob(env, &lp);
+		CPXfreeprob(env, &lp);
 	}
 
 	// Free up the CPLEX environment, if necessary
 	if(env != NULL) 
 	{
-		status = CPXcloseCPLEX(&env);
+		CPXcloseCPLEX(&env);
 	}
 	return 0;
 }
@@ -212,7 +211,6 @@ int myseparation(instance *inst, double *xstar, CPXCENVptr env, void *cbdata, in
 		char sense = 'L';
 		double rmatval[num_x_var];		// coefficients of the non-zero variables
 		int rmatind[num_x_var]; 		// position of the variables to set (in terms of columns)
-		int rmatbeg = 0;				// start positions of the constraint
 
 		for(int i = 0; i < num_x_var; i++)
 		{
