@@ -55,7 +55,7 @@ int TSPopt_sec_callback(instance *inst)
 
 	if(CPXgetdettime(env, &detend))
 	{
-			print_error("Error in getting deterministic time end");
+		print_error("Error in getting deterministic time end");
 	}
 	exec_det_time = detend - detstart;
 
@@ -143,6 +143,7 @@ static int CPXPUBLIC mylazycallback(CPXCENVptr env, void *cbdata, int wherefrom,
 	if ( CPXgetcallbacknodex(env, cbdata, wherefrom, xstar, 0, ncols-1) )
 	{
 		printf("Error in mylazycallback\n");
+		free(xstar);
 		return 1; // y = current y from CPLEX-- y starts from position 0
 	}	
 		
@@ -242,5 +243,4 @@ int myseparation(instance *inst, double *xstar, CPXCENVptr env, void *cbdata, in
 	}
 
 	return num_comp;
-
 }

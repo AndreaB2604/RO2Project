@@ -34,7 +34,7 @@ endif
 LIBS = -L ${LIB_LOC}  -lcplex -lm -lpthread -ldl
 CONCLIBS = -L ${CONCORDELIB}/ -lconcorde
 LIBS1 = -L ${LIB_LOC} -lcplex -lm 
-CFLAGS = -I $(CPLEX_LOC) -I ${CONCORDELIB} #-g -Wall -Wpedantic -fsanitize=address 
+CFLAGS = -I $(CPLEX_LOC) -I ${CONCORDELIB} #-g -Wall -Wpedantic -fsanitize=address #-Wextra
 
 RM1 = rm -f
 
