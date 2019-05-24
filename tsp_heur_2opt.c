@@ -21,15 +21,15 @@ int TSP_heur_2opt(instance *inst)
 	}
 
 	double nn_dist = tour_dist(inst, tour);
-	if(VERBOSE >= 100)
+	if(VERBOSE >= 100 || BLADE)
 	{
-		printf("Obj val after nearest neighbourhood = %f\n", nn_dist);
+		printf("Obj val before 2-OPT = %f\n", nn_dist);
 	}
 	
 	two_opt(inst, tour, tmp_tour, inst->time_limit);
 	
 	double two_opt_dist = tour_dist(inst, tmp_tour);
-	if(VERBOSE >= 100)
+	if(VERBOSE >= 100 || BLADE)
 	{
 		printf("Obj val after 2-OPT = %f\n", two_opt_dist);
 	}
@@ -62,11 +62,28 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 	double curr_tour_dist = tour_dist(inst, curr_tour);
 	double prev_sol = curr_tour_dist;
 
+	//----------- for BLADE purposes-------------//
+	int flag[3] = {0};
+	int limit = inst->time_limit;
+	
 	int done = 0;
 	unsigned long start = microseconds();
 	do
 	{
 		double elasped = (microseconds() - start)/1000000.0;
+		if(BLADE)
+		{
+			for(int a=0; a<3; ++a)
+			{
+				double ub = (double) ((a+1)*limit/3);
+				if((!flag[a]) && (elasped >= ub))
+				{
+					printf("solution value at %d is: %f\n", (a+1), curr_tour_dist);
+					flag[a] = 1;
+					break;
+				}
+			}
+		}
 		if(elasped > time_limit)
 		{
 			if(VERBOSE >= 100)

@@ -56,6 +56,14 @@ int TSP_heur_hf(instance *inst)
 			printf("inserted edge: %d %d\n", node1, node2);
 		}
 	}
+	//----------- for BLADE purposes-------------//
+	int flag[3] = {0};
+	int limit = inst->time_limit;
+	int counter = 0;
+	if(BLADE)
+	{
+		printf("solution value at %d is: %f\n", counter, best_obj_val);
+	}
 	if(VERBOSE >= 100)
 	{
 		printf("first solution value: %f\n", best_obj_val);
@@ -75,7 +83,6 @@ int TSP_heur_hf(instance *inst)
 		inst->best_sol[varindices[i]] = 1.0;
 	}
 
-	int counter = 0;
 	int idx_prob_rate = 0;
 	double callback_time_limit = 10;	// time-limit of the callback
 	unsigned long start = microseconds();
@@ -84,6 +91,19 @@ int TSP_heur_hf(instance *inst)
 		// save model
 		unsigned long current_time = microseconds();
 		double elapsed = (double) (current_time - start) / 1000000;
+		if(BLADE)
+		{
+			for(int a=0; a<3; ++a)
+			{
+				double ub = (double) ((a+1)*limit/3);
+				if((!flag[a]) && (elapsed >= ub))
+				{
+					printf("solution value at %d is: %f\n", (a+1), best_obj_val);
+					flag[a] = 1;
+					break;
+				}
+			}
+		}
 		if(elapsed >= inst->time_limit)
 		{
 			if(VERBOSE >= 50)

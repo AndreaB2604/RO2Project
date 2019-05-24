@@ -21,9 +21,30 @@ int TSP_heur_vns(instance *inst)
 	int k = 2; // k = n means swap random of n edges 
 	unsigned long start = microseconds();
 	
+	//----------- for BLADE purposes-------------//
+	int flag[3] = {0};
+	int limit = inst->time_limit;
+	if(BLADE)
+	{
+		printf("solution value at %d is: %f\n", flag[0], best_curr_val);
+	}
+
 	while(!done)
 	{
 		double elasped = (microseconds() - start)/1000000.0;
+		if(BLADE)
+		{
+			for(int a=0; a<3; ++a)
+			{
+				double ub = (double) ((a+1)*limit/3);
+				if((!flag[a]) && (elasped >= ub))
+				{
+					printf("solution value at %d is: %f\n", (a+1), best_curr_val);
+					flag[a] = 1;
+					break;
+				}
+			}
+		}
 		if(elasped > inst->time_limit)
 		{
 			if(VERBOSE >= 100)
