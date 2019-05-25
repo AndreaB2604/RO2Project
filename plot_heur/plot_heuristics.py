@@ -32,9 +32,8 @@ if __name__ == '__main__':
 	plt.legend()
 	plt.grid(True, linewidth=0.25)
 	#plt.title(problem)
-	plt.show()
-
 	plt.savefig("plot_heur/plot_heur.pdf", format='pdf')
+	plt.show()
 	
 
 
