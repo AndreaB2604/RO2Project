@@ -6,6 +6,12 @@ void random_vertexes(instance *inst, int *v, int vsize);
 int TSP_heur_vns(instance *inst)
 {
 	int *x;
+	FILE *file;
+	if(!BLADE)
+	{
+		file = fopen("plot_heur/vns.txt", "w");
+		fprintf(file, "VNS\n");
+	}
 
 	two_approx_algorithm_TSP(inst, &x);
 	double best_curr_val = tour_dist(inst, x);
@@ -99,12 +105,17 @@ int TSP_heur_vns(instance *inst)
 				{
 					x[i] = x_first[i];
 				}
+				if(!BLADE)
+				{
+					fprintf(file, "%f %f\n", best_curr_val, ((microseconds()-start)/1000000.0));
+				}
 			}
 			else
 			{
 				k = (k == 4)? k : k+1; 
 			}
 		}
+
 	}
 
 	if(VERBOSE > 1000)
@@ -114,6 +125,10 @@ int TSP_heur_vns(instance *inst)
 			printf("%d, ", x[i]);
 		}
 		printf("\n");	
+	}
+	if(!BLADE)
+	{
+		fprintf(file, "%f %f\n", tour_dist(inst, x), ((microseconds()-start)/1000000.0));
 	}
 
 	if(VERBOSE >= 100)
@@ -131,6 +146,7 @@ int TSP_heur_vns(instance *inst)
 		inst->best_sol[idx] = 1.0;
 	}
 
+	fclose(file);
 	free(x_first);
 	free(x);
 	
