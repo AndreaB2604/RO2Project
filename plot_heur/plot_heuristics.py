@@ -7,7 +7,7 @@ import fileinput
 
 if __name__ == '__main__':
 	problem = []
-	for line in sys.argv[1:]:
+	for line in sys.argv[1:len(sys.argv)-1]:
 		f = open(line,"r")
 		name = f.readline().strip("\n")
 		#problem.append(name)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 	plt.yticks(np.arange(11900, 12900, 200))
 	plt.legend()
 	plt.grid(True, linewidth=0.25)
-	#plt.title(problem)
+	plt.title((sys.argv[len(sys.argv)-1]))
 	plt.savefig("plot_heur/plot_heur.pdf", format='pdf')
 	plt.show()
 	
