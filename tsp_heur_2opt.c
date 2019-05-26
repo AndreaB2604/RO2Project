@@ -68,7 +68,7 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 	
 	int done = 0;
 	unsigned long start = microseconds();
-	do
+	while(!done)
 	{
 		double elasped = (microseconds() - start)/1000000.0;
 		if(BLADE)
@@ -104,7 +104,6 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 					if(delta < 0)
 					{						
 						swap_two_edges(inst, curr_tour, tmp_tour, i, j);
-
 						curr_tour_dist += delta;
 						for(int k = 0; k < n; k++)
 						{
@@ -123,7 +122,6 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 			prev_sol = curr_tour_dist;
 		}
 	}
-	while(!done);
 	
 	for(int i = 0; i < n; i++)
 	{
