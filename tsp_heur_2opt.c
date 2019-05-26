@@ -26,9 +26,9 @@ int TSP_heur_2opt(instance *inst)
 		printf("Obj val before 2-OPT = %f\n", nn_dist);
 	}
 	
-	two_opt(inst, tour, tmp_tour, inst->time_limit);
+	two_opt(inst, tour, inst->time_limit);
 	
-	double two_opt_dist = tour_dist(inst, tmp_tour);
+	double two_opt_dist = tour_dist(inst, tour);
 	if(VERBOSE >= 100 || BLADE)
 	{
 		printf("Obj val after 2-OPT = %f\n", two_opt_dist);
@@ -39,7 +39,7 @@ int TSP_heur_2opt(instance *inst)
 	inst->best_sol = (double *) calloc(cur_numcols, sizeof(double));
 	for(int i = 0; i < inst->nnodes; i++)
 	{
-		int idx = xpos(tmp_tour[i], tmp_tour[(i+1)%inst->nnodes], inst);
+		int idx = xpos(tour[i], tour[(i+1)%inst->nnodes], inst);
 		inst->best_sol[idx] = 1.0;
 	}
 
@@ -49,18 +49,13 @@ int TSP_heur_2opt(instance *inst)
 	return 0;
 }
 
-void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
+void two_opt(instance *inst, int *init_sol, double time_limit)
 {
 	int n = inst->nnodes;
-	int *curr_tour = (int *) calloc(inst->nnodes, sizeof(int));
 	int *tmp_tour = (int *) calloc(inst->nnodes, sizeof(int));
 
-	for(int i = 0; i < n; i++)
-	{
-		curr_tour[i] = init_sol[i];
-	}
-	double curr_tour_dist = tour_dist(inst, curr_tour);
-	double prev_sol = curr_tour_dist;
+	double init_sol_dist = tour_dist(inst, init_sol);
+	double prev_sol = init_sol_dist;
 
 	//----------- for BLADE purposes-------------//
 	int flag[3] = {0};
@@ -78,7 +73,7 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 				double ub = (double) ((a+1)*limit/3);
 				if((!flag[a]) && (elasped >= ub))
 				{
-					printf("solution value at %d is: %f\n", (a+1), curr_tour_dist);
+					printf("solution value at %d is: %f\n", (a+1), init_sol_dist);
 					flag[a] = 1;
 					break;
 				}
@@ -98,40 +93,34 @@ void two_opt(instance *inst, int *init_sol, int *up_sol, double time_limit)
 			{
 				for(int j = i+1; j < n; j++) 
 				{
-					double pos_term = dist(curr_tour[i-1], curr_tour[j], inst) + dist(curr_tour[i], curr_tour[(j+1)%n], inst);
-					double neg_term = dist(curr_tour[i-1], curr_tour[i], inst) + dist(curr_tour[j], curr_tour[(j+1)%n], inst);
+					double pos_term = dist(init_sol[i-1], init_sol[j], inst) + dist(init_sol[i], init_sol[(j+1)%n], inst);
+					double neg_term = dist(init_sol[i-1], init_sol[i], inst) + dist(init_sol[j], init_sol[(j+1)%n], inst);
 					double delta = pos_term - neg_term;
 					if(delta < 0)
 					{						
-						swap_two_edges(inst, curr_tour, tmp_tour, i, j);
+						swap_two_edges(inst, init_sol, tmp_tour, i, j);
 
-						curr_tour_dist += delta;
+						init_sol_dist += delta;
 						for(int k = 0; k < n; k++)
 						{
-							curr_tour[k] = tmp_tour[k];
+							init_sol[k] = tmp_tour[k];
 						}
 					}
 				}
 			}
 		}
-		if(((int)curr_tour_dist) == ((int)prev_sol))
+		if(((int)init_sol_dist) == ((int)prev_sol))
 		{
 			done = 1;
 		}
 		else
 		{
-			prev_sol = curr_tour_dist;
+			prev_sol = init_sol_dist;
 		}
 	}
 	while(!done);
-	
-	for(int i = 0; i < n; i++)
-	{
-		up_sol[i] = curr_tour[i];
-	}
 
 	free(tmp_tour);
-	free(curr_tour);
 }
 
 void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
