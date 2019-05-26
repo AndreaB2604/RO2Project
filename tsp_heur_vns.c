@@ -89,7 +89,7 @@ int TSP_heur_vns(instance *inst)
 				printf("Obj-val before 2-OPT of x_first = %f\n", tour_dist(inst, x_first));
 			}
 
-			two_opt(inst, x_first, x_first, DBL_MAX);
+			two_opt(inst, x_first, DBL_MAX);
 
 			if(VERBOSE >= 1000)
 			{
@@ -115,7 +115,6 @@ int TSP_heur_vns(instance *inst)
 				k = (k == 4)? k : k+1; 
 			}
 		}
-
 	}
 
 	if(VERBOSE > 1000)
