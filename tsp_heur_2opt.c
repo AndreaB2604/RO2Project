@@ -52,7 +52,6 @@ int TSP_heur_2opt(instance *inst)
 void two_opt(instance *inst, int *init_sol, double time_limit)
 {
 	int n = inst->nnodes;
-	int *tmp_tour = (int *) calloc(inst->nnodes, sizeof(int));
 
 	double init_sol_dist = tour_dist(inst, init_sol);
 	double prev_sol = init_sol_dist;
@@ -99,11 +98,7 @@ void two_opt(instance *inst, int *init_sol, double time_limit)
 					if(delta < 0)
 					{						
 						init_sol_dist += delta;
-						swap_two_edges(inst, init_sol, tmp_tour, i, j);
-						for(int k = 0; k < n; k++)
-						{
-							init_sol[k] = tmp_tour[k];
-						}
+						swap_two_edges_in_place(init_sol, i, j);
 					}
 				}
 			}
@@ -117,8 +112,6 @@ void two_opt(instance *inst, int *init_sol, double time_limit)
 			prev_sol = init_sol_dist;
 		}
 	}
-
-	free(tmp_tour);
 }
 
 void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
@@ -137,6 +130,17 @@ void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j)
 	{
 		new_tour[k] = old_tour[k];
 	}	
+}
+
+void swap_two_edges_in_place(int *v, int i, int j)
+{
+	int temp;
+	for(; i < j; i++, j--)
+	{
+		temp = v[i];
+		v[i] = v[j];
+		v[j] = temp;
+	}
 }
 
 void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int h, int type)

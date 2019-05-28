@@ -43,6 +43,12 @@ typedef struct
 
 } cc_instance;
 
+typedef struct 
+{
+	int node;
+	double delta; // improvement of the move to the obj function
+	int duration; // duration of the move in the tabu list
+} move;
 
 struct node
 {
@@ -111,9 +117,10 @@ int TSP_nn_grasp_heur(instance *inst);
 
 // defined in tsp_heur_2opt.c
 void swap_two_edges(instance *inst, int *old_tour, int *new_tour, int i, int j);
-void two_opt(instance *inst, int *sol, double time_limit);
+void swap_two_edges_in_place(int *v, int i, int j);
 void swap_three_edges(instance *inst, int *old_tour, int *new_tour, int i, int j, int h, int type);
 int TSP_heur_2opt(instance *inst);
+void two_opt(instance *inst, int *sol, double time_limit);
 
 // defined in tsp_heur_vns.c
 int TSP_heur_vns(instance *inst);
