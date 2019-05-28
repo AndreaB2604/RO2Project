@@ -16,7 +16,8 @@ if __name__ == '__main__':
 			chuncks = line.split(" ")
 			value.append(float(chuncks[0]))
 			time.append(float(chuncks[1].strip("\n")))
-		plt.plot(time, value, label=name)
+	
+	plt.plot(time, value, label=name)
 		
 	for i, prob in enumerate(problem):
 		problem[i] = prob.strip("\n")
@@ -31,7 +32,7 @@ if __name__ == '__main__':
 	plt.grid(True, linewidth=0.25)
 	plt.title((sys.argv[len(sys.argv)-1]))
 	plt.savefig('plot_heur/plot_heur.pdf', format='pdf', bbox_inches='tight')
-	plt.show()
+	#plt.show()
 	
 
 
