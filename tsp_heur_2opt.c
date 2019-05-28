@@ -63,7 +63,7 @@ void two_opt(instance *inst, int *init_sol, double time_limit)
 	
 	int done = 0;
 	unsigned long start = microseconds();
-	do
+	while(!done)
 	{
 		double elasped = (microseconds() - start)/1000000.0;
 		if(BLADE)
@@ -117,7 +117,6 @@ void two_opt(instance *inst, int *init_sol, double time_limit)
 			prev_sol = init_sol_dist;
 		}
 	}
-	while(!done);
 
 	free(tmp_tour);
 }
