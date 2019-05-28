@@ -99,7 +99,11 @@ void two_opt(instance *inst, int *init_sol, double time_limit)
 					if(delta < 0)
 					{						
 						init_sol_dist += delta;
-						swap_two_edges(inst, init_sol, init_sol, i, j);
+						swap_two_edges(inst, init_sol, tmp_tour, i, j);
+						for(int k = 0; k < n; k++)
+						{
+							init_sol[k] = tmp_tour[k];
+						}
 					}
 				}
 			}
