@@ -270,7 +270,9 @@ void parse_command_line(int argc, char** argv, instance *inst)
 				strncmp(inst->model_type, "heur_lb", 7) &&
 				strncmp(inst->model_type, "heur_nn_grasp", 13) &&  
 				strncmp(inst->model_type, "heur_2opt", 9) &&
-				strncmp(inst->model_type, "heur_vns", 8)) || !param_exists)  
+				strncmp(inst->model_type, "heur_vns", 8) && 
+				strncmp(inst->model_type, "heur_tabu", 9)) 
+				|| !param_exists)  
 
 		    {
 		    	printf("\nModel type non supported, choose between:\n");
@@ -285,6 +287,7 @@ void parse_command_line(int argc, char** argv, instance *inst)
 		    	printf("heur_nn_grasp : optimisation using the nearest neighbourhood with GRASP heuristic\n");
 		    	printf("heur_2opt : optimisation using the 2-OPT heuristic\n");
 		    	printf("heur_vns : optimisation using the VNS heuristic\n");
+		    	printf("heur_tabu : optimisation using the TABU SEARCH heuristic\n");
 		    	fflush(NULL); 
 				help = 1;
 				break;
@@ -327,7 +330,8 @@ void print_plot(instance *inst, char *plot_file_name)
 		!strncmp(inst->model_type, "heur_lb", 7) || 
 		!strncmp(inst->model_type, "heur_nn_grasp", 13) ||
 		!strncmp(inst->model_type, "heur_2opt", 9) ||
-		!strncmp(inst->model_type, "heur_vns", 8))
+		!strncmp(inst->model_type, "heur_vns", 8) ||
+		!strncmp(inst->model_type, "heur_tabu", 9))
 		print_plot_subtour(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "mtz", 3))
 		print_plot_mtz(inst, plot_file_name);

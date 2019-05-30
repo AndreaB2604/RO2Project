@@ -125,4 +125,7 @@ void two_opt(instance *inst, int *sol, double time_limit);
 // defined in tsp_heur_vns.c
 int TSP_heur_vns(instance *inst);
 
+// defined in tsp_heur_tabu.c
+int TSP_heur_tabu(instance *inst);
+
 #endif

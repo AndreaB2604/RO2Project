@@ -96,7 +96,14 @@ int main(int argc, char **argv)
 	if(!strncmp(inst.model_type, "heur_vns", 8))
 	{
 		if(TSP_heur_vns(&inst))
-			print_error(" error within TSP_heur_2opt()");
+			print_error(" error within TSP_heur_vns()");
+	}
+
+	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	if(!strncmp(inst.model_type, "heur_tabu", 9))
+	{
+		if(TSP_heur_tabu(&inst))
+			print_error(" error within TSP_heur_tabu()");
 	}
 
 	print_plot(&inst, "plot_file.txt");
