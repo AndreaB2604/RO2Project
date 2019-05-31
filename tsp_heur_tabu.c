@@ -1,5 +1,8 @@
 #include "tsp.h"
 
+#define MIN(a, b) ((a<b)? a : b) 
+#define MAX(a, b) ((a>b)? a : b) 
+
 void two_opt_tabu(instance *inst, int *init_sol, double best_sol, double *incumbent_value, move *tabu_list, int *tabu_size, const int TABU_DURATION);
 
 int TSP_heur_tabu(instance *inst)
@@ -61,6 +64,7 @@ int TSP_heur_tabu(instance *inst)
 	int tabu_size = 0;
 	int done = 0;
 	double incumbent_dist = best_curr_val;
+	int iter = 0;
 	unsigned long start = microseconds();
 	while(!done)
 	{
@@ -89,8 +93,21 @@ int TSP_heur_tabu(instance *inst)
 		else
 		{
 			two_opt_tabu(inst, x_first, best_curr_val, &incumbent_dist, tabu_list, &tabu_size, TABU_DURATION);
+			if(iter > 33 && incumbent_dist > best_curr_val)
+			{
+				srandom((unsigned int)microseconds());
+				int n1 = random()%inst->nnodes;
+				int n2 = random()%inst->nnodes;
+				int tmp = MIN(n1, n2);
+				n2 = MAX(n1, n2);
+				n1 = tmp;
+				swap_two_edges_in_place(x_first, n1, n2);
+				incumbent_dist = tour_dist(inst, x_first);
+				iter = 0;
+			}
 			if(incumbent_dist < best_curr_val)
 			{
+				iter = 0;
 				best_curr_val = incumbent_dist;
 				for(int i = 0; i < inst->nnodes; i++)
 				{
@@ -100,6 +117,10 @@ int TSP_heur_tabu(instance *inst)
 				{
 					fprintf(file, "%f %f\n", best_curr_val, ((microseconds()-start)/1000000.0));
 				}
+			}
+			else
+			{
+				iter++;
 			}
 		}
 		if(VERBOSE >= 1000)
@@ -158,7 +179,7 @@ void two_opt_tabu(instance *inst, int *init_sol, double best_sol, double *incumb
 			double pos_term = dist(init_sol[i-1], init_sol[j], inst) + dist(init_sol[i], init_sol[(j+1)%n], inst);
 			double neg_term = dist(init_sol[i-1], init_sol[i], inst) + dist(init_sol[j], init_sol[(j+1)%n], inst);
 			double delta = pos_term - neg_term;
-			//printf("Delta = %f\n", delta);
+			//printf("Delta = %f\n", delta);best_curr_val
 			if(delta < best_delta)
 			{
 				int is_tabu = 0;
