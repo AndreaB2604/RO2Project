@@ -29,7 +29,10 @@ if __name__ == '__main__':
 	plt.ylabel('Value of the objective functions')
 	m =  math.floor(m)
 	M = math.ceil(M)
-	plt.yticks(np.arange(m, M, (M-m)/10))
+	threshold = (M-m)/10
+	#m = 261500
+	#M = 321500
+	plt.yticks(np.arange(m, M, threshold))
 	plt.legend()
 	plt.grid(True, linewidth=0.25)
 	plt.title((sys.argv[len(sys.argv)-1]))

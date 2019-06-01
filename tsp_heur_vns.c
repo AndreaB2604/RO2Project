@@ -6,16 +6,19 @@ void random_vertexes(instance *inst, int *v, int vsize);
 int TSP_heur_vns(instance *inst)
 {
 	int *x;
+
+	unsigned long start = microseconds();
+	two_approx_algorithm_TSP(inst, &x);
+	double best_curr_val = tour_dist(inst, x);
+	
 	FILE *file;
 	if(!BLADE)
 	{
 		file = fopen("plot_heur/vns.txt", "w");
 		fprintf(file, "VNS\n");
+		fprintf(file, "%f %f\n", best_curr_val, ((microseconds()-start)/1000000.0));
 	}
 
-	two_approx_algorithm_TSP(inst, &x);
-	double best_curr_val = tour_dist(inst, x);
-	
 	if(VERBOSE >= 100)
 	{
 		printf("Obj val after the 2-Approximation algorithm = %f\n", best_curr_val);
@@ -25,7 +28,6 @@ int TSP_heur_vns(instance *inst)
 
 	int done = 0;
 	int k = 2; // k = n means swap random of n edges 
-	unsigned long start = microseconds();
 	
 	//----------- for BLADE purposes-------------//
 	int flag[3] = {0};

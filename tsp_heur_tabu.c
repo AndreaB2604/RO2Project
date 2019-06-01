@@ -1,26 +1,27 @@
 #include "tsp.h"
 
-#define MIN(a, b) ((a<b)? a : b) 
-#define MAX(a, b) ((a>b)? a : b) 
-
 void two_opt_tabu(instance *inst, int *init_sol, double best_sol, double *incumbent_value, move *tabu_list, int *tabu_size, const int TABU_DURATION);
+void insert_move(move *tabu_list, int *tabu_size, move best_move, int tabu_pos, const int TABU_DURATION);
 
 int TSP_heur_tabu(instance *inst)
 {
 	int *x;
 
+	const int RANDOM_MOVE_THRESHOLD = 50;
 	const int TLL = inst->nnodes; // Tabu List Length
 	const int TABU_DURATION = ((inst->nnodes / 3) > 100)? 100 : (inst->nnodes/3 - 1);
+
+	unsigned long start = microseconds();
+	two_approx_algorithm_TSP(inst, &x);
+	double best_curr_val = tour_dist(inst, x);
 
 	FILE *file;
 	if(!BLADE)
 	{
 		file = fopen("plot_heur/tabu_search.txt", "w");
 		fprintf(file, "TABU SEARCH\n");
+		fprintf(file, "%f %f\n", best_curr_val, ((microseconds()-start)/1000000.0));
 	}
-
-	two_approx_algorithm_TSP(inst, &x);
-	double best_curr_val = tour_dist(inst, x);
 	
 	if(VERBOSE >= 100)
 	{
@@ -29,7 +30,6 @@ int TSP_heur_tabu(instance *inst)
 
 	int *x_first = (int *) calloc(inst->nnodes, sizeof(int));
 
-	//int k = 2; // k = n means swap random of n edges 
 		
 	//----------- for BLADE purposes-------------//
 	int flag[3] = {0};
@@ -65,7 +65,6 @@ int TSP_heur_tabu(instance *inst)
 	int done = 0;
 	double incumbent_dist = best_curr_val;
 	int iter = 0;
-	unsigned long start = microseconds();
 	while(!done)
 	{
 		double elasped = (microseconds() - start)/1000000.0;
@@ -93,17 +92,31 @@ int TSP_heur_tabu(instance *inst)
 		else
 		{
 			two_opt_tabu(inst, x_first, best_curr_val, &incumbent_dist, tabu_list, &tabu_size, TABU_DURATION);
-			if(iter > 33 && incumbent_dist > best_curr_val)
+			if(iter > RANDOM_MOVE_THRESHOLD && incumbent_dist > best_curr_val)
 			{
-				srandom((unsigned int)microseconds());
-				int n1 = random()%inst->nnodes;
-				int n2 = random()%inst->nnodes;
-				int tmp = MIN(n1, n2);
-				n2 = MAX(n1, n2);
-				n1 = tmp;
-				swap_two_edges_in_place(x_first, n1, n2);
-				incumbent_dist = tour_dist(inst, x_first);
 				iter = 0;
+				int n = inst->nnodes;
+				srandom((unsigned int)microseconds());
+				int i = 1 + random()%(n-2);
+				int j = i+1 + (n-2-i)*(((double)random())/RAND_MAX);
+				double pos_term = dist(x_first[i-1], x_first[j], inst) + dist(x_first[i], x_first[(j+1)%n], inst);
+				double neg_term = dist(x_first[i-1], x_first[i], inst) + dist(x_first[j], x_first[(j+1)%n], inst);
+				double delta = pos_term - neg_term;
+				incumbent_dist += delta;
+				swap_two_edges_in_place(x_first, i, j);
+				
+				// now check if the move is already in the tabu list and eventually add it
+				move add_move = {j, delta, TABU_DURATION};
+				int tabu_pos = -1;
+				for(i = 0; i < tabu_size; i++)
+				{
+					if(tabu_list[i].node == j)
+					{
+						tabu_pos = i;
+						break;
+					}
+				}
+				insert_move(tabu_list, &tabu_size, add_move, tabu_pos, TABU_DURATION);
 			}
 			if(incumbent_dist < best_curr_val)
 			{
@@ -212,11 +225,15 @@ void two_opt_tabu(instance *inst, int *init_sol, double best_sol, double *incumb
 			}
 		}
 	}
-	/*printf("best_delta = %f\n", best_delta);
-	printf("tabu_pos = %d\n", tabu_pos);
-	printf("to_swap = %d\n", to_swap);
-	*/
 
+	insert_move(tabu_list, tabu_size, best_move, tabu_pos, TABU_DURATION);
+
+	swap_two_edges_in_place(init_sol, to_swap, best_move.node);
+	(*incumbent_value) += best_move.delta;
+}
+
+void insert_move(move *tabu_list, int *tabu_size, move best_move, int tabu_pos, const int TABU_DURATION)
+{
 	int move_to_remove = -1;
 	for(int i = 0; i < *tabu_size; i++)
 	{
@@ -253,24 +270,4 @@ void two_opt_tabu(instance *inst, int *init_sol, double best_sol, double *incumb
 		tabu_list[move_to_remove].duration = tabu_list[(*tabu_size)].duration;
 		tabu_list[move_to_remove].delta = tabu_list[(*tabu_size)].delta;
 	}
-
-	//printf("best_move.delta = %f\n", best_move.delta);
-	//printf("tabu size = %d\n", *tabu_size);
-	/*if((*tabu_size) == 100)
-	{
-		for(int i = 0; i < *tabu_size; i++)
-			printf("move %d: %d, %f, %d\n", i, tabu_list[i].node, tabu_list[i].delta, tabu_list[i].duration);
-		exit(0);
-	}*/
-
-	/*printf("\nTHE TABU LIST of size = %d\n", *tabu_size);
-	for(int i = 0; i < *tabu_size; i++)
-	{
-		printf("tabu_list[i].node = %d\n", tabu_list[i].node); 
-		printf("tabu_list[i].delta = %f\n", tabu_list[i].delta); 
-		printf("tabu_list[i].duration = %d\n", tabu_list[i].duration);
-	}*/
-
-	swap_two_edges_in_place(init_sol, to_swap, best_move.node);
-	(*incumbent_value) += best_move.delta;
 }
