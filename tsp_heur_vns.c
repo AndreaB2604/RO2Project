@@ -147,7 +147,10 @@ int TSP_heur_vns(instance *inst)
 		inst->best_sol[idx] = 1.0;
 	}
 
-	fclose(file);
+	if(!BLADE)
+	{
+		fclose(file);
+	}
 	free(x_first);
 	free(x);
 	

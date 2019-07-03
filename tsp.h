@@ -128,4 +128,7 @@ int TSP_heur_vns(instance *inst);
 // defined in tsp_heur_tabu.c
 int TSP_heur_tabu(instance *inst);
 
+// defined in tsp_modulo.c
+int TSP_modulo(instance *inst);
+
 #endif

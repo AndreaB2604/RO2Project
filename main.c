@@ -85,25 +85,32 @@ int main(int argc, char **argv)
 			print_error(" error within TSP_nn_grasp_heur()");
 	}
 
-	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	/***** TSP TWO-OPT HEURISTIC *****/
 	if(!strncmp(inst.model_type, "heur_2opt", 9))
 	{
 		if(TSP_heur_2opt(&inst))
 			print_error(" error within TSP_heur_2opt()");
 	}
 
-	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	/***** TSP VNS HEURISTIC *****/
 	if(!strncmp(inst.model_type, "heur_vns", 8))
 	{
 		if(TSP_heur_vns(&inst))
 			print_error(" error within TSP_heur_vns()");
 	}
 
-	/***** TSP NEAREST NEIGHBOURHOOD WITH GRASP HEURISTIC *****/
+	/***** TSP TABU SEARCH HEURISTIC *****/
 	if(!strncmp(inst.model_type, "heur_tabu", 9))
 	{
 		if(TSP_heur_tabu(&inst))
 			print_error(" error within TSP_heur_tabu()");
+	}
+
+	/***** TSP MODULO HEURISTIC *****/
+	if(!strncmp(inst.model_type, "modulo", 6))
+	{
+		if(TSP_modulo(&inst))
+			print_error(" error within TSP_modulo()");
 	}
 
 	print_plot(&inst, "plot_file.txt");

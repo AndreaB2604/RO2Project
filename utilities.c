@@ -271,7 +271,8 @@ void parse_command_line(int argc, char** argv, instance *inst)
 				strncmp(inst->model_type, "heur_nn_grasp", 13) &&  
 				strncmp(inst->model_type, "heur_2opt", 9) &&
 				strncmp(inst->model_type, "heur_vns", 8) && 
-				strncmp(inst->model_type, "heur_tabu", 9)) 
+				strncmp(inst->model_type, "heur_tabu", 9) &&
+				strncmp(inst->model_type, "modulo", 6)) 
 				|| !param_exists)  
 
 		    {
@@ -331,7 +332,8 @@ void print_plot(instance *inst, char *plot_file_name)
 		!strncmp(inst->model_type, "heur_nn_grasp", 13) ||
 		!strncmp(inst->model_type, "heur_2opt", 9) ||
 		!strncmp(inst->model_type, "heur_vns", 8) ||
-		!strncmp(inst->model_type, "heur_tabu", 9))
+		!strncmp(inst->model_type, "heur_tabu", 9) ||
+		!strncmp(inst->model_type, "modulo", 6))
 		print_plot_subtour(inst, plot_file_name);
 	else if(!strncmp(inst->model_type, "mtz", 3))
 		print_plot_mtz(inst, plot_file_name);
