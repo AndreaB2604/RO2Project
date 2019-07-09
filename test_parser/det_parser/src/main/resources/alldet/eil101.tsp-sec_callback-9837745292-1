@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/eil101.tsp
+-model sec_callback
+-random_seed 9837745292
+-time_limit 2127600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_callback = 205.591 ticks
+Execution time of sec_callback = 1.625 s
+
+Solution value  = 629.000000

@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/pcb442.tsp
+-model sec_loop
+-random_seed 2648948
+-time_limit 2127600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_loop = 192308.121 ticks
+Execution time of sec_loop = 379.016 s
+
+Solution value  = 50778.000000

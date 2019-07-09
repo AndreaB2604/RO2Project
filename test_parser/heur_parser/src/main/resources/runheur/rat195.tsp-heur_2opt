@@ -1,0 +1,13 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/rat195.tsp
+-model heur_2opt
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Obj val before 2-OPT = 2612.000000
+Obj val after 2-OPT = 2509.000000

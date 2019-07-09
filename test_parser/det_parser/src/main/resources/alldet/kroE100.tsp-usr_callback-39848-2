@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/kroE100.tsp
+-model usr_callback
+-random_seed 39848
+-time_limit 2127600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of usrcut_callback = 735.121 ticks
+Execution time of usrcut_callback = 31.093 s
+
+Solution value  = 22068.000000

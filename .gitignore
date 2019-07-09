@@ -51,6 +51,7 @@ concorde/
 *.x86_64
 *.hex
 main
+!main/
 
 # Debug files
 *.dSYM/

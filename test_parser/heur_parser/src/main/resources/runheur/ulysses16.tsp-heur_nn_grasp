@@ -1,0 +1,19 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/ulysses16.tsp
+-model heur_nn_grasp
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+
+Best tour found without GRASP:
+3, 2, 4, 8, 1, 16, 13, 14, 12, 7, 6, 15, 5, 10, 9, 11, 
+Length of the tour = 7943.000000
+
+Best tour found with GRASP:
+6, 7, 12, 13, 14, 1, 16, 8, 3, 2, 4, 15, 5, 11, 10, 9, 
+Length of the tour = 7566.000000

@@ -1,0 +1,13 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/pr299.tsp
+-model heur_hf
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+solution value at 0 is: 67318.000000
+solution value at 1 is: 48339.000000

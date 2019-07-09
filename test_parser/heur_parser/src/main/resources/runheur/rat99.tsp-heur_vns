@@ -1,0 +1,15 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/rat99.tsp
+-model heur_vns
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+solution value at 0 is: 1635.000000
+solution value at 1 is: 1212.000000
+solution value at 2 is: 1212.000000
+solution value at 3 is: 1212.000000

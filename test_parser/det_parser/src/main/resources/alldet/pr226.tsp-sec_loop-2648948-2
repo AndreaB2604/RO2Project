@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/pr226.tsp
+-model sec_loop
+-random_seed 2648948
+-time_limit 2127600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_loop = 47383.952 ticks
+Execution time of sec_loop = 106.481 s
+
+Solution value  = 80369.000000

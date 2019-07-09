@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>it.unipd.dei.webapp</groupId>
+	<artifactId>exact_parser</artifactId>
+	<version>1.00</version>
+
+
+	<packaging>jar</packaging>
+	<!--
+	<packaging>war</packaging> to produce a file deployable on Tomcat
+	-->
+
+	<!-- Project description elements -->
+	<name>Heuristics parser</name>
+	<inceptionYear>2019</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>AndreaB2604</id>
+			<name>Andrea Bugin</name>
+			<email>andreabugin@hotmail.it</email>
+		</developer>
+	</developers>
+
+	<!-- Specifies the encoding to be used for project source files -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>java8-doclint-disabled</id>
+			<activation>
+				<jdk>[1.8,)</jdk>
+			</activation>
+			<properties>
+				<javadoc.opts>-Xdoclint:none</javadoc.opts>
+			</properties>
+		</profile>
+	</profiles>
+
+	<!-- Configuration of the default build lifecycle -->
+	<build>
+		<defaultGoal>compile</defaultGoal>
+
+		<!-- source code folder -->
+		<sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+
+		<!-- compiled code folder -->
+		<directory>${basedir}/target</directory>
+
+		<!-- name of the generated package -->
+		<finalName>${project.artifactId}-${project.version}</finalName>
+	
+		<!-- configuration of the plugins for the different goals -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<!-- javadoc plugin: output in the javadoc folder -->
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<reportOutputDirectory>${basedir}/javadoc</reportOutputDirectory>
+					<author>true</author>
+					<nosince>false</nosince>
+					<show>protected</show>
+				</configuration>
+			</plugin>
+			-->
+
+
+			<!-- generates jar files including any dependencies -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!-- packager plugin: create a WAR file to be deployed -->
+			<!--
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+			-->
+
+		</plugins>
+
+		<resources>
+			<!-- copy HTML files to the target directory -->
+			<!--
+			<resource>
+				<targetPath>${basedir}/target/${project.artifactId}-${project.version}/html</targetPath>
+				<directory>${basedir}/src/main/webapp/html</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			-->
+		</resources>
+
+	</build>
+
+	<!-- Dependencies -->
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.12.1</version>
+		</dependency>
+	</dependencies>
+</project>
