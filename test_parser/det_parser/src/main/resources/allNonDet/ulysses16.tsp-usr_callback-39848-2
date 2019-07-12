@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/ulysses16.tsp
+-model usr_callback
+-random_seed 39848
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of usrcut_callback = 1.456 ticks
+Execution time of usrcut_callback = 0.024 s
+
+Solution value  = 6859.000000

@@ -1,0 +1,19 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/a280.tsp
+-model modulo
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+solution value at 0 is: 3486.000000
+solution value at 1 is: 2605.000000
+solution value at 2 is: 2605.000000
+solution value at 3 is: 2605.000000
+improved value at 0 is: 2605.000000
+improved value at 1 is: 2602.000000
+improved value at 2 is: 2579.000000
+improved value at 3 is: 2579.000000

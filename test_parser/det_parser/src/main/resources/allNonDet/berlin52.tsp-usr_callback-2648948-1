@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/berlin52.tsp
+-model usr_callback
+-random_seed 2648948
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of usrcut_callback = 10.636 ticks
+Execution time of usrcut_callback = 0.052 s
+
+Solution value  = 7542.000000

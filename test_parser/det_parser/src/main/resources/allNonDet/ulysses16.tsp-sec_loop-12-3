@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/ulysses16.tsp
+-model sec_loop
+-random_seed 12
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_loop = 3.151 ticks
+Execution time of sec_loop = 0.098 s
+
+Solution value  = 6859.000000

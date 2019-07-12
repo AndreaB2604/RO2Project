@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/pr299.tsp
+-model sec_callback
+-random_seed 2648948
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 0
+Execution dettime of sec_callback = 151545.806 ticks
+Execution time of sec_callback = 3615.568 s
+
+Solution value  = 48220.000000

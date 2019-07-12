@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/kroA200.tsp
+-model usr_callback
+-random_seed 893
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of usrcut_callback = 6097.286 ticks
+Execution time of usrcut_callback = 47.378 s
+
+Solution value  = 29368.000000

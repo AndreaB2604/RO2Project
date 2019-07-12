@@ -1,0 +1,19 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/testfix/berlin52.tsp
+-model modulo
+-random_seed 201709013
+-time_limit 2700.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+solution value at 0 is: 10564.000000
+solution value at 1 is: 7775.000000
+solution value at 2 is: 7775.000000
+solution value at 3 is: 7775.000000
+improved value at 0 is: 7775.000000
+improved value at 1 is: 7542.000000
+improved value at 2 is: 7542.000000
+improved value at 3 is: 7542.000000

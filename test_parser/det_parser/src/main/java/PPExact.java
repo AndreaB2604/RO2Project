@@ -3,6 +3,8 @@ import java.io.*;
 
 public class PPExact
 {
+	private final boolean NON_DET_PARSER = true;
+	private final String TO_ADD_NAME = NON_DET_PARSER ? "nondet" : "det";
 	private final String DIRECTORY_PATH = "src/main/resources/alldet";
 	private final String PP_PATH = "src/main/resources/PerfProf/";
 	
@@ -41,12 +43,12 @@ public class PPExact
 				instance.setRandomSeed(randomSeed);
  			
  				String isOpt = "";
- 				double ticks = 2127600.0;
+ 				double time_limit = (NON_DET_PARSER)? 3600 : 2127600.0;
 
  				if(isEmpty(instance.getFile()))
  				{
  					isOpt = "no";
- 					ticks = 2127600.0;
+ 					time_limit = (NON_DET_PARSER)? 3600 : 2127600.0;
  				}
  				else
  				{
@@ -58,7 +60,9 @@ public class PPExact
  						if(line.startsWith("Solved"))
  						{
  							isOpt = (line.split(" ")[1].equals("1"))? "yes" : "no";
- 							ticks = Double.parseDouble(sc.nextLine().split(" ")[5]);
+ 							if(NON_DET_PARSER)
+ 								sc.nextLine();
+ 							time_limit = Double.parseDouble(sc.nextLine().split(" ")[5]);
  							break;
  						}
  					}
@@ -66,8 +70,8 @@ public class PPExact
 
 				if(fileName.split("-")[3].equals("1"))
 				{
-					instance.setAvgMean(ticks/3);
- 					instance.setGeoMean(Math.pow(ticks, (1/3.0)));
+					instance.setAvgMean(time_limit/3);
+ 					instance.setGeoMean(Math.pow(time_limit, (1/3.0)));
  					instance.setIsOpt(isOpt);
  					//System.out.println("inserisco");
 					instanceList.add(instance);
@@ -79,8 +83,8 @@ public class PPExact
 						if(instInside.compareTo(instance) == 0)
 						{
 							//System.out.println("Aggiorno");
-							instInside.setAvgMean(instInside.getAvgMean() + ticks/3);
- 							instInside.setGeoMean(instInside.getGeoMean() * Math.pow(ticks, (1/3.0)));
+							instInside.setAvgMean(instInside.getAvgMean() + time_limit/3);
+ 							instInside.setGeoMean(instInside.getGeoMean() * Math.pow(time_limit, (1/3.0)));
  							if(isOpt.equals("yes"))
  								instInside.setIsOpt(isOpt);
 						}
@@ -95,17 +99,17 @@ public class PPExact
 		for(Instance inst : instanceList)
 			instanceMap.put(inst, inst.getGeoMean());
 
-		printPP(instanceMap, 12, true, PP_PATH + "pp_exact_12.csv");
+		printPP(instanceMap, 12, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_12.csv");
 
-		printPP(instanceMap, 893, true, PP_PATH + "pp_exact_893.csv");
+		printPP(instanceMap, 893, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_893.csv");
 
-		printPP(instanceMap, 39848, true, PP_PATH + "pp_exact_39848.csv");
+		printPP(instanceMap, 39848, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_39848.csv");
 
-		printPP(instanceMap, 2648948, true, PP_PATH + "pp_exact_2648948.csv");
+		printPP(instanceMap, 2648948, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_2648948.csv");
 
-		printPP(instanceMap, 201709013, true, PP_PATH + "pp_exact_201709013.csv");
+		printPP(instanceMap, 201709013, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_201709013.csv");
 
-		printPP(instanceMap, 9837745292L, true, PP_PATH + "pp_exact_9837745292.csv");
+		printPP(instanceMap, 9837745292L, true, PP_PATH + "pp_" + TO_ADD_NAME + "_exact_9837745292.csv");
 
 		System.out.println("\n");
 		

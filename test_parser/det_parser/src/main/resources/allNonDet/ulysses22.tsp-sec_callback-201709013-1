@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/ulysses22.tsp
+-model sec_callback
+-random_seed 201709013
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_callback = 2.290 ticks
+Execution time of sec_callback = 0.030 s
+
+Solution value  = 7013.000000

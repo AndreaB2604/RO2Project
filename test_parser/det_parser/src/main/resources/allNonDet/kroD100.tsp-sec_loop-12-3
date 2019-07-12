@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/kroD100.tsp
+-model sec_loop
+-random_seed 12
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of sec_loop = 1068.606 ticks
+Execution time of sec_loop = 10.741 s
+
+Solution value  = 21294.000000

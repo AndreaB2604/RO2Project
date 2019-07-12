@@ -1,0 +1,18 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/d198.tsp
+-model sec_loop
+-random_seed 12
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 0
+Execution dettime of sec_loop = 10611.017 ticks
+Execution time of sec_loop = 3633.379 s
+
+
+ ERROR: Failure to read the value of the optimal solution in CPXgetobjval() 
+

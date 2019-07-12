@@ -1,0 +1,16 @@
+
+
+available parameters ---------------------------------------------------
+-file ../sshro2/test_file/pr152.tsp
+-model usr_callback
+-random_seed 12
+-time_limit 3600.000000
+
+enter -help or --help for help
+------------------------------------------------------------------------
+
+Solved 1
+Execution dettime of usrcut_callback = 1668.293 ticks
+Execution time of usrcut_callback = 165.266 s
+
+Solution value  = 73682.000000
