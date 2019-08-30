@@ -32,4 +32,4 @@ to get more information or
 
 to get more information about the parameters
 
-
+In the *report* folder, there is the report of our work in PDF format.

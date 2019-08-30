@@ -14,7 +14,9 @@ concorde/
 # Pdf and txt files
 *.pdf
 *.txt
+!report/*
 !plot_heur/*
+
 
 # Object files
 *.o
