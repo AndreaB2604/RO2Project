@@ -3,7 +3,7 @@
 This repository contains all the code developed during the Opeations Research 2 at the Department of Information Engineering (DEI) at the Padova University. During thecourse we studied, developed, implemented and tested several techniques for the Traveling Salesman Problem. 
 
 To compile the code:
-* Install IBM ILOG CPLEX (if the version is different from 12.8 or 12.9, change the Makefile);
+* Install IBM ILOG CPLEX (if the version is different from 12.8, 12.9, 12.10 or 20.1 change the Makefile);
 * (optional) Install concorde and link it in the Makefile (this step is needed to run the UserCutCallback code)
 * Compile using `make`
 
