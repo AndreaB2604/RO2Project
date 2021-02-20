@@ -15,7 +15,6 @@ BUILD_DIR = build
 BIN_DIR = bin
 
 CURRENT_DIR = $(shell pwd)
-CONCORDELIB = ${CURRENT_DIR}/concorde
 
 CPLEX_128 = /opt/ibm/ILOG/CPLEX_Studio128
 CPLEX_129 = /opt/ibm/ILOG/CPLEX_Studio129
@@ -44,9 +43,13 @@ else ifneq "$(wildcard $(CPLEX_128) )" ""
 	LIB_LOC = $(CPLEX_128)/cplex/lib/x86-64_linux/static_pic
 endif
 
-INCL = -I $(CPLEX_LOC) -I ${CONCORDELIB} #-g -Wall -Wpedantic -fsanitize=address #-Wextra
-CPLEX_LIBS = -L ${LIB_LOC}  -lcplex -lm -lpthread -ldl
+COPT  = -m64 -fPIC
+CPLEXLIB = cplex$(dynamic:yes=2010)
+CONCORDELIB = ${CURRENT_DIR}/concorde
+CPLEX_LIBS = -L ${LIB_LOC}  -l$(CPLEXLIB) -lm -lpthread -ldl
 CONCORDE_LIBS = -L ${CONCORDELIB}/ -lconcorde
+
+INCL = $(COPT) -I $(CPLEX_LOC) -I ${CONCORDELIB} #-g -Wall -Wpedantic -fsanitize=address #-Wextra
 
 RM1 = rm -f
 
